@@ -44,26 +44,58 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
-        public void Build_GroundVisualBoundsMatchColliderBounds()
+        public void Build_UsesPhotoBackgroundAndInvisiblePhysics()
         {
             bootstrap.Build(C1LevelLoader.LoadDefault());
-            var colliders = bootstrap.GetComponentsInChildren<BoxCollider2D>();
-            BoxCollider2D groundCollider = null;
+            var background = GameObject.Find("Paper Background");
+            Assert.That(background, Is.Not.Null);
+            var backgroundRenderer = background.GetComponent<SpriteRenderer>();
+            Assert.That(backgroundRenderer, Is.Not.Null);
+            Assert.That(backgroundRenderer.sprite.texture.width, Is.EqualTo(1245));
+            Assert.That(backgroundRenderer.sprite.texture.height, Is.EqualTo(810));
 
+            var colliders = bootstrap.GetComponentsInChildren<BoxCollider2D>();
             foreach (var candidate in colliders)
             {
                 if (candidate.gameObject.name == "Ground")
                 {
-                    groundCollider = candidate;
+                    Assert.That(candidate.GetComponent<SpriteRenderer>(), Is.Null);
+                }
+            }
+
+            var goal = GameObject.Find("Goal Flag");
+            Assert.That(goal, Is.Not.Null);
+            Assert.That(goal.GetComponent<SpriteRenderer>(), Is.Null);
+            Assert.That(goal.transform.Find("Flag Pole"), Is.Null);
+            Assert.That(goal.transform.Find("Flag"), Is.Null);
+        }
+
+        [Test]
+        public void Build_MapsPixelLineAndGoalToSameBackgroundSpace()
+        {
+            var level = C1LevelLoader.LoadDefault();
+            bootstrap.Build(level);
+
+            var grounds = bootstrap.GetComponentsInChildren<BoxCollider2D>();
+            BoxCollider2D firstGround = null;
+            foreach (var collider in grounds)
+            {
+                if (collider.gameObject.name == "Ground")
+                {
+                    firstGround = collider;
                     break;
                 }
             }
 
-            Assert.That(groundCollider, Is.Not.Null);
-            var spriteRenderer = groundCollider.GetComponent<SpriteRenderer>();
-            Assert.That(spriteRenderer, Is.Not.Null);
-            Assert.That(spriteRenderer.bounds.size.x, Is.EqualTo(groundCollider.bounds.size.x).Within(0.001f));
-            Assert.That(spriteRenderer.bounds.size.y, Is.EqualTo(groundCollider.bounds.size.y).Within(0.001f));
+            Assert.That(firstGround, Is.Not.Null);
+            var expectedStart = C1LevelSpace.PixelToWorld(level.Platforms[0].Start, level.CanvasPixelSize);
+            var expectedEnd = C1LevelSpace.PixelToWorld(level.Platforms[0].End, level.CanvasPixelSize);
+            Assert.That((Vector2)firstGround.transform.position, Is.EqualTo((expectedStart + expectedEnd) * 0.5f));
+            Assert.That(firstGround.size.x, Is.EqualTo(Vector2.Distance(expectedStart, expectedEnd)).Within(0.001f));
+
+            var goalCollider = GameObject.Find("Goal Flag").GetComponent<BoxCollider2D>();
+            var expectedGoalCenter = C1LevelSpace.PixelToWorld(level.GoalRegion.center, level.CanvasPixelSize);
+            Assert.That((Vector2)goalCollider.transform.position, Is.EqualTo(expectedGoalCenter));
         }
 
         [Test]

@@ -8,9 +8,6 @@ namespace PaperGame.C1
     public sealed class C1GameBootstrap : MonoBehaviour
     {
         private static readonly Color PlayerColor = new Color(0.13f, 0.48f, 0.95f);
-        private static readonly Color GroundColor = new Color(0.18f, 0.20f, 0.24f);
-        private static readonly Color GoalColor = new Color(0.9f, 0.12f, 0.12f);
-
         private static Sprite whiteSprite;
         private static Font hudFont;
 
@@ -56,17 +53,25 @@ namespace PaperGame.C1
                 return false;
             }
 
+            var backgroundTexture = Resources.Load<Texture2D>(level.BackgroundResourcePath);
+            if (backgroundTexture == null || backgroundTexture.width != level.CanvasPixelSize.x || backgroundTexture.height != level.CanvasPixelSize.y)
+            {
+                Debug.LogWarning($"C1 level background is missing or does not match the canvas: {level.BackgroundResourcePath}", this);
+                return false;
+            }
+
             ClearGeneratedObjects();
             generatedRoot = new GameObject("C1 Generated Level").transform;
             generatedRoot.SetParent(transform, false);
+            CreateBackground(backgroundTexture, level.CanvasPixelSize);
 
             foreach (var platform in level.Platforms)
             {
-                CreatePlatform(platform);
+                CreatePlatform(platform, level.CanvasPixelSize);
             }
 
-            Player = CreatePlayer(level.PlayerStart);
-            Goal = CreateGoal(level.GoalPosition);
+            Player = CreatePlayer(C1LevelSpace.PixelToWorld(level.PlayerStart, level.CanvasPixelSize));
+            Goal = CreateGoal(level);
             Goal.Reached += HandleGoalReached;
             var framing = ConfigureCamera(level, out var aspect);
             CreateScreenBounds(framing, aspect);
@@ -80,11 +85,32 @@ namespace PaperGame.C1
             return true;
         }
 
-        private void CreatePlatform(C1PlatformDefinition definition)
+        private void CreateBackground(Texture2D texture, Vector2Int canvasPixelSize)
         {
-            var platform = CreateColoredObject("Ground", definition.Position, definition.Size, GroundColor);
-            platform.transform.SetParent(generatedRoot, true);
-            platform.AddComponent<BoxCollider2D>();
+            var background = new GameObject("Paper Background");
+            background.transform.SetParent(generatedRoot, false);
+            background.transform.position = C1LevelSpace.CanvasWorldSize(canvasPixelSize) * 0.5f;
+            var renderer = background.AddComponent<SpriteRenderer>();
+            renderer.sprite = Sprite.Create(
+                texture,
+                new Rect(0f, 0f, texture.width, texture.height),
+                new Vector2(0.5f, 0.5f),
+                C1LevelSpace.PixelsPerUnit);
+            renderer.sprite.name = "Paper Background Sprite";
+            renderer.sortingOrder = -100;
+        }
+
+        private void CreatePlatform(C1PlatformDefinition definition, Vector2Int canvasPixelSize)
+        {
+            var start = C1LevelSpace.PixelToWorld(definition.Start, canvasPixelSize);
+            var end = C1LevelSpace.PixelToWorld(definition.End, canvasPixelSize);
+            var direction = end - start;
+            var platform = new GameObject("Ground");
+            platform.transform.SetParent(generatedRoot, false);
+            platform.transform.position = (start + end) * 0.5f;
+            platform.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+            var collider = platform.AddComponent<BoxCollider2D>();
+            collider.size = new Vector2(direction.magnitude, C1LevelSpace.GroundThickness);
             GroundCount++;
         }
 
@@ -127,39 +153,16 @@ namespace PaperGame.C1
             return controller;
         }
 
-        private C1GoalFlag CreateGoal(Vector2 position)
+        private C1GoalFlag CreateGoal(C1LevelDefinition level)
         {
             var goalObject = new GameObject("Goal Flag");
             goalObject.transform.SetParent(generatedRoot, false);
-            goalObject.transform.position = position;
+            goalObject.transform.position = C1LevelSpace.PixelToWorld(level.GoalRegion.center, level.CanvasPixelSize);
 
             var trigger = goalObject.AddComponent<BoxCollider2D>();
             trigger.isTrigger = true;
-            trigger.size = new Vector2(1.1f, 2.8f);
-            trigger.offset = new Vector2(0.35f, 1.2f);
-
-            CreateGoalPart(goalObject.transform, "Flag Pole", new Vector2(0f, 1.1f), new Vector2(0.14f, 2.8f), new Color(0.35f, 0.08f, 0.08f));
-            CreateGoalPart(goalObject.transform, "Flag", new Vector2(0.65f, 2f), new Vector2(1.2f, 0.75f), GoalColor);
+            trigger.size = level.GoalRegion.size / C1LevelSpace.PixelsPerUnit;
             return goalObject.AddComponent<C1GoalFlag>();
-        }
-
-        private static void CreateGoalPart(Transform parent, string name, Vector2 localPosition, Vector2 size, Color color)
-        {
-            var part = CreateColoredObject(name, Vector2.zero, size, color);
-            part.transform.SetParent(parent, false);
-            part.transform.localPosition = localPosition;
-        }
-
-        private static GameObject CreateColoredObject(string name, Vector2 position, Vector2 size, Color color)
-        {
-            var gameObject = new GameObject(name);
-            gameObject.transform.position = position;
-            gameObject.transform.localScale = new Vector3(size.x, size.y, 1f);
-
-            var renderer = gameObject.AddComponent<SpriteRenderer>();
-            renderer.sprite = GetWhiteSprite();
-            renderer.color = color;
-            return gameObject;
         }
 
         private static Sprite GetWhiteSprite()
@@ -211,7 +214,8 @@ namespace PaperGame.C1
                 }
             }
 
-            var bounds = CalculateLevelBounds(level);
+            var canvasWorldSize = C1LevelSpace.CanvasWorldSize(level.CanvasPixelSize);
+            var bounds = new Bounds(canvasWorldSize * 0.5f, canvasWorldSize);
             aspect = sceneCamera.aspect;
             var framing = C1CameraFraming.Calculate(bounds, aspect, 0.7f);
             sceneCamera.transform.position = new Vector3(framing.Center.x, framing.Center.y, -10f);
@@ -234,23 +238,6 @@ namespace PaperGame.C1
             wall.transform.position = new Vector3(x, y, 0f);
             var collider = wall.AddComponent<BoxCollider2D>();
             collider.size = new Vector2(1f, height);
-        }
-
-        private static Bounds CalculateLevelBounds(C1LevelDefinition level)
-        {
-            var first = level.Platforms[0];
-            var bounds = new Bounds(first.Position, first.Size);
-            for (var index = 1; index < level.Platforms.Length; index++)
-            {
-                var platform = level.Platforms[index];
-                bounds.Encapsulate(new Bounds(platform.Position, platform.Size));
-            }
-
-            bounds.Encapsulate(new Bounds(level.PlayerStart, new Vector3(0.8f, 1.3f, 0f)));
-            bounds.Encapsulate(new Bounds(
-                level.GoalPosition + new Vector2(0.35f, 1.2f),
-                new Vector3(1.1f, 2.8f, 0f)));
-            return bounds;
         }
 
         private void CreateHud()

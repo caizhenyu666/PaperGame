@@ -42,7 +42,7 @@ namespace PaperGame.C1
                 for (var to = 0; to < platforms.Length; to++)
                 {
                     if (visited[to] || from == to) continue;
-                    var rise = Mathf.Max(0f, platforms[to].Position.y - platforms[from].Position.y);
+                    var rise = Mathf.Max(0f, platforms[from].Position.y - platforms[to].Position.y) / C1LevelSpace.PixelsPerUnit;
                     if (rise > jumpHeight)
                     {
                         blocked.Add(new C1BlockedJump(from, to, rise));
