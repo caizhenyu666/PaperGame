@@ -66,10 +66,10 @@ namespace PaperGame.C1.Tests
             Assert.That(level.BackgroundResourcePath, Is.EqualTo("C1Levels/level1-background"));
             Assert.That(level.CanvasPixelSize, Is.EqualTo(new Vector2Int(1245, 810)));
             Assert.That(level.Platforms, Has.Length.EqualTo(7));
-            Assert.That(level.PlayerStart, Is.EqualTo(new Vector2(110f, 626f)));
-            Assert.That(level.Platforms[0].Start, Is.EqualTo(new Vector2(69f, 640f)));
-            Assert.That(level.Platforms[6].End, Is.EqualTo(new Vector2(1173f, 229f)));
-            Assert.That(level.GoalRegion, Is.EqualTo(new Rect(1088f, 150f, 80f, 90f)));
+            Assert.That(level.PlayerStart, Is.EqualTo(new Vector2(110f, 681f)));
+            Assert.That(level.Platforms[0].Start, Is.EqualTo(new Vector2(83f, 707f)));
+            Assert.That(level.Platforms[6].End, Is.EqualTo(new Vector2(1240f, 260f)));
+            Assert.That(level.GoalRegion, Is.EqualTo(new Rect(1170f, 185f, 75f, 90f)));
         }
     }
 }
