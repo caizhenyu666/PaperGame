@@ -43,6 +43,15 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
+        public void ResolveHorizontalInput_UsesKeyboardFirstThenTouchFallback()
+        {
+            controller.SetTouchHorizontalInput(-1f);
+
+            Assert.That(controller.ResolveHorizontalInput(1f), Is.EqualTo(1f));
+            Assert.That(controller.ResolveHorizontalInput(0f), Is.EqualTo(-1f));
+        }
+
+        [Test]
         public void TryJump_WhenGrounded_SetsUpwardVelocity()
         {
             var jumped = controller.TryJump();
@@ -86,6 +95,7 @@ namespace PaperGame.C1.Tests
         [Test]
         public void Complete_StopsBodyAndRejectsFurtherInput()
         {
+            controller.SetTouchHorizontalInput(1f);
             controller.ApplyHorizontalInput(1f);
             controller.Complete();
             controller.ApplyHorizontalInput(-1f);
@@ -93,11 +103,13 @@ namespace PaperGame.C1.Tests
             Assert.That(controller.IsCompleted, Is.True);
             Assert.That(body.velocity, Is.EqualTo(Vector2.zero));
             Assert.That(body.bodyType, Is.EqualTo(RigidbodyType2D.Static));
+            Assert.That(controller.TouchHorizontalInput, Is.EqualTo(0f));
         }
 
         [Test]
         public void Fall_FreezesBodyAndRejectsInputAndJump()
         {
+            controller.SetTouchHorizontalInput(-1f);
             controller.Fall();
 
             Assert.That(controller.IsFallen, Is.True);
@@ -105,6 +117,7 @@ namespace PaperGame.C1.Tests
             Assert.That(body.velocity, Is.EqualTo(Vector2.zero));
             Assert.That(controller.TryJump(), Is.False);
             Assert.That(body.bodyType, Is.EqualTo(RigidbodyType2D.Static));
+            Assert.That(controller.TouchHorizontalInput, Is.EqualTo(0f));
         }
     }
 }

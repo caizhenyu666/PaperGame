@@ -19,6 +19,7 @@ namespace PaperGame.C1
         public bool IsCompleted { get; private set; }
         public bool IsFallen { get; private set; }
         public bool IsGrounded { get; private set; }
+        public float TouchHorizontalInput { get; private set; }
 
         private void Awake()
         {
@@ -28,7 +29,7 @@ namespace PaperGame.C1
 
         private void Update()
         {
-            ApplyHorizontalInput(Input.GetAxisRaw("Horizontal"));
+            ApplyHorizontalInput(ResolveHorizontalInput(Input.GetAxisRaw("Horizontal")));
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -51,6 +52,18 @@ namespace PaperGame.C1
 
             var clampedInput = Mathf.Clamp(input, -1f, 1f);
             body.velocity = new Vector2(clampedInput * moveSpeed, body.velocity.y);
+        }
+
+        public void SetTouchHorizontalInput(float input)
+        {
+            TouchHorizontalInput = Mathf.Clamp(input, -1f, 1f);
+        }
+
+        public float ResolveHorizontalInput(float keyboardInput)
+        {
+            return Mathf.Abs(keyboardInput) > 0.001f
+                ? Mathf.Clamp(keyboardInput, -1f, 1f)
+                : TouchHorizontalInput;
         }
 
         public bool TryJump()
@@ -109,6 +122,7 @@ namespace PaperGame.C1
             }
 
             IsCompleted = true;
+            TouchHorizontalInput = 0f;
             body.velocity = Vector2.zero;
             body.bodyType = RigidbodyType2D.Static;
         }
@@ -122,6 +136,7 @@ namespace PaperGame.C1
             }
 
             IsFallen = true;
+            TouchHorizontalInput = 0f;
             body.velocity = Vector2.zero;
             body.bodyType = RigidbodyType2D.Static;
         }
