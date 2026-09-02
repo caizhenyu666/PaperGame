@@ -1,5 +1,7 @@
 # WebGL 手机拍照接入设计
 
+> 已合并至 `2026-09-02-mobile-webgl-play-and-capture-design.md`，后续以合并规格为准。
+
 ## 目标
 
 在手机 WebGL 页面中由用户点击 Unity 按钮调起系统后置摄像头，拍照完成后把原始图片交回 Unity 并显示预览。
