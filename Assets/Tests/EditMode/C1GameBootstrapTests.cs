@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PaperGame.C1.Tests
 {
@@ -106,6 +107,41 @@ namespace PaperGame.C1.Tests
             Assert.That(bootstrap.HudCanvas, Is.Not.Null);
             Assert.That(bootstrap.CompletionPanel, Is.Not.Null);
             Assert.That(bootstrap.CompletionPanel.activeSelf, Is.False);
+        }
+
+        [Test]
+        public void Build_CreatesMobileControlsAndPhotoCaptureHud()
+        {
+            bootstrap.Build(C1LevelLoader.LoadDefault());
+
+            var mobileControlsObject = GameObject.Find("Mobile Controls");
+            Assert.That(mobileControlsObject, Is.Not.Null);
+            Assert.That(mobileControlsObject.GetComponent<C1MobileControls>(), Is.Not.Null);
+            Assert.That(GameObject.Find("Move Left").GetComponent<C1TouchDirectionButton>(), Is.Not.Null);
+            Assert.That(GameObject.Find("Move Right").GetComponent<C1TouchDirectionButton>(), Is.Not.Null);
+            Assert.That(GameObject.Find("Jump").GetComponent<C1TouchJumpButton>(), Is.Not.Null);
+            Assert.That(GameObject.Find("Capture Photo").GetComponent<Button>(), Is.Not.Null);
+            Assert.That(bootstrap.HudCanvas.GetComponent<C1PhotoCapture>(), Is.Not.Null);
+        }
+
+        [Test]
+        public void MobileOrientationHint_ShowsOnlyForPortraitMobileViewport()
+        {
+            var hintObject = new GameObject("Orientation Hint Test");
+            var overlay = new GameObject("Overlay");
+            overlay.transform.SetParent(hintObject.transform);
+            var hint = hintObject.AddComponent<C1MobileOrientationHint>();
+            hint.Configure(overlay);
+
+            hint.Evaluate(720, 1280, true);
+            Assert.That(overlay.activeSelf, Is.True);
+
+            hint.Evaluate(1280, 720, true);
+            Assert.That(overlay.activeSelf, Is.False);
+
+            hint.Evaluate(720, 1280, false);
+            Assert.That(overlay.activeSelf, Is.False);
+            Object.DestroyImmediate(hintObject);
         }
 
         [Test]

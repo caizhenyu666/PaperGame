@@ -263,12 +263,142 @@ namespace PaperGame.C1
 
             CompletionPanel = CreateResultPanel(canvasObject.transform, "Completion Panel", "Goal Reached!", new Color(0.1f, 0.38f, 0.16f));
             FailurePanel = CreateResultPanel(canvasObject.transform, "Failure Panel", "You Fell!", new Color(0.55f, 0.1f, 0.1f));
+            CreateMobileHud(canvasObject);
 
             if (FindObjectOfType<EventSystem>() == null)
             {
                 var eventSystem = new GameObject("C1 EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
                 eventSystem.transform.SetParent(generatedRoot, false);
             }
+        }
+
+        private void CreateMobileHud(GameObject canvasObject)
+        {
+            var mobileRoot = new GameObject("Mobile Controls", typeof(RectTransform));
+            mobileRoot.transform.SetParent(canvasObject.transform, false);
+            var mobileRect = mobileRoot.GetComponent<RectTransform>();
+            mobileRect.anchorMin = Vector2.zero;
+            mobileRect.anchorMax = Vector2.one;
+            mobileRect.offsetMin = Vector2.zero;
+            mobileRect.offsetMax = Vector2.zero;
+
+            var controls = mobileRoot.AddComponent<C1MobileControls>();
+            controls.Configure(Player);
+
+            var leftButton = CreateHudButton(
+                mobileRoot.transform,
+                "Move Left",
+                "◀",
+                new Vector2(0f, 0f),
+                new Vector2(0f, 0f),
+                new Vector2(82f, 82f),
+                new Vector2(104f, 104f),
+                new Color(0.04f, 0.08f, 0.14f, 0.42f));
+            leftButton.gameObject.AddComponent<C1TouchDirectionButton>().Configure(controls, true);
+
+            var rightButton = CreateHudButton(
+                mobileRoot.transform,
+                "Move Right",
+                "▶",
+                new Vector2(0f, 0f),
+                new Vector2(0f, 0f),
+                new Vector2(202f, 82f),
+                new Vector2(104f, 104f),
+                new Color(0.04f, 0.08f, 0.14f, 0.42f));
+            rightButton.gameObject.AddComponent<C1TouchDirectionButton>().Configure(controls, false);
+
+            var jumpButton = CreateHudButton(
+                mobileRoot.transform,
+                "Jump",
+                "跳",
+                new Vector2(1f, 0f),
+                new Vector2(1f, 0f),
+                new Vector2(-82f, 82f),
+                new Vector2(112f, 112f),
+                new Color(0.1f, 0.36f, 0.78f, 0.48f));
+            jumpButton.gameObject.AddComponent<C1TouchJumpButton>().Configure(controls);
+
+            var captureButton = CreateHudButton(
+                canvasObject.transform,
+                "Capture Photo",
+                "拍照",
+                new Vector2(0.5f, 1f),
+                new Vector2(0.5f, 1f),
+                new Vector2(0f, -42f),
+                new Vector2(150f, 52f),
+                new Color(0.08f, 0.42f, 0.75f, 0.82f));
+
+            var status = CreateText(canvasObject.transform, "Photo Status", "", 18, TextAnchor.UpperCenter);
+            status.rectTransform.anchorMin = new Vector2(0.5f, 1f);
+            status.rectTransform.anchorMax = new Vector2(0.5f, 1f);
+            status.rectTransform.pivot = new Vector2(0.5f, 1f);
+            status.rectTransform.anchoredPosition = new Vector2(0f, -76f);
+            status.rectTransform.sizeDelta = new Vector2(440f, 42f);
+            status.color = new Color(0.08f, 0.1f, 0.14f);
+
+            var previewObject = new GameObject("Photo Preview", typeof(RectTransform), typeof(RawImage));
+            previewObject.transform.SetParent(canvasObject.transform, false);
+            var previewRect = previewObject.GetComponent<RectTransform>();
+            previewRect.anchorMin = new Vector2(0.5f, 1f);
+            previewRect.anchorMax = new Vector2(0.5f, 1f);
+            previewRect.pivot = new Vector2(0.5f, 1f);
+            previewRect.anchoredPosition = new Vector2(0f, -118f);
+            previewRect.sizeDelta = new Vector2(260f, 170f);
+            var preview = previewObject.GetComponent<RawImage>();
+            preview.color = Color.white;
+            preview.raycastTarget = false;
+            previewObject.SetActive(false);
+
+            var photoCapture = canvasObject.AddComponent<C1PhotoCapture>();
+            photoCapture.Configure(preview, status);
+            captureButton.onClick.AddListener(photoCapture.OpenCamera);
+
+            var orientationOverlay = new GameObject("Rotate Device Overlay", typeof(RectTransform), typeof(Image));
+            orientationOverlay.transform.SetParent(canvasObject.transform, false);
+            var overlayRect = orientationOverlay.GetComponent<RectTransform>();
+            overlayRect.anchorMin = Vector2.zero;
+            overlayRect.anchorMax = Vector2.one;
+            overlayRect.offsetMin = Vector2.zero;
+            overlayRect.offsetMax = Vector2.zero;
+            orientationOverlay.GetComponent<Image>().color = new Color(0.02f, 0.04f, 0.08f, 0.92f);
+
+            var rotateText = CreateText(orientationOverlay.transform, "Rotate Device Message", "请将手机旋转为横屏", 36, TextAnchor.MiddleCenter);
+            rotateText.color = Color.white;
+            rotateText.rectTransform.anchorMin = Vector2.zero;
+            rotateText.rectTransform.anchorMax = Vector2.one;
+            rotateText.rectTransform.offsetMin = Vector2.zero;
+            rotateText.rectTransform.offsetMax = Vector2.zero;
+
+            canvasObject.AddComponent<C1MobileOrientationHint>().Configure(orientationOverlay);
+        }
+
+        private static Button CreateHudButton(
+            Transform parent,
+            string name,
+            string label,
+            Vector2 anchor,
+            Vector2 pivot,
+            Vector2 position,
+            Vector2 size,
+            Color color)
+        {
+            var buttonObject = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(Button));
+            buttonObject.transform.SetParent(parent, false);
+            var rect = buttonObject.GetComponent<RectTransform>();
+            rect.anchorMin = anchor;
+            rect.anchorMax = anchor;
+            rect.pivot = pivot;
+            rect.anchoredPosition = position;
+            rect.sizeDelta = size;
+            buttonObject.GetComponent<Image>().color = color;
+
+            var buttonLabel = CreateText(buttonObject.transform, "Label", label, 34, TextAnchor.MiddleCenter);
+            buttonLabel.color = Color.white;
+            buttonLabel.rectTransform.anchorMin = Vector2.zero;
+            buttonLabel.rectTransform.anchorMax = Vector2.one;
+            buttonLabel.rectTransform.offsetMin = Vector2.zero;
+            buttonLabel.rectTransform.offsetMax = Vector2.zero;
+            return buttonObject.GetComponent<Button>();
         }
 
         private GameObject CreateResultPanel(Transform canvasTransform, string name, string title, Color titleColor)
