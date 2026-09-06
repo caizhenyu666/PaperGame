@@ -159,10 +159,10 @@ git commit -m "feat(UI): 添加试玩页面状态流"
 
 **文件：**
 - 创建：`Assets/Editor/PaperGameUiPrefabGenerator.cs`
-- 创建：`Assets/Prefabs/UI/PaperGameHome.prefab`
-- 创建：`Assets/Prefabs/UI/PaperGameTutorial.prefab`
-- 创建：`Assets/Prefabs/UI/PaperGameHud.prefab`
-- 创建：`Assets/Prefabs/UI/PaperGameResultPanel.prefab`
+- 创建：`Assets/Resources/C1UI/PaperGameHome.prefab`
+- 创建：`Assets/Resources/C1UI/PaperGameTutorial.prefab`
+- 创建：`Assets/Resources/C1UI/PaperGameHud.prefab`
+- 创建：`Assets/Resources/C1UI/PaperGameResultPanel.prefab`
 - 创建：`Assets/Scripts/C1/UI/PaperGameHome.cs`
 - 创建：`Assets/Scripts/C1/UI/PaperGameTutorial.cs`
 - 创建：`Assets/Scripts/C1/UI/PaperGameHud.cs`
@@ -172,10 +172,10 @@ git commit -m "feat(UI): 添加试玩页面状态流"
 - [ ] **步骤 1：编写失败的预制体结构测试。**
 
 ```csharp
-[TestCase("Assets/Prefabs/UI/PaperGameHome.prefab", "Start Play")]
-[TestCase("Assets/Prefabs/UI/PaperGameTutorial.prefab", "Tutorial Card 1")]
-[TestCase("Assets/Prefabs/UI/PaperGameHud.prefab", "Jump")]
-[TestCase("Assets/Prefabs/UI/PaperGameResultPanel.prefab", "Restart")]
+[TestCase("Assets/Resources/C1UI/PaperGameHome.prefab", "Start Play")]
+[TestCase("Assets/Resources/C1UI/PaperGameTutorial.prefab", "Tutorial Card 1")]
+[TestCase("Assets/Resources/C1UI/PaperGameHud.prefab", "Jump")]
+[TestCase("Assets/Resources/C1UI/PaperGameResultPanel.prefab", "Restart")]
 public void GeneratedPrefab_ContainsRequiredChild(string path, string childName)
 {
     var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
@@ -242,7 +242,7 @@ PaperGameResultPanel
 - [ ] **步骤 6：提交。**
 
 ```bash
-git add Assets/Editor/PaperGameUiPrefabGenerator.cs Assets/Prefabs/UI Assets/Scripts/C1/UI Assets/Tests/EditMode/PaperGameUiPrefabGeneratorTests.cs
+git add Assets/Editor/PaperGameUiPrefabGenerator.cs Assets/Resources/C1UI Assets/Scripts/C1/UI Assets/Tests/EditMode/PaperGameUiPrefabGeneratorTests.cs
 git commit -m "feat(UI): 生成绘本试玩界面预制体"
 ```
 
