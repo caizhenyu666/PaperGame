@@ -277,3 +277,39 @@ git commit -m "test(关卡): 验证保真草图试玩流程"
 - 跳跃高度通过统一的 `C1JumpPhysics` 换算，UI 和控制器不各自维护公式。
 - `C1Reachability` 只读取 `C1LevelDefinition`，不会改写平台或旗帜坐标。
 - 计划中没有未定义类型：`C1ReachabilityResult` 和 `C1BlockedJump` 在任务 3 中实现，且只由任务 3 与任务 4 使用。
+
+### 任务 6：固定纸张画布与旗帜比例
+
+**文件：**
+- 修改：`Assets/Scripts/C1/C1LevelDefinition.cs`
+- 修改：`Assets/Scripts/C1/C1LevelLoader.cs`
+- 修改：`Assets/Resources/C1Levels/level1.json`
+- 修改：`Assets/Scripts/C1/C1GameBootstrap.cs`
+- 修改：`Assets/Tests/EditMode/C1CameraFramingTests.cs`
+- 修改：`Assets/Tests/EditMode/C1LevelLoaderTests.cs`
+
+- [ ] **步骤 1：先写失败测试，锁定画布而不是内容包围盒。**
+
+```csharp
+[Test]
+public void Calculate_UsesExplicitCanvasBounds()
+{
+    var frame = C1CameraFraming.Calculate(new Bounds(new Vector3(16f, 10.41f), new Vector3(32f, 20.82f)), 16f / 9f, 0.7f);
+    Assert.That(frame.Center, Is.EqualTo(new Vector2(16f, 10.41f)));
+}
+```
+
+- [ ] **步骤 2：运行测试，确认当前 `C1LevelDefinition` 没有 `CanvasSize` 且 Bootstrap 仍以内容计算相机。**
+
+- [ ] **步骤 3：为关卡定义增加 `CanvasSize`，JSON 解析 `canvas.width`、`canvas.height`；将 `ConfigureCamera` 改为 `new Bounds(level.CanvasSize * 0.5f, level.CanvasSize)`。**
+
+- [ ] **步骤 4：将 JSON 的旗帜尺寸写入 `goal`，并让 `CreateGoal` 使用该尺寸创建旗杆、旗面与触发器。**
+
+- [ ] **步骤 5：重跑测试，确认相机中心固定为纸张中心、旗帜不再使用固定大尺寸。**
+
+- [ ] **步骤 6：提交。**
+
+```bash
+git add Assets/Scripts/C1 Assets/Resources/C1Levels/level1.json Assets/Tests/EditMode
+git commit -m "fix(关卡): 固定纸张画布取景与旗帜比例"
+```

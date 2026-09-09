@@ -34,8 +34,8 @@ mergeInto(LibraryManager.library, {
         return;
       }
 
-      if (file.size > 15 * 1024 * 1024) {
-        fail('照片不能超过 15 MB');
+      if (file.size > 10 * 1024 * 1024) {
+        fail('照片不能超过 10 MiB');
         return;
       }
 

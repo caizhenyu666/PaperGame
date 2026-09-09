@@ -1,0 +1,13 @@
+{
+  "name": "PaperGame.C1.EditModeTests",
+  "rootNamespace": "PaperGame.C1.Tests",
+  "references": [
+    "PaperGame.C1"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

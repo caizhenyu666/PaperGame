@@ -43,7 +43,7 @@ namespace PaperGame.C1
 
             status = new GameObject("Status", typeof(RectTransform), typeof(Text)).GetComponent<Text>();
             status.transform.SetParent(panel.transform, false);
-            status.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            status.font = C1UiFont.Load();
             status.alignment = TextAnchor.UpperRight;
             status.rectTransform.anchorMin = Vector2.zero;
             status.rectTransform.anchorMax = Vector2.one;

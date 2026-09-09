@@ -70,7 +70,7 @@ namespace PaperGame.C1.Tests
             Assert.That(applied, Is.False);
             Assert.That(capture.CapturedBytes, Is.Null);
             Assert.That(capture.PreviewTexture, Is.Null);
-            StringAssert.Contains("15 MB", status.text);
+            StringAssert.Contains("10 MiB", status.text);
         }
 
         [Test]

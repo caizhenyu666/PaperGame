@@ -110,6 +110,20 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
+        public void Build_CreatesPictureBookHomeScreen()
+        {
+            bootstrap.Build(C1LevelLoader.LoadDefault());
+
+            Assert.That(GameObject.Find("PaperGameHome"), Is.Not.Null);
+            Assert.That(GameObject.Find("Start Play").GetComponent<Button>(), Is.Not.Null);
+            Assert.That(GameObject.Find("创建主角").GetComponent<Button>(), Is.Not.Null);
+            Assert.That(bootstrap.GetComponent<C1CharacterSelection>(), Is.Not.Null);
+            Assert.That(bootstrap.Player.GetComponent<Rigidbody2D>().simulated, Is.False);
+            GameObject.Find("Start Play").GetComponent<Button>().onClick.Invoke();
+            Assert.That(bootstrap.Player.GetComponent<Rigidbody2D>().simulated, Is.True);
+        }
+
+        [Test]
         public void Build_CreatesMobileControlsAndPhotoCaptureHud()
         {
             bootstrap.Build(C1LevelLoader.LoadDefault());
@@ -123,6 +137,7 @@ namespace PaperGame.C1.Tests
             Assert.That(GameObject.Find("Capture Photo").GetComponent<Button>(), Is.Not.Null);
             Assert.That(bootstrap.HudCanvas.GetComponent<C1PhotoCapture>(), Is.Not.Null);
         }
+
 
         [Test]
         public void MobileOrientationHint_ShowsOnlyForPortraitMobileViewport()

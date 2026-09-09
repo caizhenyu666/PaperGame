@@ -1,13 +1,18 @@
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace PaperGame.C1
 {
     public sealed class C1PhotoCapture : MonoBehaviour
     {
-        public const int MaximumPhotoBytes = 15 * 1024 * 1024;
+        public const int MaximumPhotoBytes = 10 * 1024 * 1024;
+        public event Action<byte[], string> PhotoCaptured;
 
         private RawImage preview;
         private Text status;
@@ -31,8 +36,24 @@ namespace PaperGame.C1
 #if UNITY_WEBGL && !UNITY_EDITOR
             SetStatus("正在打开相机…");
             PaperGame_OpenPhotoCapture(gameObject.name);
+#elif UNITY_EDITOR
+            var path = EditorUtility.OpenFilePanel("\u9009\u62e9\u7167\u7247\u6587\u4ef6", "", "jpg,png");
+            if (string.IsNullOrEmpty(path))
+            {
+                SetStatus("\u672a\u9009\u62e9\u6587\u4ef6");
+                return;
+            }
+            if (!File.Exists(path))
+            {
+                SetStatus("\u6587\u4ef6\u4e0d\u5b58\u5728");
+                return;
+            }
+            var bytes = File.ReadAllBytes(path);
+            var ext = Path.GetExtension(path).ToLowerInvariant();
+            var mimeType = ext == ".png" ? "image/png" : "image/jpeg";
+            ApplyPhoto(bytes, mimeType);
 #else
-            SetStatus("请在手机浏览器中使用拍照功能");
+            SetStatus("\u8bf7\u5728\u624b\u673a\u6d4f\u89c8\u5668\u4e2d\u4f7f\u7528\u62cd\u7167\u529f\u80fd");
 #endif
         }
 
@@ -79,7 +100,7 @@ namespace PaperGame.C1
 
             if (bytes.Length > MaximumPhotoBytes)
             {
-                SetStatus("照片不能超过 15 MB");
+                SetStatus("照片不能超过 10 MiB");
                 return false;
             }
 
@@ -103,6 +124,7 @@ namespace PaperGame.C1
 
             DestroyTexture(previousTexture);
             SetStatus("照片已获取");
+            PhotoCaptured?.Invoke(bytes, mimeType);
             return true;
         }
 

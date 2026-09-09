@@ -80,6 +80,7 @@ namespace PaperGame.C1
             fallWatcher.Fell += HandlePlayerFell;
             CreateHud();
             HudCanvas.gameObject.AddComponent<C1PlaytestTuningPanel>().Configure(Player, level);
+            CreatePictureBookHome();
 
             hasBuilt = true;
             return true;
@@ -372,6 +373,28 @@ namespace PaperGame.C1
             canvasObject.AddComponent<C1MobileOrientationHint>().Configure(orientationOverlay);
         }
 
+        private void CreatePictureBookHome()
+        {
+            var prefab = Resources.Load<GameObject>("C1UI/PaperGameHome");
+            if (prefab == null)
+            {
+                Debug.LogWarning("Picture book home prefab is missing.", this);
+                return;
+            }
+
+            var home = Instantiate(prefab, HudCanvas.transform);
+            home.name = "PaperGameHome";
+            var homeRect = home.GetComponent<RectTransform>();
+            homeRect.anchorMin = Vector2.zero;
+            homeRect.anchorMax = Vector2.one;
+            homeRect.offsetMin = Vector2.zero;
+            homeRect.offsetMax = Vector2.zero;
+            home.transform.SetAsLastSibling();
+            var characters = GetComponent<C1CharacterSelection>() ?? gameObject.AddComponent<C1CharacterSelection>();
+            characters.Configure(HudCanvas, home, Player);
+            home.transform.Find("Start Play").GetComponent<Button>().onClick.AddListener(characters.StartPlaying);
+        }
+
         private static Button CreateHudButton(
             Transform parent,
             string name,
@@ -446,7 +469,7 @@ namespace PaperGame.C1
         {
             if (hudFont == null)
             {
-                hudFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+                hudFont = C1UiFont.Load();
             }
 
             var textObject = new GameObject(name, typeof(RectTransform), typeof(Text));

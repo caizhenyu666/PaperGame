@@ -1,0 +1,7 @@
+{
+  "name": "PaperGame.C1",
+  "rootNamespace": "PaperGame.C1",
+  "references": [
+    "UnityEngine.UI"
+  ]
+}
