@@ -15,6 +15,8 @@ namespace PaperGame.C1
     {
         public PaperGameUiState CurrentState { get; private set; } = PaperGameUiState.Home;
         public bool HasSeenTutorial { get; private set; }
+        public string NextSceneName { get; private set; }
+        public string PendingLevelResourcePath { get; private set; }
 
         public void ConfigureForTests(bool tutorialSeen)
         {
@@ -25,6 +27,15 @@ namespace PaperGame.C1
         public void StartPlay()
         {
             CurrentState = HasSeenTutorial ? PaperGameUiState.Playing : PaperGameUiState.Tutorial;
+        }
+
+        public void StartPlay(string levelResourcePath)
+        {
+            StartPlay();
+            NextSceneName = C1GameSession.GameSceneName;
+            PendingLevelResourcePath = string.IsNullOrWhiteSpace(levelResourcePath)
+                ? C1GameSession.DefaultLevelResourcePath
+                : levelResourcePath;
         }
 
         public void CompleteTutorial()

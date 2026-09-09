@@ -32,6 +32,18 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
+        public void StartPlay_WithSelectedLevel_RequestsGameSceneAndRemembersLevel()
+        {
+            flow.ConfigureForTests(true);
+
+            flow.StartPlay("C1Levels/level2");
+
+            Assert.That(flow.CurrentState, Is.EqualTo(PaperGameUiState.Playing));
+            Assert.That(flow.NextSceneName, Is.EqualTo(C1GameSession.GameSceneName));
+            Assert.That(flow.PendingLevelResourcePath, Is.EqualTo("C1Levels/level2"));
+        }
+
+        [Test]
         public void CompleteTutorial_RecordsPreferenceAndChangesToPlaying()
         {
             flow.ConfigureForTests(false);
