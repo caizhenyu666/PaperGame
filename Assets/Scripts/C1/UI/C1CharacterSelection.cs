@@ -25,6 +25,46 @@ namespace PaperGame.C1
         private float previewTime;
         private Sprite[] defaultIdle, defaultRun, defaultJump;
 
+        public GameObject CreateScreen(Canvas canvas, Action returnHome)
+        {
+            library = library ?? C1CharacterLibrary.Load();
+            service = GetComponent<C1CharacterService>() ?? gameObject.AddComponent<C1CharacterService>();
+            font = C1UiFont.Load();
+            defaultIdle = Load("idle"); defaultRun = Load("run"); defaultJump = Load("jump");
+            screen = Panel(canvas.transform, "Character Selection", new Color(0.98f, 0.95f, 0.86f), 0, 0, 1, 1);
+            Label(screen.transform, "我的小主角", 42, .06f, .83f, .7f, .95f);
+            ButtonAt(screen.transform, "返回首页（暂不进入关卡）", .74f, .85f, .95f, .94f, () => returnHome());
+            selectedLabel = Label(screen.transform, "", 20, .06f, .77f, .9f, .83f);
+            var scrollRoot = Panel(screen.transform, "Characters", new Color(1, 1, 1, .7f), .05f, .2f, .4f, .75f);
+            scrollRoot.AddComponent<RectMask2D>();
+            var scroll = scrollRoot.AddComponent<ScrollRect>();
+            var content = new GameObject("Content", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
+            content.transform.SetParent(scrollRoot.transform, false);
+            var contentRect = content.GetComponent<RectTransform>();
+            contentRect.anchorMin = new Vector2(0, 1); contentRect.anchorMax = Vector2.one; contentRect.pivot = new Vector2(.5f, 1);
+            contentRect.sizeDelta = Vector2.zero;
+            var layout = content.GetComponent<VerticalLayoutGroup>(); layout.spacing = 12; layout.padding = new RectOffset(12, 12, 12, 12);
+            layout.childControlHeight = true; layout.childForceExpandHeight = false;
+            content.GetComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            scroll.content = contentRect; scroll.viewport = scrollRoot.GetComponent<RectTransform>(); scroll.horizontal = false;
+            list = content.transform;
+            var previewPanel = Panel(screen.transform, "Preview", Color.white, .44f, .29f, .94f, .75f);
+            preview = Panel(previewPanel.transform, "Animated Character", Color.white, .25f, .12f, .75f, .92f).GetComponent<Image>();
+            preview.preserveAspect = true; preview.raycastTarget = false;
+            nameLabel = Label(screen.transform, "默认主角", 26, .44f, .22f, .94f, .29f);
+            ButtonAt(screen.transform, "预览跑步", .46f, .13f, .64f, .21f, () => { previewJump = false; previewTime = 0; });
+            ButtonAt(screen.transform, "预览跳跃", .66f, .13f, .84f, .21f, () => { previewJump = true; previewTime = 0; });
+            create = ButtonAt(screen.transform, "拍照并创建新主角", .05f, .1f, .26f, .18f, () => capture.OpenCamera());
+            use = ButtonAt(screen.transform, "选中并用于关卡", .74f, .02f, .96f, .1f, Select);
+            retry = ButtonAt(screen.transform, "重试生成 / 查询进度", .29f, .1f, .45f, .18f, Retry);
+            status = Label(screen.transform, "先选已有主角，或点击“拍照并创建新主角”拍下完整的小人", 19, .05f, .015f, .73f, .085f);
+            var receiver = new GameObject("Character Photo Receiver " + GetInstanceID());
+            receiver.transform.SetParent(screen.transform, false);
+            capture = receiver.AddComponent<C1PhotoCapture>(); capture.Configure(null, status); capture.PhotoCaptured += OnPhoto;
+            RefreshList();
+            return screen;
+        }
+
         public void Configure(Canvas canvas, GameObject homeScreen, C1PlayerController2D controller)
         {
             library = library ?? C1CharacterLibrary.Load();
@@ -112,7 +152,7 @@ namespace PaperGame.C1
         private void SetBusy(bool value)
         {
             busy = value; create.interactable = !value; use.interactable = !value; retry.interactable = !value;
-            startPlay.interactable = !value;
+            if (startPlay != null) startPlay.interactable = !value;
         }
         private IEnumerator Browse(string id, bool apply)
         {
@@ -190,6 +230,7 @@ namespace PaperGame.C1
         }
         private void Apply(string id)
         {
+            if (player == null) return;
             var visual = player.transform.Find("Character Visual");
             var animator = visual.GetComponent<C1CharacterAnimator2D>();
             if (id == "default")
