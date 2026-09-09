@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,7 @@ namespace PaperGame.C1
         private Transform generatedRoot;
         private bool hasBuilt;
         private C1OutOfBoundsWatcher fallWatcher;
+        private C1CharacterFrames selectedCharacterFrames;
 
         public int GroundCount { get; private set; }
         public C1PlayerController2D Player { get; private set; }
@@ -35,6 +37,33 @@ namespace PaperGame.C1
         public bool BuildSelectedLevel()
         {
             return Build(C1LevelLoader.Load(C1GameSession.Instance.ConsumePendingLevel()));
+        }
+
+        public static bool TryGetSelectedCharacter(C1CharacterLibrary library, out C1CharacterRecord record)
+        {
+            record = null;
+            if (library == null || library.characters == null || library.selectedId == "default") return false;
+            record = library.characters.Find(item => item != null && item.characterId == library.selectedId);
+            return record != null;
+        }
+
+        public static bool ApplyRemoteCharacter(C1PlayerController2D player, C1CharacterFrames frames)
+        {
+            if (player == null || frames == null || frames.run == null || frames.jump == null ||
+                frames.run.Length == 0 || frames.jump.Length == 0) return false;
+
+            var visual = player.transform.Find("Character Visual");
+            var animator = visual == null ? null : visual.GetComponent<C1CharacterAnimator2D>();
+            var renderer = visual == null ? null : visual.GetComponent<SpriteRenderer>();
+            var collider = player.GetComponent<BoxCollider2D>();
+            if (animator == null || renderer == null || collider == null) return false;
+
+            animator.ConfigureRemote(frames.run, frames.jump, frames.runFps, frames.jumpFps);
+            var scale = 2.2f / Mathf.Max(0.01f, frames.run[0].bounds.size.y);
+            visual.localScale = Vector3.one * scale;
+            visual.localPosition = new Vector3(0f, -collider.size.y / 2f, 0f);
+            renderer.color = Color.white;
+            return true;
         }
 
         public void ReturnHome()
@@ -76,6 +105,7 @@ namespace PaperGame.C1
             }
 
             Player = CreatePlayer(C1LevelSpace.PixelToWorld(level.PlayerStart, level.CanvasPixelSize));
+            LoadSelectedCharacter(Player);
             Goal = CreateGoal(level);
             Goal.Reached += HandleGoalReached;
             var framing = ConfigureCamera(level, out var aspect);
@@ -155,6 +185,38 @@ namespace PaperGame.C1
             }
 
             return controller;
+        }
+
+        private void LoadSelectedCharacter(C1PlayerController2D targetPlayer)
+        {
+            if (!Application.isPlaying || !TryGetSelectedCharacter(C1CharacterLibrary.Load(), out var record)) return;
+            var service = GetComponent<C1CharacterService>() ?? gameObject.AddComponent<C1CharacterService>();
+            StartCoroutine(DownloadAndApplySelectedCharacter(service, record, targetPlayer));
+        }
+
+        private IEnumerator DownloadAndApplySelectedCharacter(
+            C1CharacterService service,
+            C1CharacterRecord record,
+            C1PlayerController2D targetPlayer)
+        {
+            C1CharacterFrames downloadedFrames = null;
+            string error = null;
+            yield return service.Download(record, frames => downloadedFrames = frames, message => error = message);
+
+            if (downloadedFrames == null)
+            {
+                Debug.LogWarning("Unable to load selected character: " + error, this);
+                yield break;
+            }
+
+            if (Player != targetPlayer || !ApplyRemoteCharacter(targetPlayer, downloadedFrames))
+            {
+                downloadedFrames.Dispose();
+                yield break;
+            }
+
+            selectedCharacterFrames?.Dispose();
+            selectedCharacterFrames = downloadedFrames;
         }
 
         private C1GoalFlag CreateGoal(C1LevelDefinition level)
@@ -482,6 +544,9 @@ namespace PaperGame.C1
 
         private void ClearGeneratedObjects()
         {
+            selectedCharacterFrames?.Dispose();
+            selectedCharacterFrames = null;
+
             if (Goal != null)
             {
                 Goal.Reached -= HandleGoalReached;

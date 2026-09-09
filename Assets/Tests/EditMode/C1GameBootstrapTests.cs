@@ -122,6 +122,44 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
+        public void TryGetSelectedCharacter_ReturnsSavedCustomRecord()
+        {
+            var library = new C1CharacterLibrary { selectedId = "char_selected" };
+            var expected = new C1CharacterRecord { characterId = "char_selected" };
+            library.characters.Add(expected);
+
+            var found = C1GameBootstrap.TryGetSelectedCharacter(library, out var actual);
+
+            Assert.That(found, Is.True);
+            Assert.That(actual, Is.SameAs(expected));
+        }
+
+        [Test]
+        public void ApplyRemoteCharacter_ReplacesDynamicAnimatorFrames()
+        {
+            bootstrap.Build(C1LevelLoader.LoadDefault());
+            var texture = new Texture2D(100, 100);
+            var sprite = Sprite.Create(texture, new Rect(0f, 0f, 100f, 100f), new Vector2(.5f, 0f), 100f);
+            var frames = new C1CharacterFrames
+            {
+                run = new[] { sprite },
+                jump = new[] { sprite },
+                runFps = 15f,
+                jumpFps = 12f
+            };
+
+            var applied = C1GameBootstrap.ApplyRemoteCharacter(bootstrap.Player, frames);
+
+            var animator = bootstrap.Player.GetComponentInChildren<C1CharacterAnimator2D>();
+            Assert.That(applied, Is.True);
+            Assert.That(animator.IdleFrameCount, Is.EqualTo(1));
+            Assert.That(animator.RunFrameCount, Is.EqualTo(1));
+            Assert.That(animator.JumpFrameCount, Is.EqualTo(1));
+            Object.DestroyImmediate(sprite);
+            Object.DestroyImmediate(texture);
+        }
+
+        [Test]
         public void ReturnHome_ClearsGeneratedLevelAndRequestsHomeScene()
         {
             bootstrap.Build(C1LevelLoader.LoadDefault());
