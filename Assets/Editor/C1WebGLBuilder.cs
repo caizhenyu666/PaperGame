@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 
@@ -6,8 +7,6 @@ namespace PaperGame.C1.Editor
 {
     public static class C1WebGLBuilder
     {
-        private const string ScenePath = "Assets/Scenes/SampleScene.unity";
-
         [MenuItem("PaperGame/C1/Build WebGL")]
         public static void BuildFromMenu()
         {
@@ -26,7 +25,8 @@ namespace PaperGame.C1.Editor
 
             var options = new BuildPlayerOptions
             {
-                scenes = new[] { ScenePath },
+                scenes = Array.FindAll(EditorBuildSettings.scenes, scene => scene.enabled)
+                    .Select(scene => scene.path).ToArray(),
                 locationPathName = outputPath,
                 target = BuildTarget.WebGL,
                 options = BuildOptions.None
