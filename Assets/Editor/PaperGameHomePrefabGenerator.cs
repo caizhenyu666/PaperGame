@@ -19,7 +19,8 @@ namespace PaperGame.C1.Editor
             var rootRect = root.GetComponent<RectTransform>();
             rootRect.sizeDelta = new Vector2(1280f, 720f);
 
-            AddImage(root.transform, "Background", "home-background", Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+            var background = AddImage(root.transform, "Background", "home-background", new Vector2(.5f, .5f), new Vector2(.5f, .5f), Vector2.zero, Vector2.zero);
+            background.gameObject.AddComponent<C1CoverBackground>();
             AddImage(root.transform, "Title", "title-change-hero", new Vector2(.22f, .68f), new Vector2(.78f, .92f), Vector2.zero, Vector2.zero);
             AddImage(root.transform, "Start Play", "button-primary", new Vector2(.35f, .38f), new Vector2(.65f, .56f), Vector2.zero, Vector2.zero, true);
             AddImage(root.transform, "Capture Level", "button-secondary", new Vector2(.38f, .22f), new Vector2(.62f, .35f), Vector2.zero, Vector2.zero, true);
@@ -58,7 +59,7 @@ namespace PaperGame.C1.Editor
             }
         }
 
-        private static void AddImage(Transform parent, string name, string spriteName, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax, bool interactive = false)
+        private static Image AddImage(Transform parent, string name, string spriteName, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax, bool interactive = false)
         {
             var child = new GameObject(name, typeof(RectTransform), typeof(Image));
             child.transform.SetParent(parent, false);
@@ -75,6 +76,8 @@ namespace PaperGame.C1.Editor
             {
                 child.AddComponent<Button>();
             }
+
+            return image;
         }
     }
 }
