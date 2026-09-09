@@ -9,10 +9,16 @@ namespace PaperGame.C1
 
         public static C1LevelDefinition LoadDefault()
         {
-            var asset = Resources.Load<TextAsset>(DefaultResourcePath);
+            return Load(DefaultResourcePath);
+        }
+
+        public static C1LevelDefinition Load(string resourcePath)
+        {
+            var safePath = string.IsNullOrWhiteSpace(resourcePath) ? DefaultResourcePath : resourcePath;
+            var asset = Resources.Load<TextAsset>(safePath);
             if (asset == null)
             {
-                Debug.LogError($"C1 level json is missing: Resources/{DefaultResourcePath}");
+                Debug.LogError($"C1 level json is missing: Resources/{safePath}");
                 return null;
             }
 

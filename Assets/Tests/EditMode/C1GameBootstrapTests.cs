@@ -110,17 +110,26 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
-        public void Build_CreatesPictureBookHomeScreen()
+        public void BuildSelectedLevel_UsesPendingSessionLevel()
+        {
+            C1GameSession.Instance.SetPendingLevel(C1GameSession.DefaultLevelResourcePath);
+
+            var built = bootstrap.BuildSelectedLevel();
+
+            Assert.That(built, Is.True);
+            Assert.That(bootstrap.Player, Is.Not.Null);
+            Assert.That(GameObject.Find("PaperGameHome"), Is.Null);
+        }
+
+        [Test]
+        public void ReturnHome_ClearsGeneratedLevelAndRequestsHomeScene()
         {
             bootstrap.Build(C1LevelLoader.LoadDefault());
 
-            Assert.That(GameObject.Find("PaperGameHome"), Is.Not.Null);
-            Assert.That(GameObject.Find("Start Play").GetComponent<Button>(), Is.Not.Null);
-            Assert.That(GameObject.Find("创建主角").GetComponent<Button>(), Is.Not.Null);
-            Assert.That(bootstrap.GetComponent<C1CharacterSelection>(), Is.Not.Null);
-            Assert.That(bootstrap.Player.GetComponent<Rigidbody2D>().simulated, Is.False);
-            GameObject.Find("Start Play").GetComponent<Button>().onClick.Invoke();
-            Assert.That(bootstrap.Player.GetComponent<Rigidbody2D>().simulated, Is.True);
+            bootstrap.ReturnHome();
+
+            Assert.That(bootstrap.Player, Is.Null);
+            Assert.That(bootstrap.RequestedSceneName, Is.EqualTo(C1GameSession.HomeSceneName));
         }
 
         [Test]

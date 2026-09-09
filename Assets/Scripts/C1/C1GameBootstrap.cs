@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace PaperGame.C1
@@ -21,22 +22,26 @@ namespace PaperGame.C1
         public Canvas HudCanvas { get; private set; }
         public GameObject CompletionPanel { get; private set; }
         public GameObject FailurePanel { get; private set; }
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void EnsureBootstrapExists()
-        {
-            if (FindObjectOfType<C1GameBootstrap>() == null)
-            {
-                new GameObject("C1 Game Bootstrap").AddComponent<C1GameBootstrap>();
-            }
-        }
+        public string RequestedSceneName { get; private set; }
 
         private void Start()
         {
             if (!hasBuilt)
             {
-                Build(C1LevelLoader.LoadDefault());
+                BuildSelectedLevel();
             }
+        }
+
+        public bool BuildSelectedLevel()
+        {
+            return Build(C1LevelLoader.Load(C1GameSession.Instance.ConsumePendingLevel()));
+        }
+
+        public void ReturnHome()
+        {
+            ClearGeneratedObjects();
+            RequestedSceneName = C1GameSession.HomeSceneName;
+            if (Application.isPlaying) SceneManager.LoadScene(RequestedSceneName);
         }
 
         public bool Build(C1LevelDefinition level)
@@ -80,8 +85,6 @@ namespace PaperGame.C1
             fallWatcher.Fell += HandlePlayerFell;
             CreateHud();
             HudCanvas.gameObject.AddComponent<C1PlaytestTuningPanel>().Configure(Player, level);
-            CreatePictureBookHome();
-
             hasBuilt = true;
             return true;
         }
@@ -373,28 +376,6 @@ namespace PaperGame.C1
             canvasObject.AddComponent<C1MobileOrientationHint>().Configure(orientationOverlay);
         }
 
-        private void CreatePictureBookHome()
-        {
-            var prefab = Resources.Load<GameObject>("C1UI/PaperGameHome");
-            if (prefab == null)
-            {
-                Debug.LogWarning("Picture book home prefab is missing.", this);
-                return;
-            }
-
-            var home = Instantiate(prefab, HudCanvas.transform);
-            home.name = "PaperGameHome";
-            var homeRect = home.GetComponent<RectTransform>();
-            homeRect.anchorMin = Vector2.zero;
-            homeRect.anchorMax = Vector2.one;
-            homeRect.offsetMin = Vector2.zero;
-            homeRect.offsetMax = Vector2.zero;
-            home.transform.SetAsLastSibling();
-            var characters = GetComponent<C1CharacterSelection>() ?? gameObject.AddComponent<C1CharacterSelection>();
-            characters.Configure(HudCanvas, home, Player);
-            home.transform.Find("Start Play").GetComponent<Button>().onClick.AddListener(characters.StartPlaying);
-        }
-
         private static Button CreateHudButton(
             Transform parent,
             string name,
@@ -459,7 +440,7 @@ namespace PaperGame.C1
             buttonLabel.rectTransform.anchorMax = Vector2.one;
             buttonLabel.rectTransform.offsetMin = Vector2.zero;
             buttonLabel.rectTransform.offsetMax = Vector2.zero;
-            buttonObject.GetComponent<Button>().onClick.AddListener(() => Build(C1LevelLoader.LoadDefault()));
+            buttonObject.GetComponent<Button>().onClick.AddListener(ReturnHome);
 
             panel.SetActive(false);
             return panel;
