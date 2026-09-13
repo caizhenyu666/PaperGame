@@ -11,6 +11,7 @@ namespace PaperGame.C1
 
         private static C1GameSession instance;
         private string pendingLevelResourcePath;
+        private string pendingLocalLevelId;
 
         public static C1GameSession Instance
         {
@@ -48,9 +49,24 @@ namespace PaperGame.C1
 
         public void SetPendingLevel(string resourcePath)
         {
+            pendingLocalLevelId = null;
             pendingLevelResourcePath = string.IsNullOrWhiteSpace(resourcePath)
                 ? DefaultLevelResourcePath
                 : resourcePath;
+        }
+
+        public void SetPendingLocalLevel(string id)
+        {
+            if (!System.Guid.TryParseExact(id, "N", out _)) throw new System.ArgumentException("本地关卡编号无效");
+            pendingLocalLevelId = id;
+            pendingLevelResourcePath = null;
+        }
+
+        public string ConsumePendingLocalLevel()
+        {
+            var id = pendingLocalLevelId;
+            pendingLocalLevelId = null;
+            return id;
         }
 
         public string ConsumePendingLevel()

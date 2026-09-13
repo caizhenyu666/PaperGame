@@ -25,6 +25,7 @@ namespace PaperGame.C1
     [Serializable]
     public sealed class C1LevelDefinition
     {
+        public bool PlayerStartIsFeet { get; set; }
         [field: SerializeField]
         public string BackgroundResourcePath { get; set; } = string.Empty;
 

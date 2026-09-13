@@ -105,6 +105,7 @@ namespace PaperGame.C1
         {
             var level = new C1LevelDefinition
             {
+                PlayerStartIsFeet = true,
                 BackgroundResourcePath = data.background.imageUrl,
                 CanvasPixelSize = new Vector2Int(data.canvas.width, data.canvas.height),
                 PlayerStart = data.playerStart.ToVector2(),

@@ -17,6 +17,8 @@ namespace PaperGame.C1
         private bool hasBuilt;
         private C1OutOfBoundsWatcher fallWatcher;
         private C1CharacterFrames selectedCharacterFrames;
+        private Texture2D localBackground;
+        private Sprite backgroundSprite;
 
         public int GroundCount { get; private set; }
         public C1PlayerController2D Player { get; private set; }
@@ -36,6 +38,24 @@ namespace PaperGame.C1
 
         public bool BuildSelectedLevel()
         {
+            var localId = C1GameSession.Instance.ConsumePendingLocalLevel();
+            if (!string.IsNullOrEmpty(localId))
+            {
+                Texture2D texture = null;
+                try
+                {
+                    var level = new C1LevelLibrary().Read(localId, out texture);
+                    if (Build(level, texture))
+                    {
+                        localBackground = texture;
+                        return true;
+                    }
+                }
+                catch (Exception e) { Debug.LogWarning("无法打开本地关卡：" + e.Message, this); }
+                C1LevelLibrary.Release(texture);
+                ReturnHome();
+                return false;
+            }
             return Build(C1LevelLoader.Load(C1GameSession.Instance.ConsumePendingLevel()));
         }
 
@@ -75,6 +95,11 @@ namespace PaperGame.C1
 
         public bool Build(C1LevelDefinition level)
         {
+            return Build(level, null);
+        }
+
+        public bool Build(C1LevelDefinition level, Texture2D backgroundOverride)
+        {
             if (level == null)
             {
                 Debug.LogWarning("C1 level is invalid: level is missing.", this);
@@ -87,7 +112,7 @@ namespace PaperGame.C1
                 return false;
             }
 
-            var backgroundTexture = Resources.Load<Texture2D>(level.BackgroundResourcePath);
+            var backgroundTexture = backgroundOverride != null ? backgroundOverride : Resources.Load<Texture2D>(level.BackgroundResourcePath);
             if (backgroundTexture == null || backgroundTexture.width != level.CanvasPixelSize.x || backgroundTexture.height != level.CanvasPixelSize.y)
             {
                 Debug.LogWarning($"C1 level background is missing or does not match the canvas: {level.BackgroundResourcePath}", this);
@@ -104,7 +129,9 @@ namespace PaperGame.C1
                 CreatePlatform(platform, level.CanvasPixelSize);
             }
 
-            Player = CreatePlayer(C1LevelSpace.PixelToWorld(level.PlayerStart, level.CanvasPixelSize));
+            var playerStart = C1LevelSpace.PixelToWorld(level.PlayerStart, level.CanvasPixelSize);
+            if (level.PlayerStartIsFeet) playerStart.y += .65f + C1LevelSpace.GroundThickness * .5f;
+            Player = CreatePlayer(playerStart);
             LoadSelectedCharacter(Player);
             Goal = CreateGoal(level);
             Goal.Reached += HandleGoalReached;
@@ -131,6 +158,7 @@ namespace PaperGame.C1
                 new Vector2(0.5f, 0.5f),
                 C1LevelSpace.PixelsPerUnit);
             renderer.sprite.name = "Paper Background Sprite";
+            backgroundSprite = renderer.sprite;
             renderer.sortingOrder = -100;
         }
 
@@ -544,6 +572,10 @@ namespace PaperGame.C1
 
         private void ClearGeneratedObjects()
         {
+            C1LevelLibrary.Release(backgroundSprite);
+            backgroundSprite = null;
+            C1LevelLibrary.Release(localBackground);
+            localBackground = null;
             selectedCharacterFrames?.Dispose();
             selectedCharacterFrames = null;
 
@@ -578,6 +610,11 @@ namespace PaperGame.C1
             FailurePanel = null;
             GroundCount = 0;
             hasBuilt = false;
+        }
+
+        private void OnDestroy()
+        {
+            ClearGeneratedObjects();
         }
     }
 }

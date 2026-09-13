@@ -7,13 +7,19 @@ namespace PaperGame.C1
 {
     public sealed class C1CharacterService : MonoBehaviour
     {
-        [SerializeField] private string baseUrl = "http://10.131.58.235:8000";
-        public string BaseUrl { get => baseUrl; set => baseUrl = value.TrimEnd('/'); }
+        [SerializeField] private string baseUrl;
+        public string BaseUrl
+        {
+            get => string.IsNullOrWhiteSpace(baseUrl)
+                ? C1WebGLBuildSettings.Load()?.CharacterServiceBaseUrl ?? C1WebGLBuildSettings.DefaultCharacterServiceBaseUrl
+                : baseUrl.TrimEnd('/');
+            set => baseUrl = value?.TrimEnd('/') ?? string.Empty;
+        }
         public IEnumerator Upload(byte[] bytes, string mime, bool force, Action<string> accepted, Action<string> failed)
         {
             if (bytes == null || bytes.Length == 0 || bytes.Length > C1PhotoCapture.MaximumPhotoBytes)
             { failed("照片为空或超过 10 MiB，请重新拍照"); yield break; }
-            var url = baseUrl.TrimEnd('/') + "/v1/characters" + (force ? "?force=true" : "");
+            var url = BaseUrl + "/v1/characters" + (force ? "?force=true" : "");
             Debug.Log("[C1Service] Upload → POST " + url + " (" + bytes.Length + " bytes, " + mime + ", force=" + force + ")");
             var form = new WWWForm();
             form.AddBinaryData("file", bytes, mime == "image/png" ? "doodle.png" : "doodle.jpg", mime);
@@ -33,7 +39,7 @@ namespace PaperGame.C1
         }
         public IEnumerator Poll(string id, Action<string> progress, Action<C1CharacterRecord> ready, Action<string> failed)
         {
-            var url = baseUrl.TrimEnd('/') + "/v1/characters/" + Uri.EscapeDataString(id);
+            var url = BaseUrl + "/v1/characters/" + Uri.EscapeDataString(id);
             Debug.Log("[C1Service] Poll → GET " + url);
             var deadline = Time.realtimeSinceStartup + 360;
             var errors = 0;
@@ -85,8 +91,20 @@ namespace PaperGame.C1
                 {
                     var animation = i == 0 ? meta.run : meta.jump;
                     var path = animation.spriteSheetUrl;
-                    if (string.IsNullOrEmpty(path) || !path.StartsWith("/artifacts/")) { var err = "精灵图集地址无效"; Debug.LogWarning("[C1Service] Download invalid path: " + path); failed(err); yield break; }
-                    var url = new Uri(new Uri(baseUrl), path).AbsoluteUri;
+                    if (string.IsNullOrEmpty(path)) { var err = "精灵图集地址为空"; Debug.LogWarning("[C1Service] Download invalid path: " + path); failed(err); yield break; }
+                    string url;
+                    if (path.StartsWith("http://") || path.StartsWith("https://"))
+                    {
+                        url = path;
+                    }
+                    else if (path.StartsWith("/artifacts/"))
+                    {
+                        url = new Uri(new Uri(BaseUrl), path).AbsoluteUri;
+                    }
+                    else
+                    {
+                        var err = "精灵图集地址无效"; Debug.LogWarning("[C1Service] Download invalid path: " + path); failed(err); yield break;
+                    }
                     Debug.Log("[C1Service] Download " + (i == 0 ? "run" : "jump") + " → GET " + url);
                     using (var request = UnityWebRequestTexture.GetTexture(url))
                     {

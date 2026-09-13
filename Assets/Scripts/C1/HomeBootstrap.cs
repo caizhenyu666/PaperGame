@@ -12,6 +12,7 @@ namespace PaperGame.C1
 
         public GameObject HomeScreen { get; private set; }
         public GameObject CharacterScreen { get; private set; }
+        public GameObject LevelScreen { get; private set; }
 
         private void Start()
         {
@@ -48,6 +49,7 @@ namespace PaperGame.C1
 
             characterSelection = GetComponent<C1CharacterSelection>() ?? gameObject.AddComponent<C1CharacterSelection>();
             CreateHomeButton("创建主角", new Vector2(.04f, .06f), new Vector2(.25f, .16f), ShowCharacterCreation);
+            CreateHomeButton("拍照创建关卡", new Vector2(.28f, .06f), new Vector2(.51f, .16f), () => ShowLevels(true));
             FindButton("Start Play").onClick.AddListener(StartGame);
 
             if (FindObjectOfType<EventSystem>() == null)
@@ -65,6 +67,13 @@ namespace PaperGame.C1
 
         public void ReturnHome()
         {
+            if (LevelScreen != null)
+            {
+                LevelScreen.SetActive(false);
+                if (Application.isPlaying) Destroy(LevelScreen);
+                else DestroyImmediate(LevelScreen);
+            }
+            LevelScreen = null;
             if (CharacterScreen != null)
             {
                 if (Application.isPlaying) Destroy(CharacterScreen);
@@ -77,8 +86,15 @@ namespace PaperGame.C1
 
         private void StartGame()
         {
-            C1GameSession.Instance.SetPendingLevel(C1GameSession.MockLevelApiResourcePath);
-            SceneManager.LoadScene(C1GameSession.GameSceneName);
+            ShowLevels(false);
+        }
+
+        public void ShowLevels(bool createImmediately = false)
+        {
+            if (LevelScreen != null) return;
+            HomeScreen.SetActive(false);
+            LevelScreen = C1LevelSelection.Panel(canvas.transform, "Level Selection " + GetInstanceID(), 0, 0, 1, 1);
+            LevelScreen.AddComponent<C1LevelSelection>().Configure(ReturnHome, createImmediately);
         }
 
         private void CreateHomeButton(string title, Vector2 anchorMin, Vector2 anchorMax, UnityEngine.Events.UnityAction action)
