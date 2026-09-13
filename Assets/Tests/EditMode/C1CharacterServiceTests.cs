@@ -13,6 +13,17 @@ namespace PaperGame.C1.Tests
 {
     public sealed class C1CharacterServiceTests
     {
+        [Test]
+        public void DefaultBaseUrl_UsesProjectWebGlSettings()
+        {
+            var root = new GameObject("Character Service Default Url Test");
+            var service = root.AddComponent<C1CharacterService>();
+
+            Assert.That(service.BaseUrl, Is.EqualTo("http://scjjysd.xyz"));
+
+            UnityEngine.Object.DestroyImmediate(root);
+        }
+
         [UnityTest]
         public IEnumerator HttpWorkflow_UploadsFilePollsAndDownloadsBothSheets()
         {

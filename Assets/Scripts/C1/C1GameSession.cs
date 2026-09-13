@@ -7,6 +7,7 @@ namespace PaperGame.C1
         public const string HomeSceneName = "Home";
         public const string GameSceneName = "Game";
         public const string DefaultLevelResourcePath = "C1Levels/level1";
+        public const string MockLevelApiResourcePath = "C1Levels/level-api-mock";
 
         private static C1GameSession instance;
         private string pendingLevelResourcePath;

@@ -8,7 +8,7 @@
 
 ## 服务端配置
 
-`C1CharacterService.BaseUrl` 默认为 `http://scjjysd.xyz:8000`，可在组件 Inspector 或代码中调整。接口使用 `POST /v1/characters`（multipart 字段 file）、`GET /v1/characters/{jobId}` 和 ready 返回的两张产物图片。
+`C1CharacterService.BaseUrl` 默认为 `http://10.131.58.235:8000`，可在组件 Inspector 或代码中调整。接口使用 `POST /v1/characters`（multipart 字段 file）、`GET /v1/characters/{jobId}` 和 ready 返回的两张产物图片。
 
 允许 JPEG/PNG，浏览器和 Unity 上传上限均为 10 MiB。轮询间隔 1 秒，最长等待 6 分钟；任务生成失败后允许使用 force=true 重试，同图普通重复上传使用服务端幂等语义。接口只有 run/jump 两个键，客户端使用具名字段解析 animations，没有使用 JsonUtility 不支持的 Dictionary。
 
@@ -37,4 +37,4 @@
 5. 网络断开、质量不合格、生成失败、图集尺寸错误均提示失败且允许恢复操作。
 6. 从实际手机 WebGL 页面验证相机权限、上传、CORS 和透明图集显示。
 
-当前开发环境对 `scjjysd.xyz` 的 DNS 查询失败，真实服务器端到端验收尚未完成；本地 HTTP 测试不能替代该项验收。
+当前开发环境应使用 `10.131.58.235` 访问服务；本地 HTTP 测试不能替代真实服务器端到端验收。

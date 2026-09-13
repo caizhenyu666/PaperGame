@@ -77,7 +77,7 @@ namespace PaperGame.C1
 
         private void StartGame()
         {
-            C1GameSession.Instance.SetPendingLevel(C1GameSession.DefaultLevelResourcePath);
+            C1GameSession.Instance.SetPendingLevel(C1GameSession.MockLevelApiResourcePath);
             SceneManager.LoadScene(C1GameSession.GameSceneName);
         }
 

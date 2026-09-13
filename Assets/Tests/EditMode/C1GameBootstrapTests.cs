@@ -122,6 +122,20 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
+        public void Build_MockApiLevelCreatesGeometryAlignedToProvidedImage()
+        {
+            var built = bootstrap.Build(C1LevelLoader.Load(C1GameSession.MockLevelApiResourcePath));
+
+            Assert.That(built, Is.True);
+            Assert.That(bootstrap.GroundCount, Is.EqualTo(4));
+            Assert.That((Vector2)bootstrap.Player.transform.position,
+                Is.EqualTo(C1LevelSpace.PixelToWorld(new Vector2(89f, 472f), new Vector2Int(900, 560))));
+            var background = GameObject.Find("Paper Background").GetComponent<SpriteRenderer>().sprite.texture;
+            Assert.That(background.width, Is.EqualTo(900));
+            Assert.That(background.height, Is.EqualTo(560));
+        }
+
+        [Test]
         public void TryGetSelectedCharacter_ReturnsSavedCustomRecord()
         {
             var library = new C1CharacterLibrary { selectedId = "char_selected" };

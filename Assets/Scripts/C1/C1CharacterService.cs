@@ -7,7 +7,7 @@ namespace PaperGame.C1
 {
     public sealed class C1CharacterService : MonoBehaviour
     {
-        [SerializeField] private string baseUrl = "http://scjjysd.xyz:8000";
+        [SerializeField] private string baseUrl = "http://10.131.58.235:8000";
         public string BaseUrl { get => baseUrl; set => baseUrl = value.TrimEnd('/'); }
         public IEnumerator Upload(byte[] bytes, string mime, bool force, Action<string> accepted, Action<string> failed)
         {

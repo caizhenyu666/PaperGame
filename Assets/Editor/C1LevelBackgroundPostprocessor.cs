@@ -5,11 +5,12 @@ namespace PaperGame.C1.Editor
 {
     public sealed class C1LevelBackgroundPostprocessor : AssetPostprocessor
     {
-        private const string LevelBackgroundPath = "Assets/Resources/C1Levels/level1-background.png";
+        private const string LevelBackgroundDirectory = "Assets/Resources/C1Levels/";
 
         private void OnPreprocessTexture()
         {
-            if (assetPath.Replace('\\', '/') != LevelBackgroundPath)
+            var normalizedPath = assetPath.Replace('\\', '/');
+            if (!normalizedPath.StartsWith(LevelBackgroundDirectory) || !normalizedPath.EndsWith("-background.png"))
             {
                 return;
             }

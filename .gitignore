@@ -18,6 +18,9 @@
 *.suo
 .DS_Store
 
+# Local assistant workflow artifacts
+.superpowers/
+
 # Unity crash reports and generated profiling data
 sysinfo.txt
 *.pidb

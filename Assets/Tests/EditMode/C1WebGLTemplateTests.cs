@@ -29,5 +29,26 @@ namespace PaperGame.C1.Tests
             StringAssert.Contains("PROJECT:PaperGameMobile", source);
             StringAssert.Contains("PlayerSettings.WebGL.template", source);
         }
+
+        [Test]
+        public void WebGlSettingsProvider_RegistersProjectSettingsPage()
+        {
+            var source = File.ReadAllText(Path.Combine(Application.dataPath, "Editor/C1WebGLBuildSettingsProvider.cs"));
+
+            StringAssert.Contains("Project/Paper Game", source);
+            StringAssert.Contains("SettingsProvider", source);
+            StringAssert.Contains("C1WebGLBuildSettings", source);
+        }
+
+        [Test]
+        public void WebGLBuilder_UsesConfiguredOutputAndLogsAbsolutePath()
+        {
+            var source = File.ReadAllText(Path.Combine(Application.dataPath, "Editor/C1WebGLBuilder.cs"));
+
+            StringAssert.Contains("C1WebGLBuildSettings", source);
+            StringAssert.Contains("Path.GetFullPath", source);
+            StringAssert.Contains("WebGL build succeeded:", source);
+            StringAssert.Contains("C1_WEBGL_OUTPUT", source);
+        }
     }
 }

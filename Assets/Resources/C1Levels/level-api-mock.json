@@ -1,0 +1,36 @@
+{
+  "jobId": "level_6782be3607df",
+  "schemaVersion": "1.0",
+  "algorithmVersion": "level-parser-1.0.0",
+  "createdAt": "2026-09-10T10:26:24Z",
+  "updatedAt": "2026-09-10T10:26:25Z",
+  "status": "needs_fix",
+  "result": {
+    "level": {
+      "schemaVersion": "1.0",
+      "coordinateSystem": { "origin": "top_left", "xAxis": "right", "yAxis": "down", "unit": "pixel" },
+      "canvas": { "width": 900, "height": 560 },
+      "background": {
+        "imageUrl": "/artifacts/level_6782be3607df/rectified.png",
+        "contentType": "image/png",
+        "width": 900,
+        "height": 560,
+        "sha256": "b2e89c5eb74f1f2190c56af7159fc942f9e4da09d4c435754effb7a2c93c21cb"
+      },
+      "playerStart": { "x": 89, "y": 472, "source": "inferred", "confidence": 0.7411111111111112 },
+      "platforms": [
+        { "id": "platform_001", "start": { "x": 73, "y": 472 }, "end": { "x": 293, "y": 472 }, "confidence": 0.7411111111111112 },
+        { "id": "platform_002", "start": { "x": 114, "y": 126 }, "end": { "x": 493, "y": 126 }, "confidence": 0.7852777777777779 },
+        { "id": "platform_003", "start": { "x": 120, "y": 356 }, "end": { "x": 393, "y": 356 }, "confidence": 0.7558333493859013 },
+        { "id": "platform_004", "start": { "x": 167, "y": 241 }, "end": { "x": 493, "y": 242 }, "confidence": 0.7705555555555557 }
+      ],
+      "goalRegion": { "x": 756, "y": 0, "width": 65, "height": 110, "confidence": 0.97 }
+    },
+    "analysis": {
+      "playability": "unreachable",
+      "warnings": [
+        { "code": "GOAL_NOT_SUPPORTED", "message": "终点区域与平台无水平投影重叠" }
+      ]
+    }
+  }
+}
