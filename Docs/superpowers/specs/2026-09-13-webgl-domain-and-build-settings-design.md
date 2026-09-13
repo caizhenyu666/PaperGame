@@ -16,12 +16,12 @@
 
 ## 设计
 
-新增一个 `ScriptableSingleton` 项目设置对象，保存：
+新增一个位于 `Assets/Resources` 的 `ScriptableObject` 配置资源，保存：
 
 - `CharacterServiceBaseUrl`：角色服务基础地址，默认 `http://scjjysd.xyz`。
 - `WebGlOutputPath`：项目相对或绝对的 WebGL 输出路径，默认 `Builds/C1WebGL`。
 
-设置对象以 Unity 的 `ProjectSettings` 持久化，在 Project Settings 中通过自定义设置页编辑。地址由 `C1CharacterService` 在未通过 Inspector 显式赋值时读取；现有 Inspector 覆盖能力保留，便于临时调试。
+配置资源可在运行时随 WebGL 包加载；在 `Project Settings` 中通过自定义设置页编辑。这样 WebGL 运行期无需依赖 `UnityEditor` 也能读取域名。地址由 `C1CharacterService` 在未通过 Inspector 显式赋值时读取；现有 Inspector 覆盖能力保留，便于临时调试。
 
 `C1WebGLBuilder` 的菜单构建读取设置中的输出路径；命令行构建优先读取 `C1_WEBGL_OUTPUT`，未设置时读取项目设置。构建前统一将相对路径解析为项目根目录下的绝对路径，避免日志与产物位置含糊。WebGL 模板仍固定为 `PROJECT:PaperGameMobile`。
 
