@@ -94,9 +94,10 @@ namespace PaperGame.C1
                 return false;
             }
 
-            if (Platforms == null || Platforms.Length == 0)
+            if ((Platforms == null || Platforms.Length == 0) &&
+                (Walls == null || Walls.Length == 0) && (Blocks == null || Blocks.Length == 0))
             {
-                error = "Level requires at least one platform.";
+                error = "Level requires at least one collision geometry.";
                 return false;
             }
 
@@ -112,7 +113,7 @@ namespace PaperGame.C1
                 return false;
             }
 
-            foreach (var platform in Platforms)
+            foreach (var platform in Platforms ?? Array.Empty<C1PlatformDefinition>())
             {
                 if (platform == null || !IsFinite(platform.Start) || !IsFinite(platform.End))
                 {

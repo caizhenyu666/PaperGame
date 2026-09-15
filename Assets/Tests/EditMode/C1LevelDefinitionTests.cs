@@ -6,6 +6,17 @@ namespace PaperGame.C1.Tests
     public sealed class C1LevelDefinitionTests
     {
         [Test]
+        public void TryValidate_AcceptsBlocksWithoutLinePlatforms()
+        {
+            var level = CreateValidLevel();
+            level.Platforms = System.Array.Empty<C1PlatformDefinition>();
+            level.Blocks = new[] { new C1BlockDefinition(new Rect(20f, 220f, 150f, 30f)) };
+            Assert.That(level.TryValidate(out var error), Is.True, error);
+            level.Blocks = System.Array.Empty<C1BlockDefinition>();
+            Assert.That(level.TryValidate(out error), Is.False);
+        }
+
+        [Test]
         public void TryValidate_RejectsMissingPlatforms()
         {
             var level = new C1LevelDefinition();

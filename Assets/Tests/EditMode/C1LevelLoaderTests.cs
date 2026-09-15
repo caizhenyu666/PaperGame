@@ -5,6 +5,18 @@ namespace PaperGame.C1.Tests
 {
     public sealed class C1LevelLoaderTests
     {
+        [TestCase(false)]
+        [TestCase(true)]
+        public void Parse_LoadsBlocksOnlyLevel(bool api)
+        {
+            const string local = "{\"backgroundImage\":\"test\",\"canvas\":{\"width\":400,\"height\":300},\"playerStart\":{\"x\":40,\"y\":220},\"platforms\":[],\"blocks\":[{\"region\":{\"x\":20,\"y\":250,\"width\":200,\"height\":30}}],\"goalRegion\":{\"x\":300,\"y\":50,\"width\":30,\"height\":50}}";
+            var json = api ? "{\"result\":{\"level\":" + local.Replace("\"backgroundImage\":\"test\"", "\"background\":{\"imageUrl\":\"test\"}") + "}}" : local;
+            var level = C1LevelLoader.Parse(json, out var error);
+            Assert.That(level, Is.Not.Null, error);
+            Assert.That(level.Platforms, Has.Length.Zero);
+            Assert.That(level.Blocks, Has.Length.EqualTo(1));
+        }
+
         private const string ApiNeedsFixResponse = @"{
             ""jobId"": ""level_6782be3607df"",
             ""status"": ""needs_fix"",

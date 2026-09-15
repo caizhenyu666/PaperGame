@@ -23,6 +23,25 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
+        public void Build_BlockOnlyLevelPreservesEmptyConcaveCorner()
+        {
+            var level = C1LevelLoader.LoadDefault();
+            level.Platforms = null;
+            level.Blocks = new[] {
+                new C1BlockDefinition(new Rect(200f, 180f, 30f, 120f)),
+                new C1BlockDefinition(new Rect(230f, 270f, 150f, 30f))
+            };
+            Assert.That(bootstrap.Build(level), Is.True);
+            var blocks = System.Array.FindAll(bootstrap.GetComponentsInChildren<BoxCollider2D>(),
+                collider => collider.name == "Block");
+            Assert.That(blocks, Has.Length.EqualTo(2));
+            var empty = C1LevelSpace.PixelToWorld(new Vector2(300f, 220f), level.CanvasPixelSize);
+            foreach (var block in blocks)
+                Assert.That(block.OverlapPoint(empty), Is.False);
+            Assert.That(bootstrap.GroundCount, Is.Zero);
+        }
+
+        [Test]
         public void Build_WallsFollowPixelEndpointsWithInvisibleSolidColliders()
         {
             var level = C1LevelLoader.LoadDefault();

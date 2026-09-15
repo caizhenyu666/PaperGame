@@ -55,7 +55,7 @@ namespace PaperGame.C1
                 return null;
             }
 
-            if (data != null && data.platforms != null && data.platforms.Length > 0)
+            if (data != null && !string.IsNullOrWhiteSpace(data.backgroundImage))
             {
                 return CreateLocalLevel(data, out error);
             }
@@ -71,9 +71,9 @@ namespace PaperGame.C1
                 return null;
             }
 
-            if (apiResponse?.result?.level?.platforms == null || apiResponse.result.level.platforms.Length == 0)
+            if (apiResponse?.result?.level == null)
             {
-                error = "Level requires at least one platform.";
+                error = "Level response is missing its level data.";
                 return null;
             }
 
@@ -82,6 +82,7 @@ namespace PaperGame.C1
 
         private static C1LevelDefinition CreateLocalLevel(LevelJson data, out string error)
         {
+            data.platforms = data.platforms ?? Array.Empty<PlatformJson>();
             var level = new C1LevelDefinition
             {
                 BackgroundResourcePath = data.backgroundImage,
@@ -105,6 +106,7 @@ namespace PaperGame.C1
 
         private static C1LevelDefinition CreateApiLevel(ApiLevelJson data, out string error)
         {
+            data.platforms = data.platforms ?? Array.Empty<ApiPlatformJson>();
             var level = new C1LevelDefinition
             {
                 PlayerStartIsFeet = true,

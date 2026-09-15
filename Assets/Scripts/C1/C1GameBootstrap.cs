@@ -124,7 +124,7 @@ namespace PaperGame.C1
             generatedRoot.SetParent(transform, false);
             CreateBackground(backgroundTexture, level.CanvasPixelSize);
 
-            foreach (var platform in level.Platforms)
+            foreach (var platform in level.Platforms ?? Array.Empty<C1PlatformDefinition>())
             {
                 CreatePlatform(platform, level.CanvasPixelSize);
             }

@@ -12,13 +12,11 @@ namespace PaperGame.C1
         public float JumpHeight { get; private set; } = MinimumJumpHeight;
 
         private C1PlayerController2D player;
-        private C1LevelDefinition level;
         private Text status;
 
         public void Configure(C1PlayerController2D targetPlayer, C1LevelDefinition targetLevel)
         {
             player = targetPlayer;
-            level = targetLevel;
             CreateControls();
             ApplyJumpHeight(MinimumJumpHeight);
         }
@@ -55,8 +53,7 @@ namespace PaperGame.C1
         {
             JumpHeight = Mathf.Round(value / JumpHeightStep) * JumpHeightStep;
             player.SetJumpHeight(JumpHeight);
-            var result = C1Reachability.Analyze(level, JumpHeight);
-            status.text = $"Jump Height: {JumpHeight:F1}\n{(result.CanReachGoal ? "Reachable" : "Needs higher jump")}";
+            status.text = $"Jump Height: {JumpHeight:F1}";
         }
     }
 }
