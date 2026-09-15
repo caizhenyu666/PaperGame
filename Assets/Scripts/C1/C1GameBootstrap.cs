@@ -129,6 +129,16 @@ namespace PaperGame.C1
                 CreatePlatform(platform, level.CanvasPixelSize);
             }
 
+            foreach (var wall in level.Walls ?? Array.Empty<C1WallDefinition>())
+            {
+                CreateWall(wall, level.CanvasPixelSize);
+            }
+
+            foreach (var block in level.Blocks ?? Array.Empty<C1BlockDefinition>())
+            {
+                CreateBlock(block, level.CanvasPixelSize);
+            }
+
             var playerStart = C1LevelSpace.PixelToWorld(level.PlayerStart, level.CanvasPixelSize);
             if (level.PlayerStartIsFeet) playerStart.y += .65f + C1LevelSpace.GroundThickness * .5f;
             Player = CreatePlayer(playerStart);
@@ -174,6 +184,28 @@ namespace PaperGame.C1
             var collider = platform.AddComponent<BoxCollider2D>();
             collider.size = new Vector2(direction.magnitude, C1LevelSpace.GroundThickness);
             GroundCount++;
+        }
+
+        private void CreateWall(C1WallDefinition definition, Vector2Int canvasPixelSize)
+        {
+            var start = C1LevelSpace.PixelToWorld(definition.Start, canvasPixelSize);
+            var end = C1LevelSpace.PixelToWorld(definition.End, canvasPixelSize);
+            var direction = end - start;
+            var wall = new GameObject("Wall");
+            wall.transform.SetParent(generatedRoot, false);
+            wall.transform.position = (start + end) * 0.5f;
+            wall.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+            var collider = wall.AddComponent<BoxCollider2D>();
+            collider.size = new Vector2(direction.magnitude, C1LevelSpace.GroundThickness);
+        }
+
+        private void CreateBlock(C1BlockDefinition definition, Vector2Int canvasPixelSize)
+        {
+            var block = new GameObject("Block");
+            block.transform.SetParent(generatedRoot, false);
+            block.transform.position = C1LevelSpace.PixelToWorld(definition.Region.center, canvasPixelSize);
+            var collider = block.AddComponent<BoxCollider2D>();
+            collider.size = definition.Region.size / C1LevelSpace.PixelsPerUnit;
         }
 
         private C1PlayerController2D CreatePlayer(Vector2 position)

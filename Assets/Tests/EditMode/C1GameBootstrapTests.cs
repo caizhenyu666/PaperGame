@@ -23,6 +23,78 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
+        public void Build_WallsFollowPixelEndpointsWithInvisibleSolidColliders()
+        {
+            var level = C1LevelLoader.LoadDefault();
+            level.Walls = new[]
+            {
+                new C1WallDefinition(new Vector2(300f, 200f), new Vector2(300f, 450f)),
+                new C1WallDefinition(new Vector2(400f, 200f), new Vector2(500f, 450f))
+            };
+            Assert.That(bootstrap.Build(level), Is.True);
+
+            var walls = System.Array.FindAll(bootstrap.GetComponentsInChildren<BoxCollider2D>(),
+                collider => collider.name == "Wall");
+            Assert.That(walls.Length, Is.EqualTo(2));
+            for (var i = 0; i < walls.Length; i++)
+            {
+                var start = C1LevelSpace.PixelToWorld(level.Walls[i].Start, level.CanvasPixelSize);
+                var end = C1LevelSpace.PixelToWorld(level.Walls[i].End, level.CanvasPixelSize);
+                var direction = end - start;
+                Assert.That((Vector2)walls[i].transform.position, Is.EqualTo((start + end) * .5f));
+                Assert.That(walls[i].size.x, Is.EqualTo(direction.magnitude).Within(.001f));
+                Assert.That(walls[i].size.y, Is.EqualTo(C1LevelSpace.GroundThickness));
+                Assert.That(Vector2.Distance(walls[i].transform.right, direction.normalized), Is.LessThan(.001f));
+                Assert.That(walls[i].isTrigger, Is.False);
+                Assert.That(walls[i].attachedRigidbody, Is.Null);
+                Assert.That(walls[i].GetComponent<Renderer>(), Is.Null);
+            }
+            Assert.That(bootstrap.GroundCount, Is.EqualTo(7));
+        }
+
+        [Test]
+        public void Build_BlocksUsePixelRectangleWithInvisibleSolidColliders()
+        {
+            var level = C1LevelLoader.LoadDefault();
+            var region = new Rect(300f, 200f, 180f, 120f);
+            level.Blocks = new[] { new C1BlockDefinition(region) };
+            Assert.That(bootstrap.Build(level), Is.True);
+
+            var blocks = System.Array.FindAll(bootstrap.GetComponentsInChildren<BoxCollider2D>(),
+                collider => collider.name == "Block");
+            Assert.That(blocks.Length, Is.EqualTo(1));
+            Assert.That((Vector2)blocks[0].transform.position,
+                Is.EqualTo(C1LevelSpace.PixelToWorld(region.center, level.CanvasPixelSize)));
+            Assert.That(blocks[0].size, Is.EqualTo(region.size / C1LevelSpace.PixelsPerUnit));
+            Assert.That(blocks[0].transform.rotation, Is.EqualTo(Quaternion.identity));
+            Assert.That(blocks[0].isTrigger, Is.False);
+            Assert.That(blocks[0].attachedRigidbody, Is.Null);
+            Assert.That(blocks[0].GetComponent<Renderer>(), Is.Null);
+            Assert.That(bootstrap.FailurePanel.activeSelf, Is.False);
+        }
+
+        [Test]
+        public void Build_RebuildAndReturnHomeClearWallsAndBlocks()
+        {
+            var level = C1LevelLoader.LoadDefault();
+            level.Walls = new[] { new C1WallDefinition(new Vector2(300f, 200f), new Vector2(300f, 450f)) };
+            level.Blocks = new[] { new C1BlockDefinition(new Rect(400f, 200f, 100f, 100f)) };
+            bootstrap.Build(level);
+            Assert.That(bootstrap.transform.Find("C1 Generated Level/Wall"), Is.Not.Null);
+            Assert.That(bootstrap.transform.Find("C1 Generated Level/Block"), Is.Not.Null);
+
+            bootstrap.Build(C1LevelLoader.LoadDefault());
+            Assert.That(bootstrap.transform.Find("C1 Generated Level/Wall"), Is.Null);
+            Assert.That(bootstrap.transform.Find("C1 Generated Level/Block"), Is.Null);
+            Assert.That(bootstrap.GroundCount, Is.EqualTo(7));
+
+            bootstrap.Build(level);
+            bootstrap.ReturnHome();
+            Assert.That(bootstrap.transform.Find("C1 Generated Level"), Is.Null);
+            Assert.That(bootstrap.GroundCount, Is.Zero);
+        }
+
+        [Test]
         public void Build_ValidLevelCreatesPlayerGroundsAndSingleGoal()
         {
             var built = bootstrap.Build(C1LevelLoader.LoadDefault());
