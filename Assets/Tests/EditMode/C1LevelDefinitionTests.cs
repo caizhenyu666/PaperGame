@@ -34,6 +34,49 @@ namespace PaperGame.C1.Tests
             Assert.That(error, Does.Contain("finite"));
         }
 
+        [Test]
+        public void NewGeometry_DefaultsToEmpty()
+        {
+            var level = CreateValidLevel();
+            foreach (var name in new[] { "Walls", "Blocks" })
+            {
+                var property = typeof(C1LevelDefinition).GetProperty(name);
+                Assert.That(property, Is.Not.Null, name + " must be supported");
+                Assert.That((System.Array)property.GetValue(level), Has.Length.Zero);
+            }
+        }
+
+        [TestCase("Walls", "Start")]
+        [TestCase("Walls", "End")]
+        [TestCase("Blocks", "Region")]
+        public void TryValidate_RejectsNonFiniteGeometry(string collection, string coordinate)
+        {
+            var level = CreateValidLevel();
+            var property = typeof(C1LevelDefinition).GetProperty(collection);
+            Assert.That(property, Is.Not.Null);
+            var itemType = property.PropertyType.GetElementType();
+            var item = collection == "Walls"
+                ? System.Activator.CreateInstance(itemType, new Vector2(20f, 20f), new Vector2(20f, 200f))
+                : System.Activator.CreateInstance(itemType, new Rect(20f, 20f, 50f, 50f));
+            itemType.GetProperty(coordinate).SetValue(item, collection == "Walls"
+                ? (object)new Vector2(float.NaN, 20f)
+                : new Rect(20f, 20f, float.PositiveInfinity, 50f));
+            var items = System.Array.CreateInstance(itemType, 1);
+            items.SetValue(item, 0);
+            property.SetValue(level, items);
+
+            Assert.That(level.TryValidate(out var error), Is.False);
+            Assert.That(error, Does.Contain("finite"));
+        }
+
+        [Test]
+        public void TryValidate_AcceptsLegacyVerticalPlatform()
+        {
+            var level = CreateValidLevel();
+            level.Platforms[0].End = new Vector2(20f, 50f);
+            Assert.That(level.TryValidate(out var error), Is.True, error);
+        }
+
         private static C1LevelDefinition CreateValidLevel()
         {
             return new C1LevelDefinition

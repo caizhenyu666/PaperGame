@@ -23,6 +23,34 @@ namespace PaperGame.C1
     }
 
     [Serializable]
+    public sealed class C1WallDefinition
+    {
+        [field: SerializeField]
+        public Vector2 Start { get; set; }
+
+        [field: SerializeField]
+        public Vector2 End { get; set; }
+
+        public C1WallDefinition(Vector2 start, Vector2 end)
+        {
+            Start = start;
+            End = end;
+        }
+    }
+
+    [Serializable]
+    public sealed class C1BlockDefinition
+    {
+        [field: SerializeField]
+        public Rect Region { get; set; }
+
+        public C1BlockDefinition(Rect region)
+        {
+            Region = region;
+        }
+    }
+
+    [Serializable]
     public sealed class C1LevelDefinition
     {
         public bool PlayerStartIsFeet { get; set; }
@@ -34,6 +62,12 @@ namespace PaperGame.C1
 
         [field: SerializeField]
         public C1PlatformDefinition[] Platforms { get; set; } = Array.Empty<C1PlatformDefinition>();
+
+        [field: SerializeField]
+        public C1WallDefinition[] Walls { get; set; } = Array.Empty<C1WallDefinition>();
+
+        [field: SerializeField]
+        public C1BlockDefinition[] Blocks { get; set; } = Array.Empty<C1BlockDefinition>();
 
         [field: SerializeField]
         public Vector2 PlayerStart { get; set; }
@@ -95,6 +129,51 @@ namespace PaperGame.C1
                 if ((platform.End - platform.Start).sqrMagnitude <= Mathf.Epsilon)
                 {
                     error = "Every platform must have a positive line length.";
+                    return false;
+                }
+            }
+
+            foreach (var wall in Walls ?? Array.Empty<C1WallDefinition>())
+            {
+                if (wall == null || !IsFinite(wall.Start) || !IsFinite(wall.End))
+                {
+                    error = "Every wall coordinate must be finite.";
+                    return false;
+                }
+                if (!IsInsideCanvas(wall.Start) || !IsInsideCanvas(wall.End))
+                {
+                    error = "Every wall endpoint must be inside the canvas.";
+                    return false;
+                }
+                var delta = wall.End - wall.Start;
+                if (delta.sqrMagnitude <= Mathf.Epsilon)
+                {
+                    error = "Every wall must have a positive line length.";
+                    return false;
+                }
+                if (Mathf.Abs(delta.y) <= Mathf.Abs(delta.x))
+                {
+                    error = "Every wall must be primarily vertical.";
+                    return false;
+                }
+            }
+
+            foreach (var block in Blocks ?? Array.Empty<C1BlockDefinition>())
+            {
+                if (block == null || !IsFinite(block.Region.position) || !IsFinite(block.Region.size))
+                {
+                    error = "Every block region must be finite.";
+                    return false;
+                }
+                var region = block.Region;
+                if (region.width <= 0f || region.height <= 0f)
+                {
+                    error = "Every block region must have positive dimensions.";
+                    return false;
+                }
+                if (!IsInsideCanvas(region.min) || !IsInsideCanvas(region.max))
+                {
+                    error = "Every block region must be inside the canvas.";
                     return false;
                 }
             }

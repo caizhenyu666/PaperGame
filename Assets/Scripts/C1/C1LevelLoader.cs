@@ -88,7 +88,9 @@ namespace PaperGame.C1
                 CanvasPixelSize = new Vector2Int(data.canvas.width, data.canvas.height),
                 PlayerStart = data.playerStart,
                 GoalRegion = new Rect(data.goalRegion.x, data.goalRegion.y, data.goalRegion.width, data.goalRegion.height),
-                Platforms = new C1PlatformDefinition[data.platforms.Length]
+                Platforms = new C1PlatformDefinition[data.platforms.Length],
+                Walls = CreateWalls(data.walls),
+                Blocks = CreateBlocks(data.blocks)
             };
 
             for (var index = 0; index < data.platforms.Length; index++)
@@ -110,7 +112,9 @@ namespace PaperGame.C1
                 CanvasPixelSize = new Vector2Int(data.canvas.width, data.canvas.height),
                 PlayerStart = data.playerStart.ToVector2(),
                 GoalRegion = new Rect(data.goalRegion.x, data.goalRegion.y, data.goalRegion.width, data.goalRegion.height),
-                Platforms = new C1PlatformDefinition[data.platforms.Length]
+                Platforms = new C1PlatformDefinition[data.platforms.Length],
+                Walls = CreateWalls(data.walls),
+                Blocks = CreateBlocks(data.blocks)
             };
 
             for (var index = 0; index < data.platforms.Length; index++)
@@ -122,6 +126,33 @@ namespace PaperGame.C1
             return level.TryValidate(out error) ? level : null;
         }
 
+        private static C1WallDefinition[] CreateWalls(ApiPlatformJson[] data)
+        {
+            if (data == null) return Array.Empty<C1WallDefinition>();
+            var walls = new C1WallDefinition[data.Length];
+            for (var index = 0; index < data.Length; index++)
+                walls[index] = new C1WallDefinition(data[index].start.ToVector2(), data[index].end.ToVector2());
+            return walls;
+        }
+
+        private static C1BlockDefinition[] CreateBlocks(BlockJson[] data)
+        {
+            if (data == null) return Array.Empty<C1BlockDefinition>();
+            var blocks = new C1BlockDefinition[data.Length];
+            for (var index = 0; index < data.Length; index++)
+            {
+                var region = data[index].region;
+                blocks[index] = new C1BlockDefinition(new Rect(region.x, region.y, region.width, region.height));
+            }
+            return blocks;
+        }
+
+        [Serializable]
+        private struct BlockJson
+        {
+            public RegionJson region;
+        }
+
         [Serializable]
         private sealed class LevelJson
         {
@@ -129,6 +160,8 @@ namespace PaperGame.C1
             public CanvasJson canvas;
             public Vector2 playerStart;
             public PlatformJson[] platforms;
+            public ApiPlatformJson[] walls;
+            public BlockJson[] blocks;
             public RegionJson goalRegion;
         }
 
@@ -176,6 +209,8 @@ namespace PaperGame.C1
             public ApiBackgroundJson background;
             public ApiPointJson playerStart;
             public ApiPlatformJson[] platforms;
+            public ApiPlatformJson[] walls;
+            public BlockJson[] blocks;
             public RegionJson goalRegion;
         }
 

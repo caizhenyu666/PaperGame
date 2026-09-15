@@ -36,6 +36,56 @@ namespace PaperGame.C1.Tests
         }";
 
         [Test]
+        public void Parse_OptionalGeometryDefaultsToEmpty()
+        {
+            foreach (var json in new[] { ValidJson, ApiNeedsFixResponse,
+                ValidJson.Replace("\"goalRegion\"", "\"walls\": null, \"blocks\": null, \"goalRegion\"") })
+            {
+                var level = C1LevelLoader.Parse(json, out var error);
+                Assert.That(error, Is.Empty);
+                foreach (var name in new[] { "Walls", "Blocks" })
+                {
+                    var property = typeof(C1LevelDefinition).GetProperty(name);
+                    Assert.That(property, Is.Not.Null, name + " must be supported");
+                    Assert.That((System.Array)property.GetValue(level), Has.Length.Zero);
+                }
+            }
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void Parse_LoadsWallsAndBlocks(bool api)
+        {
+            var geometry = "\"walls\":[{\"id\":\"wall_001\",\"start\":{\"x\":200,\"y\":20},\"end\":{\"x\":210,\"y\":200},\"confidence\":0.8}],\"blocks\":[{\"id\":\"block_001\",\"region\":{\"x\":230,\"y\":100,\"width\":50,\"height\":60,\"confidence\":0.9}}],";
+            var json = (api ? ApiNeedsFixResponse : ValidJson).Replace("\"goalRegion\"", geometry + "\"goalRegion\"");
+            var level = C1LevelLoader.Parse(json, out var error);
+            Assert.That(error, Is.Empty);
+            Assert.That(level, Is.Not.Null);
+            var wallsProperty = typeof(C1LevelDefinition).GetProperty("Walls");
+            var blocksProperty = typeof(C1LevelDefinition).GetProperty("Blocks");
+            Assert.That(wallsProperty, Is.Not.Null);
+            Assert.That(blocksProperty, Is.Not.Null);
+            var walls = (System.Array)wallsProperty.GetValue(level);
+            var blocks = (System.Array)blocksProperty.GetValue(level);
+            Assert.That(walls, Has.Length.EqualTo(1));
+            Assert.That(blocks, Has.Length.EqualTo(1));
+            Assert.That(walls.GetValue(0).GetType().GetProperty("End").GetValue(walls.GetValue(0)), Is.EqualTo(new Vector2(210f, 200f)));
+            Assert.That(blocks.GetValue(0).GetType().GetProperty("Region").GetValue(blocks.GetValue(0)), Is.EqualTo(new Rect(230f, 100f, 50f, 60f)));
+        }
+
+        [TestCase("\"walls\":[{\"start\":{\"x\":20,\"y\":20},\"end\":{\"x\":200,\"y\":30}}]", "vertical")]
+        [TestCase("\"walls\":[{\"start\":{\"x\":20,\"y\":20},\"end\":{\"x\":20,\"y\":20}}]", "length")]
+        [TestCase("\"walls\":[{\"start\":{\"x\":20,\"y\":20},\"end\":{\"x\":20,\"y\":301}}]", "canvas")]
+        [TestCase("\"blocks\":[{\"region\":{\"x\":380,\"y\":20,\"width\":30,\"height\":50}}]", "canvas")]
+        [TestCase("\"blocks\":[{\"region\":{\"x\":20,\"y\":20,\"width\":0,\"height\":50}}]", "positive")]
+        public void Parse_RejectsInvalidGeometry(string geometry, string expectedError)
+        {
+            var json = ValidJson.Replace("\"goalRegion\"", geometry + ",\"goalRegion\"");
+            Assert.That(C1LevelLoader.Parse(json, out var error), Is.Null);
+            Assert.That(error, Does.Contain(expectedError));
+        }
+
+        [Test]
         public void Parse_ValidJsonBuildsPhotoPixelLevel()
         {
             var level = C1LevelLoader.Parse(ValidJson, out var error);
