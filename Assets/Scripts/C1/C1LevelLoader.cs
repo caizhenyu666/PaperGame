@@ -22,6 +22,8 @@ namespace PaperGame.C1
                 return null;
             }
 
+            Debug.Log($"[C1Level] Loaded Resources/{safePath}.json\n{asset.text}");
+
             var level = Parse(asset.text, out var error);
             if (level != null && !string.IsNullOrWhiteSpace(level.BackgroundResourcePath) &&
                 level.BackgroundResourcePath.StartsWith("/", StringComparison.Ordinal))

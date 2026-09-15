@@ -8,16 +8,21 @@ namespace PaperGame.C1
     {
         public const string ResourcePath = "C1WebGLBuildSettings";
         public const string AssetPath = "Assets/Resources/C1WebGLBuildSettings.asset";
-        public const string DefaultCharacterServiceBaseUrl = "http://scjjysd.xyz";
+        public const string DefaultCharacterServiceBaseUrl = "https://scjjysd.xyz";
         public const string DefaultWebGlOutputPath = "Builds/C1WebGL";
+        public const string DefaultBuildVersion = "1";
 
         [SerializeField] private string characterServiceBaseUrl = DefaultCharacterServiceBaseUrl;
         [SerializeField] private string webGlOutputPath = DefaultWebGlOutputPath;
+        [SerializeField] private string buildVersion = DefaultBuildVersion;
 
         public string CharacterServiceBaseUrl => NormalizeUrl(characterServiceBaseUrl);
         public string WebGlOutputPath => string.IsNullOrWhiteSpace(webGlOutputPath)
             ? DefaultWebGlOutputPath
             : webGlOutputPath.Trim();
+        public string BuildVersion => string.IsNullOrWhiteSpace(buildVersion)
+            ? DefaultBuildVersion
+            : buildVersion.Trim();
 
         public static C1WebGLBuildSettings Load()
         {

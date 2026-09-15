@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -134,6 +135,137 @@ namespace PaperGame.C1
         {
             try { return JsonUtility.FromJson<C1CharacterRecord>(json); }
             catch (Exception) { return null; }
+        }
+
+        /// <summary>本地缓存目录：Application.persistentDataPath/C1CharacterFrames/</summary>
+        private static string FramesDir
+        {
+            get
+            {
+                var dir = Path.Combine(Application.persistentDataPath, "C1CharacterFrames");
+                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                return dir;
+            }
+        }
+
+        /// <summary>将下载好的精灵图纹理保存为本地 PNG 缓存，并提取首帧作为缩略图。</summary>
+        public void SaveFrames(string characterId, C1CharacterFrames frames)
+        {
+            if (string.IsNullOrEmpty(characterId) || frames == null) return;
+            try
+            {
+                if (frames.runTexture != null)
+                {
+                    var bytes = frames.runTexture.EncodeToPNG();
+                    File.WriteAllBytes(Path.Combine(FramesDir, characterId + "_run.png"), bytes);
+                }
+                if (frames.jumpTexture != null)
+                {
+                    var bytes = frames.jumpTexture.EncodeToPNG();
+                    File.WriteAllBytes(Path.Combine(FramesDir, characterId + "_jump.png"), bytes);
+                }
+                // 提取 run 首帧作为缩略图，供列表显示
+                if (frames.run != null && frames.run.Length > 0)
+                {
+                    var thumb = frames.run[0];
+                    if (thumb != null && thumb.texture != null)
+                    {
+                        var thumbTex = new Texture2D((int)thumb.rect.width, (int)thumb.rect.height, TextureFormat.RGBA32, false);
+                        var pixels = thumb.texture.GetPixels(
+                            (int)thumb.rect.x, (int)thumb.rect.y,
+                            (int)thumb.rect.width, (int)thumb.rect.height);
+                        thumbTex.SetPixels(pixels);
+                        thumbTex.Apply();
+                        File.WriteAllBytes(Path.Combine(FramesDir, characterId + "_thumb.png"), thumbTex.EncodeToPNG());
+                        UnityEngine.Object.Destroy(thumbTex);
+                    }
+                }
+                Debug.Log("[C1Service] Frames saved locally: " + characterId);
+            }
+            catch (Exception e) { Debug.LogWarning("[C1Service] SaveFrames failed: " + e.Message); }
+        }
+
+        /// <summary>尝试加载本地缩略图，用于列表显示。优先读 _thumb.png，没有则从 _run.png 提取首帧。</summary>
+        public Sprite LoadThumbnail(string characterId, C1CharacterRecord record)
+        {
+            // 1. 优先加载专用缩略图
+            var thumbPath = Path.Combine(FramesDir, characterId + "_thumb.png");
+            if (File.Exists(thumbPath))
+            {
+                try
+                {
+                    var bytes = File.ReadAllBytes(thumbPath);
+                    var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                    if (tex.LoadImage(bytes))
+                        return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0f), 100);
+                    UnityEngine.Object.Destroy(tex);
+                }
+                catch (Exception e) { Debug.LogWarning("[C1Service] LoadThumbnail _thumb failed: " + e.Message); }
+            }
+
+            // 2. 回退：从 _run.png 提取首帧（兼容旧缓存）
+            if (record?.animations?.run == null) return null;
+            var runPath = Path.Combine(FramesDir, characterId + "_run.png");
+            if (!File.Exists(runPath)) return null;
+            var meta = record.animations.run;
+            if (meta.frameWidth <= 0 || meta.frameHeight <= 0 || meta.frameCount <= 0) return null;
+            try
+            {
+                var runBytes = File.ReadAllBytes(runPath);
+                var runTex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                if (!runTex.LoadImage(runBytes)) { UnityEngine.Object.Destroy(runTex); return null; }
+                // 首帧区域：从左下角起 frameWidth x frameHeight
+                var fw = meta.frameWidth;
+                var fh = meta.frameHeight;
+                if (fw > runTex.width || fh > runTex.height) { UnityEngine.Object.Destroy(runTex); return null; }
+                var pixels = runTex.GetPixels(0, 0, fw, fh);
+                var thumbTex = new Texture2D(fw, fh, TextureFormat.RGBA32, false);
+                thumbTex.SetPixels(pixels);
+                thumbTex.Apply();
+                UnityEngine.Object.Destroy(runTex);
+                // 同时补存 _thumb.png，下次就不用再提取了
+                try { File.WriteAllBytes(thumbPath, thumbTex.EncodeToPNG()); } catch { /* ignore */ }
+                return Sprite.Create(thumbTex, new Rect(0, 0, fw, fh), new Vector2(0.5f, 0f), 100);
+            }
+            catch (Exception e) { Debug.LogWarning("[C1Service] LoadThumbnail fallback failed: " + e.Message); return null; }
+        }
+
+        /// <summary>尝试从本地缓存加载精灵图，成功返回 true 并填充 frames。</summary>
+        public bool TryLoadFrames(string characterId, C1CharacterRecord record, out C1CharacterFrames frames)
+        {
+            frames = null;
+            if (string.IsNullOrEmpty(characterId) || record?.animations?.run == null || record?.animations?.jump == null) return false;
+            var runPath = Path.Combine(FramesDir, characterId + "_run.png");
+            var jumpPath = Path.Combine(FramesDir, characterId + "_jump.png");
+            if (!File.Exists(runPath) || !File.Exists(jumpPath)) return false;
+            try
+            {
+                var f = new C1CharacterFrames();
+                var runBytes = File.ReadAllBytes(runPath);
+                var jumpBytes = File.ReadAllBytes(jumpPath);
+                f.runTexture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                f.jumpTexture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                if (!f.runTexture.LoadImage(runBytes) || !f.jumpTexture.LoadImage(jumpBytes))
+                {
+                    Debug.LogWarning("[C1Service] Local cache image decode failed: " + characterId);
+                    f.Dispose();
+                    return false;
+                }
+                f.run = C1CharacterFrames.Slice(f.runTexture, record.animations.run);
+                f.jump = C1CharacterFrames.Slice(f.jumpTexture, record.animations.jump);
+                f.runFps = record.animations.run.fps;
+                f.jumpFps = record.animations.jump.fps;
+                frames = f;
+                Debug.Log("[C1Service] Frames loaded from local cache: " + characterId);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[C1Service] TryLoadFrames failed: " + e.Message);
+                if (frames != null) frames.Dispose();
+                frames = null;
+                return false;
+            }
         }
         private static string RequestError(UnityWebRequest request)
         {

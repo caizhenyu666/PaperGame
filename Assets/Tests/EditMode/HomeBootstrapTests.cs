@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PaperGame.C1.Tests
 {
@@ -28,6 +29,17 @@ namespace PaperGame.C1.Tests
 
             Assert.That(bootstrap.HomeScreen, Is.Not.Null);
             Assert.That(bootstrap.CharacterScreen, Is.Null);
+        }
+
+        [Test]
+        public void BuildHome_Uses1920By1080AsTheReferenceResolution()
+        {
+            bootstrap.BuildHome();
+
+            var scaler = bootstrapObject.GetComponentInChildren<CanvasScaler>();
+
+            Assert.That(scaler, Is.Not.Null);
+            Assert.That(scaler.referenceResolution, Is.EqualTo(new Vector2(1920f, 1080f)));
         }
 
         [Test]

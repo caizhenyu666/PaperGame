@@ -26,8 +26,16 @@ namespace PaperGame.C1.Editor
 
             var timestamp = DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8))
                 .ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-            File.WriteAllText(indexPath, Regex.Replace(html, timestampElement,
-                match => match.Groups[1].Value + "出包时间：" + timestamp + " UTC+8" + match.Groups[2].Value));
+            html = Regex.Replace(html, timestampElement,
+                match => match.Groups[1].Value + "出包时间：" + timestamp + " UTC+8" + match.Groups[2].Value);
+
+            /* 注入版本号到 loader 资源 URL，强制浏览器刷新缓存 */
+            var settings = C1WebGLBuildSettings.Load();
+            var version = settings != null ? settings.BuildVersion : C1WebGLBuildSettings.DefaultBuildVersion;
+            html = Regex.Replace(html, @"(C1WebGL\.\w+(?:\.js)?\.gz)(,?"")", "$1?v=" + version + "$2");
+
+            File.WriteAllText(indexPath, html);
+            Debug.Log("[PaperGame] WebGL build version: v" + version);
         }
     }
 
@@ -72,6 +80,9 @@ namespace PaperGame.C1.Editor
             }
 
             Debug.Log("[PaperGame] WebGL build succeeded: " + resolvedOutputPath);
+            var settings = C1WebGLBuildSettings.Load();
+            var ver = settings != null ? settings.BuildVersion : C1WebGLBuildSettings.DefaultBuildVersion;
+            Debug.Log("[PaperGame] Build version: v" + ver);
 
             DeployToServer(resolvedOutputPath);
         }

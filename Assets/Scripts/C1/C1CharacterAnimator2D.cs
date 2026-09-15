@@ -14,6 +14,7 @@ namespace PaperGame.C1
     public sealed class C1CharacterAnimator2D : MonoBehaviour
     {
         private const float RunThreshold = 0.05f;
+        private const float AirborneGracePeriod = 0.1f;
 
         [SerializeField, Min(1f)] private float idleFramesPerSecond = 6f;
         [SerializeField, Min(1f)] private float runFramesPerSecond = 10f;
@@ -26,6 +27,7 @@ namespace PaperGame.C1
         private C1PlayerController2D player;
         private Rigidbody2D body;
         private float frameElapsed;
+        private float airborneTimer;
 
         public C1CharacterAnimationState CurrentState { get; private set; } = C1CharacterAnimationState.Idle;
         public int CurrentFrameIndex { get; private set; }
@@ -97,7 +99,17 @@ namespace PaperGame.C1
                 spriteRenderer.flipX = false;
             }
 
-            var nextState = ResolveState(grounded, horizontalSpeed, completed);
+            if (grounded)
+            {
+                airborneTimer = 0f;
+            }
+            else
+            {
+                airborneTimer += Mathf.Max(0f, deltaTime);
+            }
+
+            var effectivelyGrounded = grounded || airborneTimer < AirborneGracePeriod;
+            var nextState = ResolveState(effectivelyGrounded, horizontalSpeed, completed);
             if (nextState != CurrentState)
             {
                 CurrentState = nextState;

@@ -22,6 +22,21 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
+        public void MobileTemplate_KeepsUnityCanvasVisibleAndUsesOnlyCssForPortraitLayout()
+        {
+            var templateRoot = Path.Combine(Application.dataPath, "WebGLTemplates/PaperGameMobile");
+            var html = File.ReadAllText(Path.Combine(templateRoot, "index.html"));
+            var css = File.ReadAllText(Path.Combine(templateRoot, "TemplateData/style.css"));
+
+            StringAssert.DoesNotContain("rotate-overlay", html);
+            StringAssert.DoesNotContain("unityContainer.style.display", html);
+            StringAssert.DoesNotContain("screen.orientation", html);
+            StringAssert.Contains("@media (orientation: portrait)", css);
+            StringAssert.Contains("transform: rotate(90deg)", css);
+            StringAssert.Contains("left: 100vw", css);
+        }
+
+        [Test]
         public void WebGLBuilder_SelectsPaperGameMobileTemplate()
         {
             var source = File.ReadAllText(Path.Combine(Application.dataPath, "Editor/C1WebGLBuilder.cs"));

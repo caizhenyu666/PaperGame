@@ -292,23 +292,12 @@ namespace PaperGame.C1.Tests
 
 
         [Test]
-        public void MobileOrientationHint_ShowsOnlyForPortraitMobileViewport()
+        public void Build_DoesNotCreateMobileOrientationHint()
         {
-            var hintObject = new GameObject("Orientation Hint Test");
-            var overlay = new GameObject("Overlay");
-            overlay.transform.SetParent(hintObject.transform);
-            var hint = hintObject.AddComponent<C1MobileOrientationHint>();
-            hint.Configure(overlay);
+            bootstrap.Build(C1LevelLoader.LoadDefault());
 
-            hint.Evaluate(720, 1280, true);
-            Assert.That(overlay.activeSelf, Is.True);
-
-            hint.Evaluate(1280, 720, true);
-            Assert.That(overlay.activeSelf, Is.False);
-
-            hint.Evaluate(720, 1280, false);
-            Assert.That(overlay.activeSelf, Is.False);
-            Object.DestroyImmediate(hintObject);
+            Assert.That(bootstrap.HudCanvas.GetComponent<C1MobileOrientationHint>(), Is.Null);
+            Assert.That(GameObject.Find("Rotate Device Overlay"), Is.Null);
         }
 
         [Test]
@@ -332,7 +321,7 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
-        public void Build_CharacterVisualLoadsSlicedAnimationFrames()
+        public void Build_CharacterVisualLoadsOfficialBuiltInCharacter()
         {
             bootstrap.Build(C1LevelLoader.LoadDefault());
 
@@ -340,9 +329,10 @@ namespace PaperGame.C1.Tests
             Assert.That(visual, Is.Not.Null);
             var animator = visual.GetComponent<C1CharacterAnimator2D>();
             Assert.That(animator, Is.Not.Null);
-            Assert.That(animator.IdleFrameCount, Is.EqualTo(6));
-            Assert.That(animator.RunFrameCount, Is.EqualTo(8));
-            Assert.That(animator.JumpFrameCount, Is.EqualTo(8));
+            Assert.That(animator.IdleFrameCount, Is.EqualTo(1));
+            Assert.That(animator.RunFrameCount, Is.EqualTo(1));
+            Assert.That(animator.JumpFrameCount, Is.EqualTo(1));
+            Assert.That(visual.GetComponent<SpriteRenderer>().sprite, Is.EqualTo(C1BuiltInCharacters.Sprite(C1CharacterLibrary.Load().selectedId)));
         }
 
         [Test]

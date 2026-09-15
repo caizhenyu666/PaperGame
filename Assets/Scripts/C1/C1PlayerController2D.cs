@@ -7,9 +7,12 @@ namespace PaperGame.C1
     {
         [SerializeField, Min(0f)] private float moveSpeed = 6f;
         [SerializeField, Min(0f)] private float jumpSpeed = 9f;
-        [SerializeField, Min(0.001f)] private float groundCheckDistance = 0.08f;
+        [SerializeField, Min(0.001f)] private float groundCheckDistance = 0.1f;
+        [SerializeField, Min(0.001f)] private float animationGroundCheckDistance = 2f;
+        private const float PinToGround = -0.1f;
 
         private readonly RaycastHit2D[] groundHits = new RaycastHit2D[4];
+        private readonly Collider2D[] overlapResults = new Collider2D[8];
         private Rigidbody2D body;
         private Collider2D bodyCollider;
         private bool jumpConsumed;
@@ -19,6 +22,7 @@ namespace PaperGame.C1
         public bool IsCompleted { get; private set; }
         public bool IsFallen { get; private set; }
         public bool IsGrounded { get; private set; }
+        public bool IsGroundedForAnimation { get; private set; }
         public float TouchHorizontalInput { get; private set; }
 
         private void Awake()
@@ -40,6 +44,7 @@ namespace PaperGame.C1
         private void FixedUpdate()
         {
             RefreshGroundedState();
+            PinToGroundIfGrounded();
         }
 
         public void ApplyHorizontalInput(float input)
@@ -94,6 +99,8 @@ namespace PaperGame.C1
             jumpSpeed = C1JumpPhysics.SpeedForHeight(height, downwardGravity);
         }
 
+        private bool wasGrounded;
+
         public void RefreshGroundedState()
         {
             CacheComponents();
@@ -104,12 +111,26 @@ namespace PaperGame.C1
                 layerMask = Physics2D.GetLayerCollisionMask(gameObject.layer)
             };
 
-            IsGrounded = bodyCollider.Cast(Vector2.down, filter, groundHits, groundCheckDistance) > 0 &&
-                         body.velocity.y <= 0.01f;
+            var colSize = bodyCollider.bounds.size;
+            var checkCenter = (Vector2)transform.position + (Vector2)bodyCollider.offset
+                              - Vector2.up * (colSize.y * 0.5f - 0.05f);
+            var checkSize = new Vector2(colSize.x * 0.8f, 0.3f);
+            IsGroundedForAnimation = Physics2D.OverlapBoxNonAlloc(checkCenter, checkSize, 0f, overlapResults) > 0;
 
-            if (IsGrounded)
+            IsGrounded = bodyCollider.Cast(Vector2.down, filter, groundHits, groundCheckDistance) > 0;
+
+            if (IsGrounded && !wasGrounded)
             {
                 jumpConsumed = false;
+            }
+            wasGrounded = IsGrounded;
+        }
+
+        private void PinToGroundIfGrounded()
+        {
+            if (IsGrounded && !jumpConsumed)
+            {
+                body.velocity = new Vector2(body.velocity.x, Mathf.Min(body.velocity.y, PinToGround));
             }
         }
 
@@ -150,7 +171,7 @@ namespace PaperGame.C1
 
             if (bodyCollider == null)
             {
-                bodyCollider = GetComponent<Collider2D>();
+                bodyCollider = GetComponent<BoxCollider2D>();
             }
         }
     }

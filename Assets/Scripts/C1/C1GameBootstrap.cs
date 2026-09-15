@@ -225,31 +225,26 @@ namespace PaperGame.C1
             visual.transform.SetParent(playerObject.transform, false);
             var renderer = visual.AddComponent<SpriteRenderer>();
             var characterAnimator = visual.AddComponent<C1CharacterAnimator2D>();
-            var idleFrames = LoadCharacterFrames("idle");
-            var runFrames = LoadCharacterFrames("run");
-            var jumpFrames = LoadCharacterFrames("jump");
-            characterAnimator.Configure(idleFrames, runFrames, jumpFrames);
-
-            if (idleFrames.Length == 0)
+            // 自定义角色下载失败时也保留正式默认角色，而不是旧的临时像素人物。
+            C1BuiltInCharacters.Apply(controller, C1BuiltInCharacters.Green);
+            if (renderer.sprite == null)
             {
                 renderer.sprite = GetWhiteSprite();
                 renderer.color = PlayerColor;
                 visual.transform.localScale = new Vector3(0.8f, 1.3f, 1f);
             }
-            else
-            {
-                renderer.color = Color.white;
-                var spriteHeight = Mathf.Max(0.01f, idleFrames[0].bounds.size.y);
-                var scale = 2.2f / spriteHeight;
-                visual.transform.localScale = new Vector3(scale, scale, 1f);
-            }
-
             return controller;
         }
 
         private void LoadSelectedCharacter(C1PlayerController2D targetPlayer)
         {
-            if (!Application.isPlaying || !TryGetSelectedCharacter(C1CharacterLibrary.Load(), out var record)) return;
+            var library = C1CharacterLibrary.Load();
+            if (C1BuiltInCharacters.IsBuiltIn(library.selectedId))
+            {
+                C1BuiltInCharacters.Apply(targetPlayer, library.selectedId);
+                return;
+            }
+            if (!Application.isPlaying || !TryGetSelectedCharacter(library, out var record)) return;
             var service = GetComponent<C1CharacterService>() ?? gameObject.AddComponent<C1CharacterService>();
             StartCoroutine(DownloadAndApplySelectedCharacter(service, record, targetPlayer));
         }
@@ -479,23 +474,6 @@ namespace PaperGame.C1
             photoCapture.Configure(preview, status);
             captureButton.onClick.AddListener(photoCapture.OpenCamera);
 
-            var orientationOverlay = new GameObject("Rotate Device Overlay", typeof(RectTransform), typeof(Image));
-            orientationOverlay.transform.SetParent(canvasObject.transform, false);
-            var overlayRect = orientationOverlay.GetComponent<RectTransform>();
-            overlayRect.anchorMin = Vector2.zero;
-            overlayRect.anchorMax = Vector2.one;
-            overlayRect.offsetMin = Vector2.zero;
-            overlayRect.offsetMax = Vector2.zero;
-            orientationOverlay.GetComponent<Image>().color = new Color(0.02f, 0.04f, 0.08f, 0.92f);
-
-            var rotateText = CreateText(orientationOverlay.transform, "Rotate Device Message", "请将手机旋转为横屏", 36, TextAnchor.MiddleCenter);
-            rotateText.color = Color.white;
-            rotateText.rectTransform.anchorMin = Vector2.zero;
-            rotateText.rectTransform.anchorMax = Vector2.one;
-            rotateText.rectTransform.offsetMin = Vector2.zero;
-            rotateText.rectTransform.offsetMax = Vector2.zero;
-
-            canvasObject.AddComponent<C1MobileOrientationHint>().Configure(orientationOverlay);
         }
 
         private static Button CreateHudButton(

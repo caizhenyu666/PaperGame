@@ -23,92 +23,70 @@ namespace PaperGame.C1
         private byte[] photoBytes;
         private bool busy, previewJump, forceRetry, retryDownload;
         private float previewTime;
-        private Sprite[] defaultIdle, defaultRun, defaultJump;
+
+        private Action returnHomeAction;
+        private Image runPreview, jumpPreview;
+        private bool previewRunning;
+        private Vector2 previewOrigin;
 
         public GameObject CreateScreen(Canvas canvas, Action returnHome)
         {
-            library = library ?? C1CharacterLibrary.Load();
+            library = C1CharacterLibrary.Load();
             service = GetComponent<C1CharacterService>() ?? gameObject.AddComponent<C1CharacterService>();
             font = C1UiFont.Load();
-            defaultIdle = Load("idle"); defaultRun = Load("run"); defaultJump = Load("jump");
-            screen = Panel(canvas.transform, "Character Selection", new Color(0.98f, 0.95f, 0.86f), 0, 0, 1, 1);
-            Label(screen.transform, "我的小主角", 42, .06f, .83f, .7f, .95f);
-            ButtonAt(screen.transform, "返回首页（暂不进入关卡）", .74f, .85f, .95f, .94f, () => returnHome());
-            selectedLabel = Label(screen.transform, "", 20, .06f, .77f, .9f, .83f);
-            var scrollRoot = Panel(screen.transform, "Characters", new Color(1, 1, 1, .7f), .05f, .2f, .4f, .75f);
-            scrollRoot.AddComponent<RectMask2D>();
-            var scroll = scrollRoot.AddComponent<ScrollRect>();
-            var content = new GameObject("Content", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
-            content.transform.SetParent(scrollRoot.transform, false);
-            var contentRect = content.GetComponent<RectTransform>();
-            contentRect.anchorMin = new Vector2(0, 1); contentRect.anchorMax = Vector2.one; contentRect.pivot = new Vector2(.5f, 1);
-            contentRect.sizeDelta = Vector2.zero;
-            var layout = content.GetComponent<VerticalLayoutGroup>(); layout.spacing = 12; layout.padding = new RectOffset(12, 12, 12, 12);
-            layout.childControlHeight = true; layout.childForceExpandHeight = false;
-            content.GetComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            scroll.content = contentRect; scroll.viewport = scrollRoot.GetComponent<RectTransform>(); scroll.horizontal = false;
-            list = content.transform;
-            var previewPanel = Panel(screen.transform, "Preview", Color.white, .44f, .29f, .94f, .75f);
-            preview = Panel(previewPanel.transform, "Animated Character", Color.white, .25f, .12f, .75f, .92f).GetComponent<Image>();
-            preview.preserveAspect = true; preview.raycastTarget = false;
-            nameLabel = Label(screen.transform, "默认主角", 26, .44f, .22f, .94f, .29f);
-            ButtonAt(screen.transform, "预览跑步", .46f, .13f, .64f, .21f, () => { previewJump = false; previewTime = 0; });
-            ButtonAt(screen.transform, "预览跳跃", .66f, .13f, .84f, .21f, () => { previewJump = true; previewTime = 0; });
-            create = ButtonAt(screen.transform, "拍照并创建新主角", .05f, .1f, .26f, .18f, () => capture.OpenCamera());
-            use = ButtonAt(screen.transform, "选中并用于关卡", .74f, .02f, .96f, .1f, Select);
-            retry = ButtonAt(screen.transform, "重试生成 / 查询进度", .29f, .1f, .45f, .18f, Retry);
-            status = Label(screen.transform, "先选已有主角，或点击“拍照并创建新主角”拍下完整的小人", 19, .05f, .015f, .73f, .085f);
+            returnHomeAction = returnHome;
+            var prefab = Resources.Load<GameObject>("C1UI/PaperGameCharacterSelection");
+            screen = prefab != null ? Instantiate(prefab, canvas.transform, false) : C1CharacterScreenLayout.Build(canvas.transform);
+            var rootRect = screen.GetComponent<RectTransform>();
+            rootRect.anchorMin = Vector2.zero; rootRect.anchorMax = Vector2.one;
+            rootRect.offsetMin = rootRect.offsetMax = Vector2.zero;
+            list = screen.transform.Find("Characters/Content");
+            preview = screen.transform.Find("Preview/Animated Character").GetComponent<Image>();
+            previewOrigin = preview.rectTransform.anchoredPosition;
+            runPreview = screen.transform.Find("Run/Character").GetComponent<Image>();
+            jumpPreview = screen.transform.Find("Jump/Character").GetComponent<Image>();
+            status = screen.transform.Find("Status").GetComponent<Text>();
+            nameLabel = screen.transform.Find("Name").GetComponent<Text>();
+            selectedLabel = screen.transform.Find("Selected").GetComponent<Text>();
+            Hook("Back", () => { if (!busy) returnHomeAction?.Invoke(); });
+            Hook("Run", () => { previewRunning = true; previewJump = false; previewTime = 0; });
+            Hook("Jump", () => { previewRunning = false; previewJump = true; previewTime = 0; });
+            create = Hook("Create", () => capture.OpenCamera());
+            Hook("Add Photo", () => { if (!busy) capture.OpenCamera(); });
+            use = Hook("Use", Select);
+            retry = Hook("Retry", Retry);
             var receiver = new GameObject("Character Photo Receiver " + GetInstanceID());
             receiver.transform.SetParent(screen.transform, false);
-            capture = receiver.AddComponent<C1PhotoCapture>(); capture.Configure(null, status); capture.PhotoCaptured += OnPhoto;
+            capture = receiver.AddComponent<C1PhotoCapture>();
+            capture.Configure(null, status); capture.PhotoCaptured += OnPhoto;
+            browsingId = requestedId = library.selectedId;
+            previewJump = previewRunning = false; previewTime = 0;
             RefreshList();
+            UpdatePreview();
+            if (!C1BuiltInCharacters.IsBuiltIn(browsingId) && Application.isPlaying)
+                StartCoroutine(Browse(browsingId, false));
             return screen;
+        }
+
+        private Button Hook(string name, UnityEngine.Events.UnityAction action)
+        {
+            var button = screen.transform.Find(name).GetComponent<Button>();
+            var graphic = button.GetComponent<Graphic>();
+            if (graphic != null) { graphic.raycastTarget = true; button.targetGraphic = graphic; }
+            button.onClick.AddListener(action);
+            return button;
         }
 
         public void Configure(Canvas canvas, GameObject homeScreen, C1PlayerController2D controller)
         {
-            library = library ?? C1CharacterLibrary.Load();
-            service = GetComponent<C1CharacterService>() ?? gameObject.AddComponent<C1CharacterService>();
             player = controller; home = homeScreen;
-            var startObject = home.transform.Find("Start Play").gameObject;
-            startPlay = startObject.GetComponent<Button>() ?? startObject.AddComponent<Button>();
-            font = C1UiFont.Load();
-            defaultIdle = Load("idle"); defaultRun = Load("run"); defaultJump = Load("jump");
-            screen = Panel(canvas.transform, "Character Selection", new Color(0.98f, 0.95f, 0.86f), 0, 0, 1, 1);
-            Label(screen.transform, "我的小主角", 42, .06f, .83f, .7f, .95f);
-            ButtonAt(screen.transform, "返回首页（暂不进入关卡）", .74f, .85f, .95f, .94f, () => screen.SetActive(false));
-            selectedLabel = Label(screen.transform, "", 20, .06f, .77f, .9f, .83f);
-            var scrollRoot = Panel(screen.transform, "Characters", new Color(1, 1, 1, .7f), .05f, .2f, .4f, .75f);
-            scrollRoot.AddComponent<RectMask2D>();
-            var scroll = scrollRoot.AddComponent<ScrollRect>();
-            var content = new GameObject("Content", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
-            content.transform.SetParent(scrollRoot.transform, false);
-            var contentRect = content.GetComponent<RectTransform>();
-            contentRect.anchorMin = new Vector2(0, 1); contentRect.anchorMax = Vector2.one; contentRect.pivot = new Vector2(.5f, 1);
-            contentRect.sizeDelta = Vector2.zero;
-            var layout = content.GetComponent<VerticalLayoutGroup>(); layout.spacing = 12; layout.padding = new RectOffset(12,12,12,12);
-            layout.childControlHeight = true; layout.childForceExpandHeight = false;
-            content.GetComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            scroll.content = contentRect; scroll.viewport = scrollRoot.GetComponent<RectTransform>(); scroll.horizontal = false;
-            list = content.transform;
-            var previewPanel = Panel(screen.transform, "Preview", Color.white, .44f, .29f, .94f, .75f);
-            preview = Panel(previewPanel.transform, "Animated Character", Color.white, .25f, .12f, .75f, .92f).GetComponent<Image>();
-            preview.preserveAspect = true; preview.raycastTarget = false;
-            nameLabel = Label(screen.transform, "默认主角", 26, .44f, .22f, .94f, .29f);
-            ButtonAt(screen.transform, "预览跑步", .46f, .13f, .64f, .21f, () => { previewJump = false; previewTime = 0; });
-            ButtonAt(screen.transform, "预览跳跃", .66f, .13f, .84f, .21f, () => { previewJump = true; previewTime = 0; });
-            create = ButtonAt(screen.transform, "拍照并创建新主角", .05f, .1f, .26f, .18f, () => capture.OpenCamera());
-            use = ButtonAt(screen.transform, "选中并用于关卡", .74f, .02f, .96f, .1f, Select);
-            retry = ButtonAt(screen.transform, "重试生成 / 查询进度", .29f, .1f, .45f, .18f, Retry);
-            status = Label(screen.transform, "先选已有主角，或点击“拍照并创建新主角”拍下完整的小人", 19, .05f, .015f, .73f, .085f);
-            var receiver = new GameObject("Character Photo Receiver " + GetInstanceID());
-            receiver.transform.SetParent(screen.transform, false);
-            capture = receiver.AddComponent<C1PhotoCapture>(); capture.Configure(null, status); capture.PhotoCaptured += OnPhoto;
-            ButtonAt(home.transform, "创建主角", .04f, .06f, .25f, .16f, Show);
+            startPlay = home.transform.Find("Start Play").GetComponent<Button>();
+            CreateScreen(canvas, () => { screen.SetActive(false); home.SetActive(true); });
+            var createObject = home.transform.Find("Create Role");
+            if (createObject != null) createObject.GetComponent<Button>().onClick.AddListener(Show);
             screen.SetActive(false);
-            RefreshList();
-            if (cache.ContainsKey(library.selectedId)) Apply(library.selectedId);
-            else if (library.selectedId != "default" && Application.isPlaying) StartCoroutine(Browse(library.selectedId, true));
+            if (C1BuiltInCharacters.IsBuiltIn(library.selectedId)) Apply(library.selectedId);
+            else if (Application.isPlaying) StartCoroutine(Browse(library.selectedId, true));
             PauseAtHome();
         }
         public void StartPlaying()
@@ -129,29 +107,74 @@ namespace PaperGame.C1
         }
         private void RefreshList()
         {
+            Debug.Log("[RefreshList] Starting, list=" + (list != null ? "valid" : "NULL") + ", browsingId=" + browsingId + ", cache entries=" + cache.Count);
             for (var i = list.childCount - 1; i >= 0; i--)
             {
                 var child = list.GetChild(i).gameObject; child.SetActive(false);
                 if (Application.isPlaying) Destroy(child); else DestroyImmediate(child);
             }
-            AddRow("default", "默认主角");
-            for (var i = 0; i < library.characters.Count; i++) AddRow(library.characters[i].characterId, "我的涂鸦 " + (i + 1));
-            selectedLabel.text = "已选：" + DisplayName(library.selectedId) + "   ·   角色记录保存在当前浏览器";
+            var priorityId = library.selectedId;
+            if (!C1BuiltInCharacters.IsBuiltIn(priorityId) && !library.characters.Exists(x => x.characterId == priorityId))
+                priorityId = C1BuiltInCharacters.Green;
+            Debug.Log("[RefreshList] priorityId=" + priorityId + ", total characters=" + (2 + library.characters.Count));
+            var ordered = new List<KeyValuePair<string, string>>();
+            ordered.Add(new KeyValuePair<string, string>(C1BuiltInCharacters.Green, C1BuiltInCharacters.Name(C1BuiltInCharacters.Green)));
+            ordered.Add(new KeyValuePair<string, string>(C1BuiltInCharacters.Chick, C1BuiltInCharacters.Name(C1BuiltInCharacters.Chick)));
+            for (var i = 0; i < library.characters.Count; i++)
+                ordered.Add(new KeyValuePair<string, string>(library.characters[i].characterId, "我的涂鸦 " + (i + 1)));
+            ordered.RemoveAll(x => x.Key == priorityId);
+            ordered.Insert(0, new KeyValuePair<string, string>(priorityId, DisplayName(priorityId)));
+            foreach (var entry in ordered) AddRow(entry.Key, entry.Value);
+            selectedLabel.text = "";
+            Debug.Log("[RefreshList] Done, created " + ordered.Count + " rows");
         }
         private void AddRow(string id, string title)
         {
-            var button = ButtonAt(list, title + (library.selectedId == id ? "  ✓" : ""), 0, 0, 1, 1,
-                () => { if (!busy) StartCoroutine(Browse(id, false)); });
-            button.gameObject.AddComponent<LayoutElement>().preferredHeight = 100;
-            var icon = Panel(button.transform, "Thumbnail", Color.white, .02f, .08f, .24f, .92f).GetComponent<Image>();
+            var button = ButtonAt(list, title, 0, 0, 1, 1,
+                () => BrowseCharacter(id));
+            button.GetComponent<Image>().sprite = C1CharacterScreenLayout.Art("paper");
+            button.GetComponent<Image>().color = Color.white;
+            button.transform.GetChild(0).gameObject.SetActive(false);
+            button.gameObject.AddComponent<LayoutElement>().preferredHeight = 170;
+            var icon = Panel(button.transform, "Thumbnail", Color.white, .12f, .02f, .57f, .92f).GetComponent<Image>();
             icon.preserveAspect = true; icon.raycastTarget = false;
-            icon.sprite = id == "default" ? defaultIdle[0] : cache.ContainsKey(id) ? cache[id].run[0] : null;
+            if (C1BuiltInCharacters.IsBuiltIn(id))
+            {
+                icon.sprite = C1CharacterScreenLayout.Art(id == C1BuiltInCharacters.Chick ? "chick-thumbnail" : "green-thumbnail");
+            }
+            else if (cache.ContainsKey(id) && cache[id].run != null && cache[id].run.Length > 0)
+            {
+                icon.sprite = cache[id].run[0];
+            }
+            else
+            {
+                var record = library.characters.Find(x => x.characterId == id);
+                icon.sprite = service.LoadThumbnail(id, record);
+            }
             icon.enabled = icon.sprite != null;
+            Debug.Log("[AddRow] id=" + id + ", title=" + title + ", sprite=" + (icon.sprite != null ? icon.sprite.name : "NULL") + ", enabled=" + icon.enabled);
+            var selected = Panel(button.transform, "Selection", Color.white, 0, 0, 1, 1).GetComponent<Image>();
+            selected.sprite = C1CharacterScreenLayout.Art("selected"); selected.raycastTarget = false;
+            selected.enabled = browsingId == id;
+            var star = Panel(button.transform, "Star", Color.white, .77f, .35f, .93f, .8f).GetComponent<Image>();
+            star.sprite = C1CharacterScreenLayout.Art(library.selectedId == id ? "star-on" : "star-off");
+            star.preserveAspect = true; star.raycastTarget = false;
+            if (!C1BuiltInCharacters.IsBuiltIn(id)) Label(button.transform, title, 20, .52f, .1f, .76f, .9f);
         }
-        private string DisplayName(string id) => id == "default" ? "默认主角" : "我的涂鸦 " + (library.characters.FindIndex(x => x.characterId == id) + 1);
+        private string DisplayName(string id) => C1BuiltInCharacters.IsBuiltIn(id) ? C1BuiltInCharacters.Name(id) : "我的涂鸦 " + (library.characters.FindIndex(x => x.characterId == id) + 1);
+        private void BrowseCharacter(string id)
+        {
+            if (busy) return;
+            if (!C1BuiltInCharacters.IsBuiltIn(id)) { StartCoroutine(Browse(id, false)); return; }
+            browsingId = requestedId = id;
+            previewTime = 0; previewRunning = previewJump = retryDownload = false;
+            status.text = "";
+            UpdatePreview(); RefreshList();
+        }
         private void SetBusy(bool value)
         {
             busy = value; create.interactable = !value; use.interactable = !value; retry.interactable = !value;
+            foreach (var name in new[] { "Back", "Add Photo", "Run", "Jump" }) screen.transform.Find(name).GetComponent<Button>().interactable = !value;
             if (startPlay != null) startPlay.interactable = !value;
         }
         private IEnumerator Browse(string id, bool apply)
@@ -160,17 +183,53 @@ namespace PaperGame.C1
             retryDownload = false;
             SetBusy(true);
             var downloadOk = true;
-            if (id != "default" && !cache.ContainsKey(id))
+            if (!C1BuiltInCharacters.IsBuiltIn(id) && !cache.ContainsKey(id))
             {
-                status.text = "正在加载主角动画…";
+                Debug.Log("[Browse] Loading character: " + id + ", cache has " + cache.Count + " entries");
                 var record = library.characters.Find(x => x.characterId == id);
-                yield return service.Download(record, frames => cache[id] = frames, message => status.text = message);
-                if (!cache.ContainsKey(id)) { retryDownload = true; downloadOk = false; status.text += "\n\u70b9\u51fb\u201c\u91cd\u8bd5\u751f\u6210 / \u67e5\u8be2\u8fdb\u5ea6\u201d\u53ef\u4ee5\u91cd\u65b0\u4e0b\u8f7d"; }
+                if (record == null) { status.text = "找不到该角色，请重新选择"; SetBusy(false); yield break; }
+                Debug.Log("[Browse] Found record, jobId=" + record.jobId + ", trying local cache...");
+                if (service.TryLoadFrames(id, record, out var cached))
+                {
+                    Debug.Log("[Browse] Local cache HIT for " + id + ", run frames=" + cached.run.Length + ", jump frames=" + cached.jump.Length);
+                    cache[id] = cached;
+                    status.text = "";
+                    browsingId = id; previewTime = 0; previewJump = previewRunning = false;
+                    nameLabel.text = "";
+                    UpdatePreview();
+                    if (apply) Apply(id);
+                    RefreshList();
+                    SetBusy(false);
+                    yield break;
+                }
+                else
+                {
+                    Debug.Log("[Browse] Local cache MISS for " + id + ", downloading from server...");
+                    status.text = "正在加载主角动画…";
+                    yield return service.Download(record, frames => {
+                        Debug.Log("[Browse] Download complete for " + id + ", run=" + frames.run.Length + " frames, jump=" + frames.jump.Length + " frames");
+                        cache[id] = frames;
+                        service.SaveFrames(id, frames);
+                    }, message => {
+                        Debug.LogWarning("[Browse] Download progress/error: " + message);
+                        status.text = message;
+                    });
+                }
+                if (!cache.ContainsKey(id)) {
+                    Debug.LogWarning("[Browse] Cache still empty after download attempt for " + id);
+                    retryDownload = true; downloadOk = false; status.text += "\n\u70b9\u51fb\u201c\u91cd\u8bd5\u751f\u6210 / \u67e5\u8be2\u8fdb\u5ea6\u201d\u53ef\u4ee5\u91cd\u65b0\u4e0b\u8f7d";
+                }
+            }
+            else
+            {
+                Debug.Log("[Browse] Character " + id + " already in cache or is built-in");
             }
             if (downloadOk)
             {
-                browsingId = id; previewTime = 0; previewJump = false;
-                nameLabel.text = DisplayName(id); status.text = "\u53ef\u70b9\u51fb\u201c\u9884\u89c8\u8dd1\u6b65\u201d\u6216\u201c\u9884\u89c8\u8df3\u8dc3\u201d\uff0c\u518d\u70b9\u51fb\u201c\u9009\u4e2d\u5e76\u7528\u4e8e\u5173\u5361\u201d\u5b8c\u6210\u9009\u62e9";
+                Debug.Log("[Browse] Updating UI for " + id + ", cache now has " + cache.Count + " entries");
+                browsingId = id; previewTime = 0; previewJump = previewRunning = false;
+                nameLabel.text = ""; status.text = "";
+                UpdatePreview();
                 if (apply) Apply(id);
                 RefreshList();
             }
@@ -214,7 +273,10 @@ namespace PaperGame.C1
                 library.Add(result);
                 yield return Browse(result.characterId, false);
                 if (cache.ContainsKey(result.characterId))
+                {
+                    photoBytes = null; forceRetry = false;
                     status.text = "\u2713 \u751f\u6210\u6210\u529f\uff01\u5df2\u6dfb\u52a0\u5230\u89d2\u8272\u5217\u8868\uff0c\u70b9\u51fb\u201c\u9009\u4e2d\u5e76\u7528\u4e8e\u5173\u5361\u201d\u5373\u53ef\u4f7f\u7528";
+                }
             }
             else
             {
@@ -227,39 +289,50 @@ namespace PaperGame.C1
             if (busy) return;
             library.selectedId = browsingId; library.Save(); Apply(browsingId); RefreshList();
             status.text = "已选择“" + DisplayName(browsingId) + "”，返回首页后点击“开始游戏”即可使用它";
+            returnHomeAction?.Invoke();
         }
         private void Apply(string id)
         {
             if (player == null) return;
-            var visual = player.transform.Find("Character Visual");
-            var animator = visual.GetComponent<C1CharacterAnimator2D>();
-            if (id == "default")
-            {
-                // Restore authored default animation speeds as well as its frames.
-                animator.ConfigureRemote(defaultRun, defaultJump, 10, 10);
-                animator.Configure(defaultIdle, defaultRun, defaultJump);
-                var scale = 2.2f / defaultIdle[0].bounds.size.y;
-                visual.localScale = Vector3.one * scale; visual.localPosition = Vector3.zero;
-            }
-            else
-            {
-                var frames = cache[id]; animator.ConfigureRemote(frames.run, frames.jump, frames.runFps, frames.jumpFps);
-                var scale = 2.2f / frames.run[0].bounds.size.y;
-                visual.localScale = Vector3.one * scale;
-                visual.localPosition = new Vector3(0, -player.GetComponent<BoxCollider2D>().size.y / 2, 0);
-            }
-            visual.GetComponent<SpriteRenderer>().color = Color.white;
+            if (C1BuiltInCharacters.IsBuiltIn(id)) { C1BuiltInCharacters.Apply(player, id); return; }
+            if (cache.TryGetValue(id, out var frames)) C1GameBootstrap.ApplyRemoteCharacter(player, frames);
         }
         private void Update()
         {
             if (screen == null || !screen.activeSelf) return;
-            var frames = previewJump ? defaultJump : defaultRun;
-            var fps = 10f;
-            if (browsingId != "default" && cache.TryGetValue(browsingId, out var remote))
-            { frames = previewJump ? remote.jump : remote.run; fps = previewJump ? remote.jumpFps : remote.runFps; }
-            if (frames.Length == 0) return;
             previewTime += Time.unscaledDeltaTime;
-            preview.sprite = frames[(int)(previewTime * fps) % frames.Length];
+            UpdatePreview();
+        }
+        private void UpdatePreview()
+        {
+            if (preview == null) return;
+            retry.gameObject.SetActive(retryDownload || forceRetry || !string.IsNullOrEmpty(library.pendingJobId) || photoBytes != null);
+            var sprite = C1BuiltInCharacters.Sprite(browsingId);
+            var run = sprite; var jump = sprite;
+            if (browsingId == C1BuiltInCharacters.Green)
+            {
+                run = C1CharacterScreenLayout.Art("green-run"); jump = C1CharacterScreenLayout.Art("green-jump");
+                if (previewJump) sprite = jump;
+                else if (previewRunning) sprite = run;
+            }
+            if (!C1BuiltInCharacters.IsBuiltIn(browsingId))
+            {
+                sprite = run = jump = null;
+                if (cache.TryGetValue(browsingId, out var remote))
+                {
+                    run = remote.run[(int)(previewTime * remote.runFps) % remote.run.Length];
+                    jump = remote.jump[Mathf.Min((int)(previewTime * remote.jumpFps), remote.jump.Length - 1)];
+                    sprite = previewJump ? jump : run;
+                }
+            }
+            preview.sprite = sprite; preview.enabled = sprite != null;
+            runPreview.sprite = run; jumpPreview.sprite = jump;
+            runPreview.enabled = run != null; jumpPreview.enabled = jump != null;
+            var jumpOffset = previewJump ? Mathf.Sin(Mathf.Clamp01(previewTime / .8f) * Mathf.PI) * 95f : 0;
+            var runOffset = previewRunning ? Mathf.Sin(previewTime * 3f) * 75f : 0;
+            preview.rectTransform.anchoredPosition = previewOrigin + new Vector2(runOffset, jumpOffset);
+            preview.rectTransform.localEulerAngles = new Vector3(0, 0, previewRunning ? Mathf.Sin(previewTime * 14) * 4 : 0);
+            if (previewJump && previewTime > .8f) previewJump = false;
         }
         private void OnDestroy() { foreach (var frames in cache.Values) frames.Dispose(); }
         private static Sprite[] Load(string action)

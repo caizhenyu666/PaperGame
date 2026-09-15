@@ -29,7 +29,7 @@ namespace PaperGame.C1
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             var scaler = canvasObject.GetComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1280f, 720f);
+            scaler.referenceResolution = new Vector2(1920f, 1080f);
             scaler.matchWidthOrHeight = 0.5f;
 
             var prefab = Resources.Load<GameObject>("C1UI/PaperGameHome");
@@ -48,9 +48,9 @@ namespace PaperGame.C1
             homeRect.offsetMax = Vector2.zero;
 
             characterSelection = GetComponent<C1CharacterSelection>() ?? gameObject.AddComponent<C1CharacterSelection>();
-            CreateHomeButton("创建主角", new Vector2(.04f, .06f), new Vector2(.25f, .16f), ShowCharacterCreation);
-            CreateHomeButton("拍照创建关卡", new Vector2(.28f, .06f), new Vector2(.51f, .16f), () => ShowLevels(true));
             FindButton("Start Play").onClick.AddListener(StartGame);
+            FindButton("Create Role").onClick.AddListener(ShowCharacterCreation);
+            FindButton("Capture Level").onClick.AddListener(() => ShowLevels(true));
 
             if (FindObjectOfType<EventSystem>() == null)
             {
@@ -95,33 +95,6 @@ namespace PaperGame.C1
             HomeScreen.SetActive(false);
             LevelScreen = C1LevelSelection.Panel(canvas.transform, "Level Selection " + GetInstanceID(), 0, 0, 1, 1);
             LevelScreen.AddComponent<C1LevelSelection>().Configure(ReturnHome, createImmediately);
-        }
-
-        private void CreateHomeButton(string title, Vector2 anchorMin, Vector2 anchorMax, UnityEngine.Events.UnityAction action)
-        {
-            var buttonObject = new GameObject(title, typeof(RectTransform), typeof(Image), typeof(Button));
-            buttonObject.transform.SetParent(HomeScreen.transform, false);
-            var rect = buttonObject.GetComponent<RectTransform>();
-            rect.anchorMin = anchorMin;
-            rect.anchorMax = anchorMax;
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
-            buttonObject.GetComponent<Image>().color = new Color(.82f, .9f, .77f);
-            buttonObject.GetComponent<Button>().onClick.AddListener(action);
-
-            var labelObject = new GameObject("Label", typeof(RectTransform), typeof(Text));
-            labelObject.transform.SetParent(buttonObject.transform, false);
-            var labelRect = labelObject.GetComponent<RectTransform>();
-            labelRect.anchorMin = Vector2.zero;
-            labelRect.anchorMax = Vector2.one;
-            labelRect.offsetMin = Vector2.zero;
-            labelRect.offsetMax = Vector2.zero;
-            var label = labelObject.GetComponent<Text>();
-            label.font = C1UiFont.Load();
-            label.text = title;
-            label.alignment = TextAnchor.MiddleCenter;
-            label.color = new Color(.22f, .26f, .24f);
-            label.raycastTarget = false;
         }
 
         private Button FindButton(string name)

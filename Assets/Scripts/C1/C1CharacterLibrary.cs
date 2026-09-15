@@ -33,7 +33,7 @@ namespace PaperGame.C1
                 if (library == null) return new C1CharacterLibrary();
                 if (library.characters == null) library.characters = new List<C1CharacterRecord>();
                 library.characters.RemoveAll(x => x == null || string.IsNullOrEmpty(x.characterId));
-                if (!library.characters.Exists(x => x.characterId == library.selectedId)) library.selectedId = "default";
+                if (!C1BuiltInCharacters.IsBuiltIn(library.selectedId) && !library.characters.Exists(x => x.characterId == library.selectedId)) library.selectedId = "default";
                 return library;
             }
             catch (Exception) { return new C1CharacterLibrary(); }

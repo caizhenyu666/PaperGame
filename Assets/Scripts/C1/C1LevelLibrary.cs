@@ -111,7 +111,10 @@ namespace PaperGame.C1
         public C1LevelDefinition Read(string id, out Texture2D background)
         {
             var folder = Folder(id);
-            var response = C1LevelService.Parse(File.ReadAllText(Path.Combine(folder, "response.json")));
+            var responseJsonPath = Path.Combine(folder, "response.json");
+            var responseText = File.ReadAllText(responseJsonPath);
+            Debug.Log($"[C1Level] Loaded {responseJsonPath}\n{responseText}");
+            var response = C1LevelService.Parse(responseText);
             var level = C1LevelService.ParsePlayableGeometry(response, out var error);
             if (level == null) throw new ArgumentException(error);
             background = DecodeBackground(File.ReadAllBytes(Path.Combine(folder, "background.png")), level.CanvasPixelSize);

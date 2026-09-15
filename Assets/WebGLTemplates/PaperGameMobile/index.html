@@ -7,6 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="TemplateData/favicon.ico">
     <link rel="manifest" href="manifest.json">
     <title>{{{ PRODUCT_NAME }}}</title>
     <link rel="stylesheet" href="TemplateData/style.css">
@@ -21,6 +22,7 @@
       <div id="build-time">出包时间：__PAPERGAME_BUILD_TIME__</div>
     </div>
     <button id="fullscreen-btn" onclick="enterFullscreen()">全屏</button>
+
     <script>
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
@@ -28,47 +30,25 @@
       var warningBanner = document.querySelector("#unity-warning");
       var fullscreenBtn = document.getElementById("fullscreen-btn");
 
+      /* PWA standalone 模式下隐藏全屏按钮 */
+      if (window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone) {
+        fullscreenBtn.style.display = "none";
+      }
+
       function unityShowBanner(message, type) {
         var item = document.createElement("div");
         item.textContent = message;
         item.className = type === "error" ? "error" : "warning";
         warningBanner.appendChild(item);
-
         if (type !== "error") {
-          setTimeout(function () {
-            item.remove();
-          }, 5000);
+          setTimeout(function () { item.remove(); }, 5000);
         }
       }
 
-      /* 全屏：用户点击触发，HTTPS/localhost 下生效 */
       function enterFullscreen() {
         var el = document.documentElement;
         var fn = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
-        if (fn) {
-          fn.call(el).catch(function () {});
-        }
-        fullscreenBtn.style.display = "none";
-      }
-
-      /* 横屏锁定 */
-      (function () {
-        var locked = false;
-        function lockLandscape() {
-          if (locked) return;
-          var so = screen.orientation;
-          if (so && so.lock) {
-            so.lock("landscape").catch(function () {});
-            locked = true;
-          }
-        }
-        ["click", "touchstart"].forEach(function (evt) {
-          document.addEventListener(evt, function () { lockLandscape(); }, { once: true, passive: true });
-        });
-      })();
-
-      /* PWA standalone 模式下隐藏全屏按钮（已经无地址栏了） */
-      if (window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone) {
+        if (fn) { fn.call(el).catch(function () {}); }
         fullscreenBtn.style.display = "none";
       }
 
@@ -77,17 +57,8 @@
       var config = {
         dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
         frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
-#if USE_THREADS
-        workerUrl: buildUrl + "/{{{ WORKER_FILENAME }}}",
-#endif
 #if USE_WASM
         codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
-#endif
-#if MEMORY_FILENAME
-        memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
-#endif
-#if SYMBOLS_FILENAME
-        symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
 #endif
         streamingAssetsUrl: "StreamingAssets",
         companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
@@ -96,11 +67,7 @@
         showBanner: unityShowBanner
       };
 
-#if BACKGROUND_FILENAME
-      canvas.style.background = "url('" + buildUrl + "/{{{ BACKGROUND_FILENAME.replace(/'/g, '%27') }}}') center / cover";
-#endif
       loadingBar.style.display = "block";
-
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = function () {

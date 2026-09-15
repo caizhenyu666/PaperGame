@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c20a273ab254fcbb463f055925f0e49, type: 3}
   m_Name: C1WebGLBuildSettings
   m_EditorClassIdentifier: 
-  characterServiceBaseUrl: http://scjjysd.xyz:8000
+  characterServiceBaseUrl: https://scjjysd.xyz:8443
   webGlOutputPath: Builds/C1WebGL
