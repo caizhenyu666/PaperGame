@@ -19,6 +19,7 @@ namespace PaperGame.C1
         private C1CharacterFrames selectedCharacterFrames;
         private Texture2D localBackground;
         private Sprite backgroundSprite;
+        private Sprite paperBackdropSprite;
 
         public int GroundCount { get; private set; }
         public C1PlayerController2D Player { get; private set; }
@@ -79,9 +80,7 @@ namespace PaperGame.C1
             if (animator == null || renderer == null || collider == null) return false;
 
             animator.ConfigureRemote(frames.run, frames.jump, frames.runFps, frames.jumpFps);
-            var scale = 2.2f / Mathf.Max(0.01f, frames.run[0].bounds.size.y);
-            visual.localScale = Vector3.one * scale;
-            visual.localPosition = new Vector3(0f, -collider.size.y / 2f, 0f);
+            C1CharacterSizing.Apply(visual, collider, frames.run[0].bounds.size.y);
             renderer.color = Color.white;
             return true;
         }
@@ -140,7 +139,7 @@ namespace PaperGame.C1
             }
 
             var playerStart = C1LevelSpace.PixelToWorld(level.PlayerStart, level.CanvasPixelSize);
-            if (level.PlayerStartIsFeet) playerStart.y += .65f + C1LevelSpace.GroundThickness * .5f;
+            if (level.PlayerStartIsFeet) playerStart.y += C1CharacterSizing.Height * .5f + C1LevelSpace.GroundThickness * .5f;
             Player = CreatePlayer(playerStart);
             LoadSelectedCharacter(Player);
             Goal = CreateGoal(level);
@@ -151,13 +150,28 @@ namespace PaperGame.C1
             fallWatcher.Configure(Player, framing.Center.y - framing.OrthographicSize - 0.5f);
             fallWatcher.Fell += HandlePlayerFell;
             CreateHud();
-            HudCanvas.gameObject.AddComponent<C1PlaytestTuningPanel>().Configure(Player, level);
             hasBuilt = true;
             return true;
         }
 
         private void CreateBackground(Texture2D texture, Vector2Int canvasPixelSize)
         {
+            var paperTexture = Resources.Load<Texture2D>("C1GameUI/paper-background");
+            if (paperTexture != null)
+            {
+                var backdrop = new GameObject("Paper Backdrop");
+                backdrop.transform.SetParent(generatedRoot, false);
+                backdrop.transform.position = C1LevelSpace.CanvasWorldSize(canvasPixelSize) * .5f;
+                var backdropRenderer = backdrop.AddComponent<SpriteRenderer>();
+                paperBackdropSprite = Sprite.Create(paperTexture, new Rect(0, 0, paperTexture.width, paperTexture.height),
+                    new Vector2(.5f, .5f), C1LevelSpace.PixelsPerUnit);
+                backdropRenderer.sprite = paperBackdropSprite;
+                backdropRenderer.sortingOrder = -110;
+                var canvasWorldSize = C1LevelSpace.CanvasWorldSize(canvasPixelSize);
+                var cover = Mathf.Max(canvasWorldSize.x / paperBackdropSprite.bounds.size.x,
+                    canvasWorldSize.y / paperBackdropSprite.bounds.size.y) * 1.35f;
+                backdrop.transform.localScale = Vector3.one * cover;
+            }
             var background = new GameObject("Paper Background");
             background.transform.SetParent(generatedRoot, false);
             background.transform.position = C1LevelSpace.CanvasWorldSize(canvasPixelSize) * 0.5f;
@@ -214,7 +228,7 @@ namespace PaperGame.C1
             playerObject.transform.position = position;
             playerObject.transform.SetParent(generatedRoot, true);
             var collider = playerObject.AddComponent<BoxCollider2D>();
-            collider.size = new Vector2(0.8f, 1.3f);
+            collider.size = new Vector2(C1CharacterSizing.Width, C1CharacterSizing.Height);
             var body = playerObject.AddComponent<Rigidbody2D>();
             body.gravityScale = 3f;
             body.freezeRotation = true;
@@ -231,7 +245,7 @@ namespace PaperGame.C1
             {
                 renderer.sprite = GetWhiteSprite();
                 renderer.color = PlayerColor;
-                visual.transform.localScale = new Vector3(0.8f, 1.3f, 1f);
+                visual.transform.localScale = new Vector3(C1CharacterSizing.Width, C1CharacterSizing.Height, 1f);
             }
             return controller;
         }
@@ -319,7 +333,7 @@ namespace PaperGame.C1
             }
 
             sceneCamera.orthographic = true;
-            sceneCamera.backgroundColor = new Color(0.88f, 0.94f, 1f);
+            sceneCamera.backgroundColor = new Color(0.96f, 0.93f, 0.82f);
             sceneCamera.clearFlags = CameraClearFlags.SolidColor;
 
             var oldFollow = sceneCamera.GetComponent<C1FollowCamera>();
@@ -363,28 +377,15 @@ namespace PaperGame.C1
 
         private void CreateHud()
         {
-            var canvasObject = new GameObject("C1 HUD", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-            canvasObject.transform.SetParent(generatedRoot, false);
+            var prefab = Resources.Load<GameObject>("C1UI/PaperGameGameHUD");
+            if (prefab == null) throw new InvalidOperationException("正式关卡 HUD 预制体缺失");
+            var canvasObject = Instantiate(prefab, generatedRoot, false);
+            canvasObject.name = "C1 HUD";
             HudCanvas = canvasObject.GetComponent<Canvas>();
-            HudCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-
-            var scaler = canvasObject.GetComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1280f, 720f);
-            scaler.matchWidthOrHeight = 0.5f;
-
-            var instruction = CreateText(canvasObject.transform, "Instruction", "Move: A/D or Arrow Keys | Jump: Space", 24, TextAnchor.UpperLeft);
-            var instructionRect = instruction.rectTransform;
-            instructionRect.anchorMin = new Vector2(0f, 1f);
-            instructionRect.anchorMax = new Vector2(0f, 1f);
-            instructionRect.pivot = new Vector2(0f, 1f);
-            instructionRect.anchoredPosition = new Vector2(24f, -20f);
-            instructionRect.sizeDelta = new Vector2(620f, 50f);
-            instruction.color = new Color(0.08f, 0.1f, 0.14f);
+            canvasObject.GetComponent<C1GameHudController>().Configure(Player, C1GameSession.Instance.CurrentPageNumber, ReturnHome);
 
             CompletionPanel = CreateResultPanel(canvasObject.transform, "Completion Panel", "Goal Reached!", new Color(0.1f, 0.38f, 0.16f));
             FailurePanel = CreateResultPanel(canvasObject.transform, "Failure Panel", "You Fell!", new Color(0.55f, 0.1f, 0.1f));
-            CreateMobileHud(canvasObject);
 
             if (FindObjectOfType<EventSystem>() == null)
             {
@@ -584,6 +585,8 @@ namespace PaperGame.C1
         {
             C1LevelLibrary.Release(backgroundSprite);
             backgroundSprite = null;
+            C1LevelLibrary.Release(paperBackdropSprite);
+            paperBackdropSprite = null;
             C1LevelLibrary.Release(localBackground);
             localBackground = null;
             selectedCharacterFrames?.Dispose();

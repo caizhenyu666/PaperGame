@@ -38,10 +38,17 @@ namespace PaperGame.C1.Editor
         public static void GenerateAndRender()
         {
             Generate();
+            RenderPreview(1920, 1080, "character-selection-preview.png");
+            RenderPreview(1094, 1016, "character-selection-preview-square.png");
+            RenderPreview(2560, 1080, "character-selection-preview-ultrawide.png");
+        }
+
+        private static void RenderPreview(int width, int height, string filename)
+        {
             var root = new GameObject("Character UI Render", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler));
             var cameraObject = new GameObject("Character UI Camera", typeof(Camera));
-            var target = new RenderTexture(1920, 1080, 24);
-            var texture = new Texture2D(1920, 1080, TextureFormat.RGBA32, false);
+            var target = new RenderTexture(width, height, 24);
+            var texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
             var previous = RenderTexture.active;
             try
             {
@@ -58,11 +65,13 @@ namespace PaperGame.C1.Editor
                 rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one; rect.offsetMin = rect.offsetMax = Vector2.zero;
                 screen.transform.Find("Retry").gameObject.SetActive(false);
                 Canvas.ForceUpdateCanvases();
+                screen.GetComponent<C1CharacterScreenFit>().RefreshLayout();
+                Canvas.ForceUpdateCanvases();
                 camera.Render(); RenderTexture.active = target;
-                texture.ReadPixels(new Rect(0, 0, 1920, 1080), 0, 0); texture.Apply();
+                texture.ReadPixels(new Rect(0, 0, width, height), 0, 0); texture.Apply();
                 Directory.CreateDirectory("Docs/ui");
-                File.WriteAllBytes("Docs/ui/character-selection-preview.png", texture.EncodeToPNG());
-                Debug.Log("Rendered character-selection-preview.png at 1920x1080");
+                File.WriteAllBytes("Docs/ui/" + filename, texture.EncodeToPNG());
+                Debug.Log("Rendered " + filename + " at " + width + "x" + height);
             }
             finally
             {

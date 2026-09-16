@@ -56,6 +56,7 @@ namespace PaperGame.C1
             TextAt(t, "Selected", "", 20, 120, 780, 470, 40);
             var retry = TextAt(t, "Retry", "重试 / 查询进度", 22, 1450, 800, 350, 40);
             retry.gameObject.AddComponent<Button>();
+            root.AddComponent<C1CharacterScreenFit>();
             return root;
         }
 

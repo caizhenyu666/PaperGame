@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace PaperGame.C1
 {
@@ -44,11 +43,16 @@ namespace PaperGame.C1
             return player != null && player.TryJump();
         }
 
-        private void OnDisable()
+        public void ClearInput()
         {
             leftPressed = false;
             rightPressed = false;
             ApplyDirection();
+        }
+
+        private void OnDisable()
+        {
+            ClearInput();
         }
 
         private void ApplyDirection()
@@ -62,78 +66,4 @@ namespace PaperGame.C1
         }
     }
 
-    public sealed class C1TouchDirectionButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
-    {
-        private C1MobileControls controls;
-        private bool movesLeft;
-
-        public void Configure(C1MobileControls mobileControls, bool isLeft)
-        {
-            controls = mobileControls;
-            movesLeft = isLeft;
-        }
-
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            SetPressed(true);
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            SetPressed(false);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            SetPressed(false);
-        }
-
-        private void OnDisable()
-        {
-            SetPressed(false);
-        }
-
-        private void SetPressed(bool pressed)
-        {
-            if (controls == null)
-            {
-                return;
-            }
-
-            if (movesLeft)
-            {
-                if (pressed)
-                {
-                    controls.PressLeft();
-                }
-                else
-                {
-                    controls.ReleaseLeft();
-                }
-            }
-            else if (pressed)
-            {
-                controls.PressRight();
-            }
-            else
-            {
-                controls.ReleaseRight();
-            }
-        }
-    }
-
-    public sealed class C1TouchJumpButton : MonoBehaviour, IPointerDownHandler
-    {
-        private C1MobileControls controls;
-
-        public void Configure(C1MobileControls mobileControls)
-        {
-            controls = mobileControls;
-        }
-
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            controls?.PressJump();
-        }
-    }
 }

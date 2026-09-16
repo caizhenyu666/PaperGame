@@ -68,7 +68,7 @@ namespace PaperGame.C1.Tests
                 Assert.That(walls[i].attachedRigidbody, Is.Null);
                 Assert.That(walls[i].GetComponent<Renderer>(), Is.Null);
             }
-            Assert.That(bootstrap.GroundCount, Is.EqualTo(7));
+            Assert.That(bootstrap.GroundCount, Is.Zero);
         }
 
         [Test]
@@ -104,8 +104,10 @@ namespace PaperGame.C1.Tests
 
             bootstrap.Build(C1LevelLoader.LoadDefault());
             Assert.That(bootstrap.transform.Find("C1 Generated Level/Wall"), Is.Null);
-            Assert.That(bootstrap.transform.Find("C1 Generated Level/Block"), Is.Null);
-            Assert.That(bootstrap.GroundCount, Is.EqualTo(7));
+            var rebuiltBlocks = System.Array.FindAll(bootstrap.GetComponentsInChildren<BoxCollider2D>(),
+                collider => collider.name == "Block");
+            Assert.That(rebuiltBlocks, Has.Length.EqualTo(13));
+            Assert.That(bootstrap.GroundCount, Is.Zero);
 
             bootstrap.Build(level);
             bootstrap.ReturnHome();
@@ -119,7 +121,7 @@ namespace PaperGame.C1.Tests
             var built = bootstrap.Build(C1LevelLoader.LoadDefault());
 
             Assert.That(built, Is.True);
-            Assert.That(bootstrap.GroundCount, Is.EqualTo(7));
+            Assert.That(bootstrap.GroundCount, Is.Zero);
             Assert.That(bootstrap.Player, Is.Not.Null);
             Assert.That(bootstrap.Goal, Is.Not.Null);
         }
@@ -139,12 +141,15 @@ namespace PaperGame.C1.Tests
         public void Build_UsesPhotoBackgroundAndInvisiblePhysics()
         {
             bootstrap.Build(C1LevelLoader.LoadDefault());
+            var paperBackdrop = GameObject.Find("Paper Backdrop");
+            Assert.That(paperBackdrop, Is.Not.Null);
+            Assert.That(paperBackdrop.GetComponent<SpriteRenderer>().sprite, Is.Not.Null);
             var background = GameObject.Find("Paper Background");
             Assert.That(background, Is.Not.Null);
             var backgroundRenderer = background.GetComponent<SpriteRenderer>();
             Assert.That(backgroundRenderer, Is.Not.Null);
-            Assert.That(backgroundRenderer.sprite.texture.width, Is.EqualTo(1245));
-            Assert.That(backgroundRenderer.sprite.texture.height, Is.EqualTo(810));
+            Assert.That(backgroundRenderer.sprite.texture.width, Is.EqualTo(900));
+            Assert.That(backgroundRenderer.sprite.texture.height, Is.EqualTo(560));
 
             var colliders = bootstrap.GetComponentsInChildren<BoxCollider2D>();
             foreach (var candidate in colliders)
@@ -166,6 +171,9 @@ namespace PaperGame.C1.Tests
         public void Build_MapsPixelLineAndGoalToSameBackgroundSpace()
         {
             var level = C1LevelLoader.LoadDefault();
+            // The bundled default level is blocks-only; give it one platform so the
+            // pixel-to-world mapping can be asserted against a known line.
+            level.Platforms = new[] { new C1PlatformDefinition(new Vector2(83f, 507f), new Vector2(324f, 507f)) };
             bootstrap.Build(level);
 
             var grounds = bootstrap.GetComponentsInChildren<BoxCollider2D>();
@@ -257,6 +265,11 @@ namespace PaperGame.C1.Tests
 
             var animator = bootstrap.Player.GetComponentInChildren<C1CharacterAnimator2D>();
             Assert.That(applied, Is.True);
+            var collider = bootstrap.Player.GetComponent<BoxCollider2D>();
+            Assert.That(collider.size, Is.EqualTo(new Vector2(1.1f, 1.6f)));
+            var visual = bootstrap.Player.transform.Find("Character Visual");
+            Assert.That(visual.localScale.y * sprite.bounds.size.y, Is.EqualTo(1.6f).Within(.001f));
+            Assert.That(visual.localPosition.y, Is.EqualTo(-.8f).Within(.001f));
             Assert.That(animator.IdleFrameCount, Is.EqualTo(1));
             Assert.That(animator.RunFrameCount, Is.EqualTo(1));
             Assert.That(animator.JumpFrameCount, Is.EqualTo(1));
@@ -276,18 +289,18 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
-        public void Build_CreatesMobileControlsAndPhotoCaptureHud()
+        public void Build_CreatesFormalGameHudWithoutTemporaryDebugControls()
         {
             bootstrap.Build(C1LevelLoader.LoadDefault());
 
-            var mobileControlsObject = GameObject.Find("Mobile Controls");
-            Assert.That(mobileControlsObject, Is.Not.Null);
-            Assert.That(mobileControlsObject.GetComponent<C1MobileControls>(), Is.Not.Null);
+            Assert.That(bootstrap.HudCanvas.GetComponent<C1MobileControls>(), Is.Not.Null);
             Assert.That(GameObject.Find("Move Left").GetComponent<C1TouchDirectionButton>(), Is.Not.Null);
             Assert.That(GameObject.Find("Move Right").GetComponent<C1TouchDirectionButton>(), Is.Not.Null);
             Assert.That(GameObject.Find("Jump").GetComponent<C1TouchJumpButton>(), Is.Not.Null);
-            Assert.That(GameObject.Find("Capture Photo").GetComponent<Button>(), Is.Not.Null);
-            Assert.That(bootstrap.HudCanvas.GetComponent<C1PhotoCapture>(), Is.Not.Null);
+            Assert.That(bootstrap.HudCanvas.GetComponent<C1GameHudController>(), Is.Not.Null);
+            Assert.That(GameObject.Find("Pause").GetComponent<Button>(), Is.Not.Null);
+            Assert.That(GameObject.Find("Capture Photo"), Is.Null);
+            Assert.That(GameObject.Find("Instruction"), Is.Null);
         }
 
 
@@ -301,13 +314,12 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
-        public void Build_CreatesPlaytestTuningPanelWithDefaultHeight()
+        public void Build_DoesNotExposePlaytestTuningPanelInFormalHud()
         {
             bootstrap.Build(C1LevelLoader.LoadDefault());
 
             var panel = bootstrap.HudCanvas.GetComponentInChildren<C1PlaytestTuningPanel>();
-            Assert.That(panel, Is.Not.Null);
-            Assert.That(panel.JumpHeight, Is.EqualTo(C1PlaytestTuningPanel.MinimumJumpHeight).Within(0.001f));
+            Assert.That(panel, Is.Null);
         }
 
         [Test]
@@ -329,9 +341,9 @@ namespace PaperGame.C1.Tests
             Assert.That(visual, Is.Not.Null);
             var animator = visual.GetComponent<C1CharacterAnimator2D>();
             Assert.That(animator, Is.Not.Null);
-            Assert.That(animator.IdleFrameCount, Is.EqualTo(1));
-            Assert.That(animator.RunFrameCount, Is.EqualTo(1));
-            Assert.That(animator.JumpFrameCount, Is.EqualTo(1));
+            Assert.That(animator.IdleFrameCount, Is.EqualTo(8));
+            Assert.That(animator.RunFrameCount, Is.EqualTo(8));
+            Assert.That(animator.JumpFrameCount, Is.EqualTo(8));
             Assert.That(visual.GetComponent<SpriteRenderer>().sprite, Is.EqualTo(C1BuiltInCharacters.Sprite(C1CharacterLibrary.Load().selectedId)));
         }
 

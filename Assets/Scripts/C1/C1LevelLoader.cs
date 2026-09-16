@@ -25,8 +25,9 @@ namespace PaperGame.C1
             Debug.Log($"[C1Level] Loaded Resources/{safePath}.json\n{asset.text}");
 
             var level = Parse(asset.text, out var error);
-            if (level != null && !string.IsNullOrWhiteSpace(level.BackgroundResourcePath) &&
-                level.BackgroundResourcePath.StartsWith("/", StringComparison.Ordinal))
+            // Prefer a bundled background PNG next to the json (e.g. C1Levels/level1-background)
+            // whenever one exists, so remote imageUrl values never leave the build.
+            if (level != null && Resources.Load<Texture2D>(safePath + "-background") != null)
             {
                 level.BackgroundResourcePath = safePath + "-background";
             }

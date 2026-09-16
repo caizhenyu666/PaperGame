@@ -6,7 +6,7 @@ namespace PaperGame.C1.Editor
 {
     /// <summary>
     /// 为 Resources/C1Character 下的角色精灵集配置统一切帧：
-    /// Idle 切 6 帧，Run/Jump 各切 8 帧，pivot 居中，PPU 100。
+    /// 默认角色各切 8 个 256 像素帧、脚底对齐；兼容旧资源 Idle 6 帧，PPU 100。
     /// </summary>
     public sealed class C1CharacterSpritePostprocessor : AssetPostprocessor
     {
@@ -22,6 +22,8 @@ namespace PaperGame.C1.Editor
             }
 
             var frameCount = ResolveFrameCount(Path.GetFileNameWithoutExtension(path));
+            var isDefault = path.Contains("/Defaults/");
+            if (isDefault && frameCount > 0) frameCount = 8;
             if (frameCount == 0)
             {
                 return;
@@ -41,6 +43,17 @@ namespace PaperGame.C1.Editor
             importer.alphaIsTransparency = true;
             importer.mipmapEnabled = false;
             importer.spritesheet = BuildFrames(Path.GetFileNameWithoutExtension(path).ToLowerInvariant(), size, frameCount);
+            if (isDefault)
+            {
+                importer.textureCompression = TextureImporterCompression.Uncompressed;
+                importer.maxTextureSize = 2048;
+                importer.npotScale = TextureImporterNPOTScale.None;
+                importer.filterMode = FilterMode.Bilinear;
+                importer.wrapMode = TextureWrapMode.Clamp;
+                var frames = importer.spritesheet;
+                for (var i = 0; i < frames.Length; i++) frames[i].pivot = new Vector2(.5f, 52f / 512f);
+                importer.spritesheet = frames;
+            }
         }
 
         private static int ResolveFrameCount(string fileName)

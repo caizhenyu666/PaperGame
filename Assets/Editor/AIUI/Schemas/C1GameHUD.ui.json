@@ -1,0 +1,23 @@
+{
+  "name": "PaperGameGameHUD",
+  "canvasWidth": 1920,
+  "canvasHeight": 1080,
+  "nodes": [
+    { "name": "Page Label", "component": "PaperLabel", "width": 286, "height": 118 },
+    { "name": "Pause", "component": "PaperImageButton", "width": 132, "height": 132 },
+    { "name": "Move Left", "component": "PaperImageButton", "width": 182, "height": 165 },
+    { "name": "Move Right", "component": "PaperImageButton", "width": 197, "height": 169 },
+    { "name": "Jump", "component": "PaperImageButton", "width": 210, "height": 198 },
+    {
+      "name": "Pause Modal",
+      "component": "ModalOverlay",
+      "width": 1920,
+      "height": 1080,
+      "children": [
+        { "name": "Dialog Paper", "component": "PaperPanel", "width": 720, "height": 430 },
+        { "name": "Return Home", "component": "PaperImageButton", "width": 370, "height": 114 },
+        { "name": "Continue", "component": "PaperTextButton", "width": 370, "height": 114 }
+      ]
+    }
+  ]
+}

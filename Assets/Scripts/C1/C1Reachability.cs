@@ -28,6 +28,12 @@ namespace PaperGame.C1
         public static C1ReachabilityResult Analyze(C1LevelDefinition level, float jumpHeight)
         {
             var platforms = level.Platforms;
+            // Blocks-only levels have no platform graph to traverse; they are trivially unreachable here.
+            if (platforms == null || platforms.Length == 0)
+            {
+                return new C1ReachabilityResult { CanReachGoal = false, BlockedJumps = new List<C1BlockedJump>() };
+            }
+
             var visited = new bool[platforms.Length];
             var queue = new Queue<int>();
             var blocked = new List<C1BlockedJump>();

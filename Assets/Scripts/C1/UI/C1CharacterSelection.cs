@@ -40,6 +40,8 @@ namespace PaperGame.C1
             var rootRect = screen.GetComponent<RectTransform>();
             rootRect.anchorMin = Vector2.zero; rootRect.anchorMax = Vector2.one;
             rootRect.offsetMin = rootRect.offsetMax = Vector2.zero;
+            var fit = screen.GetComponent<C1CharacterScreenFit>() ?? screen.AddComponent<C1CharacterScreenFit>();
+            fit.RefreshLayout();
             list = screen.transform.Find("Characters/Content");
             preview = screen.transform.Find("Preview/Animated Character").GetComponent<Image>();
             previewOrigin = preview.rectTransform.anchoredPosition;
@@ -309,10 +311,12 @@ namespace PaperGame.C1
             retry.gameObject.SetActive(retryDownload || forceRetry || !string.IsNullOrEmpty(library.pendingJobId) || photoBytes != null);
             var sprite = C1BuiltInCharacters.Sprite(browsingId);
             var run = sprite; var jump = sprite;
-            if (browsingId == C1BuiltInCharacters.Green)
+            if (C1BuiltInCharacters.IsBuiltIn(browsingId))
             {
-                run = C1CharacterScreenLayout.Art("green-run"); jump = C1CharacterScreenLayout.Art("green-jump");
-                if (previewJump) sprite = jump;
+                run = C1BuiltInCharacters.PreviewFrame(browsingId, "run", previewTime);
+                jump = C1BuiltInCharacters.PreviewFrame(browsingId, "jump", previewTime);
+                sprite = C1BuiltInCharacters.PreviewFrame(browsingId, "idle", previewTime);
+                if (previewJump) sprite = C1BuiltInCharacters.PreviewFrame(browsingId, "jump", previewTime, false);
                 else if (previewRunning) sprite = run;
             }
             if (!C1BuiltInCharacters.IsBuiltIn(browsingId))
@@ -326,6 +330,9 @@ namespace PaperGame.C1
                 }
             }
             preview.sprite = sprite; preview.enabled = sprite != null;
+            var scale = C1BuiltInCharacters.IsBuiltIn(browsingId) ? 256f / 190f : 1f;
+            preview.rectTransform.localScale = Vector3.one * scale;
+            runPreview.rectTransform.localScale = jumpPreview.rectTransform.localScale = Vector3.one * scale;
             runPreview.sprite = run; jumpPreview.sprite = jump;
             runPreview.enabled = run != null; jumpPreview.enabled = jump != null;
             var jumpOffset = previewJump ? Mathf.Sin(Mathf.Clamp01(previewTime / .8f) * Mathf.PI) * 95f : 0;

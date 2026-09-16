@@ -15,6 +15,7 @@ namespace PaperGame.C1
         private readonly Collider2D[] overlapResults = new Collider2D[8];
         private Rigidbody2D body;
         private Collider2D bodyCollider;
+        private PhysicsMaterial2D movementMaterial;
         private bool jumpConsumed;
 
         public float MoveSpeed => moveSpeed;
@@ -29,6 +30,21 @@ namespace PaperGame.C1
         {
             CacheComponents();
             body.freezeRotation = true;
+        }
+
+        private void OnDestroy()
+        {
+            if (movementMaterial != null)
+            {
+                if (Application.isPlaying)
+                {
+                    Destroy(movementMaterial);
+                }
+                else
+                {
+                    DestroyImmediate(movementMaterial);
+                }
+            }
         }
 
         private void Update()
@@ -108,7 +124,10 @@ namespace PaperGame.C1
             {
                 useTriggers = false,
                 useLayerMask = true,
-                layerMask = Physics2D.GetLayerCollisionMask(gameObject.layer)
+                layerMask = Physics2D.GetLayerCollisionMask(gameObject.layer),
+                useNormalAngle = true,
+                minNormalAngle = 45f,
+                maxNormalAngle = 135f
             };
 
             var colSize = bodyCollider.bounds.size;
@@ -172,6 +191,17 @@ namespace PaperGame.C1
             if (bodyCollider == null)
             {
                 bodyCollider = GetComponent<BoxCollider2D>();
+            }
+
+            if (movementMaterial == null)
+            {
+                // Prevent horizontal movement from generating friction that holds us on walls.
+                movementMaterial = new PhysicsMaterial2D("Player Movement")
+                {
+                    friction = 0f,
+                    bounciness = 0f
+                };
+                bodyCollider.sharedMaterial = movementMaterial;
             }
         }
     }

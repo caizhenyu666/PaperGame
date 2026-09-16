@@ -1,97 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<test-run id="2" testcasecount="111" result="Failed(Child)" total="111" passed="108" failed="3" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:12Z" duration="1.5309553">
-  <test-suite type="TestSuite" id="1151" name="PaperGame" fullname="PaperGame" runstate="Runnable" testcasecount="111" result="Failed" site="Child" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:12Z" duration="1.530955" total="111" passed="108" failed="3" inconclusive="0" skipped="0" asserts="0">
+<test-run id="2" testcasecount="116" result="Failed(Child)" total="116" passed="113" failed="3" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:48Z" duration="1.6507906">
+  <test-suite type="TestSuite" id="1157" name="PaperGame" fullname="PaperGame" runstate="Runnable" testcasecount="116" result="Failed" site="Child" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:48Z" duration="1.650791" total="116" passed="113" failed="3" inconclusive="0" skipped="0" asserts="0">
     <properties />
     <failure>
       <message><![CDATA[One or more child tests had errors]]></message>
     </failure>
-    <test-suite type="Assembly" id="1294" name="PaperGame.C1.EditModeTests.dll" fullname="/private/tmp/papergame-ui.ehpw4v/Library/ScriptAssemblies/PaperGame.C1.EditModeTests.dll" runstate="Runnable" testcasecount="111" result="Failed" site="Child" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:12Z" duration="1.523388" total="111" passed="108" failed="3" inconclusive="0" skipped="0" asserts="0">
+    <test-suite type="Assembly" id="1306" name="PaperGame.C1.EditModeTests.dll" fullname="/private/tmp/papergame-ui.ehpw4v/Library/ScriptAssemblies/PaperGame.C1.EditModeTests.dll" runstate="Runnable" testcasecount="116" result="Failed" site="Child" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:48Z" duration="1.641125" total="116" passed="113" failed="3" inconclusive="0" skipped="0" asserts="0">
       <properties>
-        <property name="_PID" value="56616" />
+        <property name="_PID" value="65254" />
         <property name="_APPDOMAIN" value="Unity Child Domain" />
         <property name="platform" value="EditMode" />
       </properties>
       <failure>
         <message><![CDATA[One or more child tests had errors]]></message>
       </failure>
-      <test-suite type="TestSuite" id="1295" name="PaperGame" fullname="PaperGame" runstate="Runnable" testcasecount="111" result="Failed" site="Child" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:12Z" duration="1.523204" total="111" passed="108" failed="3" inconclusive="0" skipped="0" asserts="0">
+      <test-suite type="TestSuite" id="1307" name="PaperGame" fullname="PaperGame" runstate="Runnable" testcasecount="116" result="Failed" site="Child" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:48Z" duration="1.640913" total="116" passed="113" failed="3" inconclusive="0" skipped="0" asserts="0">
         <properties />
         <failure>
           <message><![CDATA[One or more child tests had errors]]></message>
         </failure>
-        <test-suite type="TestSuite" id="1296" name="C1" fullname="PaperGame.C1" runstate="Runnable" testcasecount="111" result="Failed" site="Child" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:12Z" duration="1.523155" total="111" passed="108" failed="3" inconclusive="0" skipped="0" asserts="0">
+        <test-suite type="TestSuite" id="1308" name="C1" fullname="PaperGame.C1" runstate="Runnable" testcasecount="116" result="Failed" site="Child" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:48Z" duration="1.640864" total="116" passed="113" failed="3" inconclusive="0" skipped="0" asserts="0">
           <properties />
           <failure>
             <message><![CDATA[One or more child tests had errors]]></message>
           </failure>
-          <test-suite type="TestSuite" id="1297" name="Tests" fullname="PaperGame.C1.Tests" runstate="Runnable" testcasecount="111" result="Failed" site="Child" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:12Z" duration="1.523008" total="111" passed="108" failed="3" inconclusive="0" skipped="0" asserts="0">
+          <test-suite type="TestSuite" id="1309" name="Tests" fullname="PaperGame.C1.Tests" runstate="Runnable" testcasecount="116" result="Failed" site="Child" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:48Z" duration="1.640703" total="116" passed="113" failed="3" inconclusive="0" skipped="0" asserts="0">
             <properties />
             <failure>
               <message><![CDATA[One or more child tests had errors]]></message>
             </failure>
-            <test-suite type="TestFixture" id="1152" name="C1CameraFramingTests" fullname="PaperGame.C1.Tests.C1CameraFramingTests" classname="PaperGame.C1.Tests.C1CameraFramingTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.013234" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1158" name="C1CameraFramingTests" fullname="PaperGame.C1.Tests.C1CameraFramingTests" classname="PaperGame.C1.Tests.C1CameraFramingTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.015731" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1155" name="Calculate_ExplicitCanvasKeepsPaperCenter" fullname="PaperGame.C1.Tests.C1CameraFramingTests.Calculate_ExplicitCanvasKeepsPaperCenter" methodname="Calculate_ExplicitCanvasKeepsPaperCenter" classname="PaperGame.C1.Tests.C1CameraFramingTests" runstate="Runnable" seed="1188036596" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.005386" asserts="0">
+              <test-case id="1161" name="Calculate_ExplicitCanvasKeepsPaperCenter" fullname="PaperGame.C1.Tests.C1CameraFramingTests.Calculate_ExplicitCanvasKeepsPaperCenter" methodname="Calculate_ExplicitCanvasKeepsPaperCenter" classname="PaperGame.C1.Tests.C1CameraFramingTests" runstate="Runnable" seed="2078411611" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.006766" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1154" name="Calculate_InvalidAspectUsesSafeFallback" fullname="PaperGame.C1.Tests.C1CameraFramingTests.Calculate_InvalidAspectUsesSafeFallback" methodname="Calculate_InvalidAspectUsesSafeFallback" classname="PaperGame.C1.Tests.C1CameraFramingTests" runstate="Runnable" seed="298222191" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.001550" asserts="0">
+              <test-case id="1160" name="Calculate_InvalidAspectUsesSafeFallback" fullname="PaperGame.C1.Tests.C1CameraFramingTests.Calculate_InvalidAspectUsesSafeFallback" methodname="Calculate_InvalidAspectUsesSafeFallback" classname="PaperGame.C1.Tests.C1CameraFramingTests" runstate="Runnable" seed="202064672" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.001783" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1153" name="Calculate_WideBoundsFitInsideOrthographicView" fullname="PaperGame.C1.Tests.C1CameraFramingTests.Calculate_WideBoundsFitInsideOrthographicView" methodname="Calculate_WideBoundsFitInsideOrthographicView" classname="PaperGame.C1.Tests.C1CameraFramingTests" runstate="Runnable" seed="1745123759" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.000247" asserts="0">
+              <test-case id="1159" name="Calculate_WideBoundsFitInsideOrthographicView" fullname="PaperGame.C1.Tests.C1CameraFramingTests.Calculate_WideBoundsFitInsideOrthographicView" methodname="Calculate_WideBoundsFitInsideOrthographicView" classname="PaperGame.C1.Tests.C1CameraFramingTests" runstate="Runnable" seed="2104967615" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.000271" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1156" name="C1CharacterAnimatorTests" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.003270" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1162" name="C1CharacterAnimatorTests" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.002721" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-suite type="ParameterizedMethod" id="1160" name="ResolveState_UsesGroundedAndHorizontalSpeed" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.ResolveState_UsesGroundedAndHorizontalSpeed" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.001734" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <test-suite type="ParameterizedMethod" id="1166" name="ResolveState_UsesGroundedAndHorizontalSpeed" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.ResolveState_UsesGroundedAndHorizontalSpeed" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.001481" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
                 <properties />
-                <test-case id="1157" name="ResolveState_UsesGroundedAndHorizontalSpeed(False,0.0f,Jump)" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.ResolveState_UsesGroundedAndHorizontalSpeed(False,0.0f,Jump)" methodname="ResolveState_UsesGroundedAndHorizontalSpeed" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" seed="1766864671" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.001180" asserts="0">
+                <test-case id="1163" name="ResolveState_UsesGroundedAndHorizontalSpeed(False,0.0f,Jump)" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.ResolveState_UsesGroundedAndHorizontalSpeed(False,0.0f,Jump)" methodname="ResolveState_UsesGroundedAndHorizontalSpeed" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" seed="1342195344" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.001065" asserts="0">
                   <properties />
                 </test-case>
-                <test-case id="1158" name="ResolveState_UsesGroundedAndHorizontalSpeed(True,1.0f,Run)" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.ResolveState_UsesGroundedAndHorizontalSpeed(True,1.0f,Run)" methodname="ResolveState_UsesGroundedAndHorizontalSpeed" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" seed="1271169384" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.000189" asserts="0">
+                <test-case id="1164" name="ResolveState_UsesGroundedAndHorizontalSpeed(True,1.0f,Run)" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.ResolveState_UsesGroundedAndHorizontalSpeed(True,1.0f,Run)" methodname="ResolveState_UsesGroundedAndHorizontalSpeed" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" seed="84956787" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.000111" asserts="0">
                   <properties />
                 </test-case>
-                <test-case id="1159" name="ResolveState_UsesGroundedAndHorizontalSpeed(True,0.0f,Idle)" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.ResolveState_UsesGroundedAndHorizontalSpeed(True,0.0f,Idle)" methodname="ResolveState_UsesGroundedAndHorizontalSpeed" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" seed="661168628" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.000084" asserts="0">
+                <test-case id="1165" name="ResolveState_UsesGroundedAndHorizontalSpeed(True,0.0f,Idle)" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.ResolveState_UsesGroundedAndHorizontalSpeed(True,0.0f,Idle)" methodname="ResolveState_UsesGroundedAndHorizontalSpeed" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" seed="924574523" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.000069" asserts="0">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-case id="1161" name="Tick_UsesVelocityToFlipCharacter" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.Tick_UsesVelocityToFlipCharacter" methodname="Tick_UsesVelocityToFlipCharacter" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" seed="1687908157" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.000651" asserts="0">
+              <test-case id="1167" name="Tick_UsesVelocityToFlipCharacter" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.Tick_UsesVelocityToFlipCharacter" methodname="Tick_UsesVelocityToFlipCharacter" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" seed="477627503" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.000548" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1162" name="Tick_WhenCompleted_ReturnsToIdle" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.Tick_WhenCompleted_ReturnsToIdle" methodname="Tick_WhenCompleted_ReturnsToIdle" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" seed="302973302" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.000099" asserts="0">
+              <test-case id="1168" name="Tick_WhenCompleted_ReturnsToIdle" fullname="PaperGame.C1.Tests.C1CharacterAnimatorTests.Tick_WhenCompleted_ReturnsToIdle" methodname="Tick_WhenCompleted_ReturnsToIdle" classname="PaperGame.C1.Tests.C1CharacterAnimatorTests" runstate="Runnable" seed="1401212162" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.000094" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1163" name="C1CharacterSelectionPrefabTests" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.062260" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1169" name="C1CharacterSelectionPrefabTests" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.110914" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1164" name="CharacterScreen_HasSeparateArtAndInteractiveControls" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.CharacterScreen_HasSeparateArtAndInteractiveControls" methodname="CharacterScreen_HasSeparateArtAndInteractiveControls" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="212022993" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.025768" asserts="0">
+              <test-suite type="ParameterizedMethod" id="1174" name="CharacterScreen_DifferentAspectRatiosKeepOneDesignScale" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.CharacterScreen_DifferentAspectRatiosKeepOneDesignScale" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.077745" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
                 <properties />
-              </test-case>
-              <test-suite type="ParameterizedMethod" id="1167" name="Library_PreservesBothBuiltInCharacters" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Library_PreservesBothBuiltInCharacters" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.002343" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
-                <properties />
-                <test-case id="1165" name="Library_PreservesBothBuiltInCharacters(&quot;default&quot;)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Library_PreservesBothBuiltInCharacters(&quot;default&quot;)" methodname="Library_PreservesBothBuiltInCharacters" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="272504004" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.001515" asserts="0">
+                <test-case id="1170" name="CharacterScreen_DifferentAspectRatiosKeepOneDesignScale(1920,1080)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.CharacterScreen_DifferentAspectRatiosKeepOneDesignScale(1920,1080)" methodname="CharacterScreen_DifferentAspectRatiosKeepOneDesignScale" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="855019386" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.070502" asserts="0">
                   <properties />
                 </test-case>
-                <test-case id="1166" name="Library_PreservesBothBuiltInCharacters(&quot;default-chick&quot;)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Library_PreservesBothBuiltInCharacters(&quot;default-chick&quot;)" methodname="Library_PreservesBothBuiltInCharacters" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="1866093331" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.000331" asserts="0">
+                <test-case id="1171" name="CharacterScreen_DifferentAspectRatiosKeepOneDesignScale(1094,1016)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.CharacterScreen_DifferentAspectRatiosKeepOneDesignScale(1094,1016)" methodname="CharacterScreen_DifferentAspectRatiosKeepOneDesignScale" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="321808105" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.003863" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1172" name="CharacterScreen_DifferentAspectRatiosKeepOneDesignScale(1280,1024)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.CharacterScreen_DifferentAspectRatiosKeepOneDesignScale(1280,1024)" methodname="CharacterScreen_DifferentAspectRatiosKeepOneDesignScale" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="1475359077" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.001502" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1173" name="CharacterScreen_DifferentAspectRatiosKeepOneDesignScale(2560,1080)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.CharacterScreen_DifferentAspectRatiosKeepOneDesignScale(2560,1080)" methodname="CharacterScreen_DifferentAspectRatiosKeepOneDesignScale" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="1221759784" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.001226" asserts="0">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-suite type="ParameterizedMethod" id="1170" name="Selection_UpdatesPreviewButOnlyConfirmPersists" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Selection_UpdatesPreviewButOnlyConfirmPersists" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.033716" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <test-case id="1176" name="CharacterScreen_HasSeparateArtAndInteractiveControls" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.CharacterScreen_HasSeparateArtAndInteractiveControls" methodname="CharacterScreen_HasSeparateArtAndInteractiveControls" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="1103207940" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.001612" asserts="0">
                 <properties />
-                <test-case id="1168" name="Selection_UpdatesPreviewButOnlyConfirmPersists(True)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Selection_UpdatesPreviewButOnlyConfirmPersists(True)" methodname="Selection_UpdatesPreviewButOnlyConfirmPersists" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="34002676" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.030599" asserts="0">
+              </test-case>
+              <test-case id="1175" name="CharacterScreen_ResizingKeepsListInsideNotebook" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.CharacterScreen_ResizingKeepsListInsideNotebook" methodname="CharacterScreen_ResizingKeepsListInsideNotebook" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="1305884161" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.002054" asserts="0">
+                <properties />
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1179" name="Library_PreservesBothBuiltInCharacters" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Library_PreservesBothBuiltInCharacters" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.002841" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1177" name="Library_PreservesBothBuiltInCharacters(&quot;default&quot;)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Library_PreservesBothBuiltInCharacters(&quot;default&quot;)" methodname="Library_PreservesBothBuiltInCharacters" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="1695036629" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.001878" asserts="0">
                   <properties />
                 </test-case>
-                <test-case id="1169" name="Selection_UpdatesPreviewButOnlyConfirmPersists(False)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Selection_UpdatesPreviewButOnlyConfirmPersists(False)" methodname="Selection_UpdatesPreviewButOnlyConfirmPersists" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="929253072" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.002747" asserts="0">
+                <test-case id="1178" name="Library_PreservesBothBuiltInCharacters(&quot;default-chick&quot;)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Library_PreservesBothBuiltInCharacters(&quot;default-chick&quot;)" methodname="Library_PreservesBothBuiltInCharacters" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="124759378" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.000385" asserts="0">
                   <properties />
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1182" name="Selection_UpdatesPreviewButOnlyConfirmPersists" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Selection_UpdatesPreviewButOnlyConfirmPersists" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.026072" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1180" name="Selection_UpdatesPreviewButOnlyConfirmPersists(True)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Selection_UpdatesPreviewButOnlyConfirmPersists(True)" methodname="Selection_UpdatesPreviewButOnlyConfirmPersists" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="859656904" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.018858" asserts="0">
+                  <properties />
+                  <output><![CDATA[[RefreshList] Starting, list=valid, browsingId=default, cache entries=0
+[RefreshList] priorityId=default, total characters=2
+[AddRow] id=default, title=独眼小绿, sprite=green-thumbnail, enabled=True
+[AddRow] id=default-chick, title=披风小鸡, sprite=chick-thumbnail, enabled=True
+[RefreshList] Done, created 2 rows
+[RefreshList] Starting, list=valid, browsingId=default-chick, cache entries=0
+[RefreshList] priorityId=default, total characters=2
+[AddRow] id=default, title=独眼小绿, sprite=green-thumbnail, enabled=True
+[AddRow] id=default-chick, title=披风小鸡, sprite=chick-thumbnail, enabled=True
+[RefreshList] Done, created 2 rows
+[RefreshList] Starting, list=valid, browsingId=default-chick, cache entries=0
+[RefreshList] priorityId=default-chick, total characters=2
+[AddRow] id=default-chick, title=披风小鸡, sprite=chick-thumbnail, enabled=True
+[AddRow] id=default, title=独眼小绿, sprite=green-thumbnail, enabled=True
+[RefreshList] Done, created 2 rows
+]]></output>
+                </test-case>
+                <test-case id="1181" name="Selection_UpdatesPreviewButOnlyConfirmPersists(False)" fullname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests.Selection_UpdatesPreviewButOnlyConfirmPersists(False)" methodname="Selection_UpdatesPreviewButOnlyConfirmPersists" classname="PaperGame.C1.Tests.C1CharacterSelectionPrefabTests" runstate="Runnable" seed="1782504143" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.006681" asserts="0">
+                  <properties />
+                  <output><![CDATA[[RefreshList] Starting, list=valid, browsingId=default, cache entries=0
+[RefreshList] priorityId=default, total characters=2
+[AddRow] id=default, title=独眼小绿, sprite=green-thumbnail, enabled=True
+[AddRow] id=default-chick, title=披风小鸡, sprite=chick-thumbnail, enabled=True
+[RefreshList] Done, created 2 rows
+[RefreshList] Starting, list=valid, browsingId=default-chick, cache entries=0
+[RefreshList] priorityId=default, total characters=2
+[AddRow] id=default, title=独眼小绿, sprite=green-thumbnail, enabled=True
+[AddRow] id=default-chick, title=披风小鸡, sprite=chick-thumbnail, enabled=True
+[RefreshList] Done, created 2 rows
+]]></output>
                 </test-case>
               </test-suite>
             </test-suite>
-            <test-suite type="TestFixture" id="1171" name="C1CharacterServiceTests" fullname="PaperGame.C1.Tests.C1CharacterServiceTests" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" testcasecount="6" result="Failed" site="Child" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:12Z" duration="1.060801" total="6" passed="5" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1183" name="C1CharacterServiceTests" fullname="PaperGame.C1.Tests.C1CharacterServiceTests" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" testcasecount="6" result="Failed" site="Child" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:47Z" duration="1.075747" total="6" passed="5" failed="1" inconclusive="0" skipped="0" asserts="0">
               <properties />
               <failure>
                 <message><![CDATA[One or more child tests had errors]]></message>
               </failure>
-              <test-case id="1172" name="DefaultBaseUrl_UsesProjectWebGlSettings" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.DefaultBaseUrl_UsesProjectWebGlSettings" methodname="DefaultBaseUrl_UsesProjectWebGlSettings" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="838067915" result="Failed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:11Z" duration="0.002744" asserts="0">
+              <test-case id="1184" name="DefaultBaseUrl_UsesProjectWebGlSettings" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.DefaultBaseUrl_UsesProjectWebGlSettings" methodname="DefaultBaseUrl_UsesProjectWebGlSettings" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="739862213" result="Failed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:46Z" duration="0.003545" asserts="0">
                 <properties />
                 <failure>
                   <message><![CDATA[  Expected string length 18 but was 24. Strings differ at index 4.
@@ -103,62 +148,62 @@
 ]]></stack-trace>
                 </failure>
               </test-case>
-              <test-case id="1173" name="HttpWorkflow_UploadsFilePollsAndDownloadsBothSheets" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.HttpWorkflow_UploadsFilePollsAndDownloadsBothSheets" methodname="HttpWorkflow_UploadsFilePollsAndDownloadsBothSheets" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="1743964537" result="Passed" start-time="2026-09-15 15:04:11Z" end-time="2026-09-15 15:04:12Z" duration="1.055045" asserts="0">
+              <test-case id="1185" name="HttpWorkflow_UploadsFilePollsAndDownloadsBothSheets" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.HttpWorkflow_UploadsFilePollsAndDownloadsBothSheets" methodname="HttpWorkflow_UploadsFilePollsAndDownloadsBothSheets" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="87892991" result="Passed" start-time="2026-09-15 18:25:46Z" end-time="2026-09-15 18:25:47Z" duration="1.069429" asserts="0">
                 <properties>
                   <property name="_JOINTYPE" value="UnityCombinatorial" />
                 </properties>
-                <output><![CDATA[[C1Service] Upload → POST http://127.0.0.1:49310/v1/characters (81 bytes, image/png, force=False)
+                <output><![CDATA[[C1Service] Upload → POST http://127.0.0.1:64365/v1/characters (81 bytes, image/png, force=False)
 [C1Service] Upload ← HTTP 202 result=Success
 [C1Service] Upload response: {"jobId":"char_test"}
 [C1Service] Upload accepted: jobId=char_test
-[C1Service] Poll → GET http://127.0.0.1:49310/v1/characters/char_test
+[C1Service] Poll → GET http://127.0.0.1:64365/v1/characters/char_test
 [C1Service] Poll #1 ← HTTP 200 status=processing body={"status":"processing"}
 [C1Service] Poll #2 ← HTTP 200 status=ready body={"status":"ready","characterId":"char_test","animations":{"run":{"spriteSheetUrl":"/artifacts/char_test/run.png","frameCount":3,"fps":15,"frameWidth":4,"frameHeight":8,"footAnchor":{"x":2,"y":8}},"jump":{"spriteSheetUrl":"/artifacts/char_test/jump.png","frameCount":3,"fps":15,"frameWidth":4,"frameHeight":8,"footAnchor":{"x":2,"y":8}}}}
 [C1Service] Poll ready: jobId=char_test
 [C1Service] Download → run=/artifacts/char_test/run.png jump=/artifacts/char_test/jump.png
-[C1Service] Download run → GET http://127.0.0.1:49310/artifacts/char_test/run.png
+[C1Service] Download run → GET http://127.0.0.1:64365/artifacts/char_test/run.png
 [C1Service] Download run ← HTTP 200 result=Success
 [C1Service] Download run ok: 3 frames, 12x8
-[C1Service] Download jump → GET http://127.0.0.1:49310/artifacts/char_test/jump.png
+[C1Service] Download jump → GET http://127.0.0.1:64365/artifacts/char_test/jump.png
 [C1Service] Download jump ← HTTP 200 result=Success
 [C1Service] Download jump ok: 3 frames, 12x8
 [C1Service] Download complete: jobId=
 ]]></output>
               </test-case>
-              <test-case id="1177" name="LibraryJson_PreservesSelectedAndPendingJobs" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.LibraryJson_PreservesSelectedAndPendingJobs" methodname="LibraryJson_PreservesSelectedAndPendingJobs" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="812961836" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000279" asserts="0">
+              <test-case id="1189" name="LibraryJson_PreservesSelectedAndPendingJobs" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.LibraryJson_PreservesSelectedAndPendingJobs" methodname="LibraryJson_PreservesSelectedAndPendingJobs" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="1443466457" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.000274" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1174" name="ReadyContract_ParsesBothAnimationsWithoutDictionary" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.ReadyContract_ParsesBothAnimationsWithoutDictionary" methodname="ReadyContract_ParsesBothAnimationsWithoutDictionary" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="165688284" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000073" asserts="0">
+              <test-case id="1186" name="ReadyContract_ParsesBothAnimationsWithoutDictionary" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.ReadyContract_ParsesBothAnimationsWithoutDictionary" methodname="ReadyContract_ParsesBothAnimationsWithoutDictionary" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="384104159" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.000076" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1176" name="Slice_RejectsMismatchedSheetDimensions" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.Slice_RejectsMismatchedSheetDimensions" methodname="Slice_RejectsMismatchedSheetDimensions" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="915332" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000581" asserts="0">
+              <test-case id="1188" name="Slice_RejectsMismatchedSheetDimensions" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.Slice_RejectsMismatchedSheetDimensions" methodname="Slice_RejectsMismatchedSheetDimensions" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="666836040" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.000579" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1175" name="Slice_UsesHorizontalFramesAndTopDownFootAnchor" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.Slice_UsesHorizontalFramesAndTopDownFootAnchor" methodname="Slice_UsesHorizontalFramesAndTopDownFootAnchor" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="2056844898" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000398" asserts="0">
+              <test-case id="1187" name="Slice_UsesHorizontalFramesAndTopDownFootAnchor" fullname="PaperGame.C1.Tests.C1CharacterServiceTests.Slice_UsesHorizontalFramesAndTopDownFootAnchor" methodname="Slice_UsesHorizontalFramesAndTopDownFootAnchor" classname="PaperGame.C1.Tests.C1CharacterServiceTests" runstate="Runnable" seed="2133405026" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.000484" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1178" name="C1CoverBackgroundTests" fullname="PaperGame.C1.Tests.C1CoverBackgroundTests" classname="PaperGame.C1.Tests.C1CoverBackgroundTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000742" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1190" name="C1CoverBackgroundTests" fullname="PaperGame.C1.Tests.C1CoverBackgroundTests" classname="PaperGame.C1.Tests.C1CoverBackgroundTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.000956" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-suite type="ParameterizedMethod" id="1182" name="CalculateSize_CoversParentWithoutChangingAspect" fullname="PaperGame.C1.Tests.C1CoverBackgroundTests.CalculateSize_CoversParentWithoutChangingAspect" classname="PaperGame.C1.Tests.C1CoverBackgroundTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000532" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <test-suite type="ParameterizedMethod" id="1194" name="CalculateSize_CoversParentWithoutChangingAspect" fullname="PaperGame.C1.Tests.C1CoverBackgroundTests.CalculateSize_CoversParentWithoutChangingAspect" classname="PaperGame.C1.Tests.C1CoverBackgroundTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.000619" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
                 <properties />
-                <test-case id="1179" name="CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,1280.0f,720.0f)" fullname="PaperGame.C1.Tests.C1CoverBackgroundTests.CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,1280.0f,720.0f)" methodname="CalculateSize_CoversParentWithoutChangingAspect" classname="PaperGame.C1.Tests.C1CoverBackgroundTests" runstate="Runnable" seed="891132185" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000244" asserts="0">
+                <test-case id="1191" name="CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,1280.0f,720.0f)" fullname="PaperGame.C1.Tests.C1CoverBackgroundTests.CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,1280.0f,720.0f)" methodname="CalculateSize_CoversParentWithoutChangingAspect" classname="PaperGame.C1.Tests.C1CoverBackgroundTests" runstate="Runnable" seed="1881199746" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.000241" asserts="0">
                   <properties />
                 </test-case>
-                <test-case id="1180" name="CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,2532.0f,1170.0f)" fullname="PaperGame.C1.Tests.C1CoverBackgroundTests.CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,2532.0f,1170.0f)" methodname="CalculateSize_CoversParentWithoutChangingAspect" classname="PaperGame.C1.Tests.C1CoverBackgroundTests" runstate="Runnable" seed="73476423" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000032" asserts="0">
+                <test-case id="1192" name="CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,2532.0f,1170.0f)" fullname="PaperGame.C1.Tests.C1CoverBackgroundTests.CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,2532.0f,1170.0f)" methodname="CalculateSize_CoversParentWithoutChangingAspect" classname="PaperGame.C1.Tests.C1CoverBackgroundTests" runstate="Runnable" seed="455776057" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.000039" asserts="0">
                   <properties />
                 </test-case>
-                <test-case id="1181" name="CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,810.0f,1440.0f)" fullname="PaperGame.C1.Tests.C1CoverBackgroundTests.CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,810.0f,1440.0f)" methodname="CalculateSize_CoversParentWithoutChangingAspect" classname="PaperGame.C1.Tests.C1CoverBackgroundTests" runstate="Runnable" seed="556116101" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000030" asserts="0">
+                <test-case id="1193" name="CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,810.0f,1440.0f)" fullname="PaperGame.C1.Tests.C1CoverBackgroundTests.CalculateSize_CoversParentWithoutChangingAspect(1672.0f,941.0f,810.0f,1440.0f)" methodname="CalculateSize_CoversParentWithoutChangingAspect" classname="PaperGame.C1.Tests.C1CoverBackgroundTests" runstate="Runnable" seed="1099160267" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.000038" asserts="0">
                   <properties />
                 </test-case>
               </test-suite>
             </test-suite>
-            <test-suite type="TestFixture" id="1183" name="C1GameBootstrapTests" fullname="PaperGame.C1.Tests.C1GameBootstrapTests" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" testcasecount="21" result="Failed" site="Child" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.310172" total="21" passed="20" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1195" name="C1GameBootstrapTests" fullname="PaperGame.C1.Tests.C1GameBootstrapTests" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" testcasecount="21" result="Failed" site="Child" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:48Z" duration="0.329533" total="21" passed="20" failed="1" inconclusive="0" skipped="0" asserts="0">
               <properties />
               <failure>
                 <message><![CDATA[One or more child tests had errors]]></message>
               </failure>
-              <test-case id="1196" name="ApplyRemoteCharacter_ReplacesDynamicAnimatorFrames" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.ApplyRemoteCharacter_ReplacesDynamicAnimatorFrames" methodname="ApplyRemoteCharacter_ReplacesDynamicAnimatorFrames" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="612492990" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.026780" asserts="0">
+              <test-case id="1208" name="ApplyRemoteCharacter_ReplacesDynamicAnimatorFrames" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.ApplyRemoteCharacter_ReplacesDynamicAnimatorFrames" methodname="ApplyRemoteCharacter_ReplacesDynamicAnimatorFrames" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1040385612" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.028900" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -179,7 +224,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1184" name="Build_BlockOnlyLevelPreservesEmptyConcaveCorner" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_BlockOnlyLevelPreservesEmptyConcaveCorner" methodname="Build_BlockOnlyLevelPreservesEmptyConcaveCorner" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="506534643" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.016414" asserts="0">
+              <test-case id="1196" name="Build_BlockOnlyLevelPreservesEmptyConcaveCorner" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_BlockOnlyLevelPreservesEmptyConcaveCorner" methodname="Build_BlockOnlyLevelPreservesEmptyConcaveCorner" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="387315570" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.016435" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -200,7 +245,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1186" name="Build_BlocksUsePixelRectangleWithInvisibleSolidColliders" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_BlocksUsePixelRectangleWithInvisibleSolidColliders" methodname="Build_BlocksUsePixelRectangleWithInvisibleSolidColliders" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1260919243" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.013948" asserts="0">
+              <test-case id="1198" name="Build_BlocksUsePixelRectangleWithInvisibleSolidColliders" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_BlocksUsePixelRectangleWithInvisibleSolidColliders" methodname="Build_BlocksUsePixelRectangleWithInvisibleSolidColliders" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1174006895" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.015402" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -221,7 +266,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1202" name="Build_CharacterVisualLoadsOfficialBuiltInCharacter" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_CharacterVisualLoadsOfficialBuiltInCharacter" methodname="Build_CharacterVisualLoadsOfficialBuiltInCharacter" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="2042754597" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.013530" asserts="0">
+              <test-case id="1214" name="Build_CharacterVisualLoadsOfficialBuiltInCharacter" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_CharacterVisualLoadsOfficialBuiltInCharacter" methodname="Build_CharacterVisualLoadsOfficialBuiltInCharacter" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="161311338" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.015392" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -242,7 +287,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1192" name="Build_CreatesHudWithHiddenCompletionPanel" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_CreatesHudWithHiddenCompletionPanel" methodname="Build_CreatesHudWithHiddenCompletionPanel" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1831184218" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.013695" asserts="0">
+              <test-case id="1204" name="Build_CreatesHudWithHiddenCompletionPanel" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_CreatesHudWithHiddenCompletionPanel" methodname="Build_CreatesHudWithHiddenCompletionPanel" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="440312488" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.014674" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -263,7 +308,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1198" name="Build_CreatesMobileControlsAndPhotoCaptureHud" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_CreatesMobileControlsAndPhotoCaptureHud" methodname="Build_CreatesMobileControlsAndPhotoCaptureHud" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1408579650" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.013728" asserts="0">
+              <test-case id="1210" name="Build_CreatesMobileControlsAndPhotoCaptureHud" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_CreatesMobileControlsAndPhotoCaptureHud" methodname="Build_CreatesMobileControlsAndPhotoCaptureHud" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1706306803" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.014158" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -284,7 +329,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1200" name="Build_CreatesPlaytestTuningPanelWithDefaultHeight" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_CreatesPlaytestTuningPanelWithDefaultHeight" methodname="Build_CreatesPlaytestTuningPanelWithDefaultHeight" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1000832742" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.013283" asserts="0">
+              <test-case id="1212" name="Build_CreatesPlaytestTuningPanelWithDefaultHeight" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_CreatesPlaytestTuningPanelWithDefaultHeight" methodname="Build_CreatesPlaytestTuningPanelWithDefaultHeight" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="105458323" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.014466" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -305,7 +350,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1203" name="Build_CreatesScreenBoundsAlignedWithViewEdges" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_CreatesScreenBoundsAlignedWithViewEdges" methodname="Build_CreatesScreenBoundsAlignedWithViewEdges" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="914915629" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.014734" asserts="0">
+              <test-case id="1215" name="Build_CreatesScreenBoundsAlignedWithViewEdges" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_CreatesScreenBoundsAlignedWithViewEdges" methodname="Build_CreatesScreenBoundsAlignedWithViewEdges" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="502415148" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.014347" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -326,7 +371,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1199" name="Build_DoesNotCreateMobileOrientationHint" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_DoesNotCreateMobileOrientationHint" methodname="Build_DoesNotCreateMobileOrientationHint" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1948443860" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.013386" asserts="0">
+              <test-case id="1211" name="Build_DoesNotCreateMobileOrientationHint" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_DoesNotCreateMobileOrientationHint" methodname="Build_DoesNotCreateMobileOrientationHint" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1022592747" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.015746" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -347,7 +392,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1204" name="Build_FallingPlayerShowsFailurePanelAndFreezesPlayer" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_FallingPlayerShowsFailurePanelAndFreezesPlayer" methodname="Build_FallingPlayerShowsFailurePanelAndFreezesPlayer" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="64780555" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.014212" asserts="0">
+              <test-case id="1216" name="Build_FallingPlayerShowsFailurePanelAndFreezesPlayer" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_FallingPlayerShowsFailurePanelAndFreezesPlayer" methodname="Build_FallingPlayerShowsFailurePanelAndFreezesPlayer" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="81677243" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.015105" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -368,12 +413,12 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1189" name="Build_InvalidLevelCreatesNothing" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_InvalidLevelCreatesNothing" methodname="Build_InvalidLevelCreatesNothing" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1818950428" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000649" asserts="0">
+              <test-case id="1201" name="Build_InvalidLevelCreatesNothing" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_InvalidLevelCreatesNothing" methodname="Build_InvalidLevelCreatesNothing" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1243593814" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.000732" asserts="0">
                 <properties />
                 <output><![CDATA[C1 level is invalid: Level requires a background resource path.
 ]]></output>
               </test-case>
-              <test-case id="1191" name="Build_MapsPixelLineAndGoalToSameBackgroundSpace" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_MapsPixelLineAndGoalToSameBackgroundSpace" methodname="Build_MapsPixelLineAndGoalToSameBackgroundSpace" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1862257288" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.013654" asserts="0">
+              <test-case id="1203" name="Build_MapsPixelLineAndGoalToSameBackgroundSpace" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_MapsPixelLineAndGoalToSameBackgroundSpace" methodname="Build_MapsPixelLineAndGoalToSameBackgroundSpace" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="529398460" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.014244" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -394,7 +439,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1194" name="Build_MockApiLevelCreatesGeometryAlignedToProvidedImage" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_MockApiLevelCreatesGeometryAlignedToProvidedImage" methodname="Build_MockApiLevelCreatesGeometryAlignedToProvidedImage" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1506531276" result="Failed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.010621" asserts="0">
+              <test-case id="1206" name="Build_MockApiLevelCreatesGeometryAlignedToProvidedImage" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_MockApiLevelCreatesGeometryAlignedToProvidedImage" methodname="Build_MockApiLevelCreatesGeometryAlignedToProvidedImage" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="418258013" result="Failed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.012056" asserts="0">
                 <properties />
                 <failure>
                   <message><![CDATA[  Expected: (2.23, 2.20)
@@ -443,7 +488,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1187" name="Build_RebuildAndReturnHomeClearWallsAndBlocks" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_RebuildAndReturnHomeClearWallsAndBlocks" methodname="Build_RebuildAndReturnHomeClearWallsAndBlocks" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="247174574" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.043195" asserts="0">
+              <test-case id="1199" name="Build_RebuildAndReturnHomeClearWallsAndBlocks" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_RebuildAndReturnHomeClearWallsAndBlocks" methodname="Build_RebuildAndReturnHomeClearWallsAndBlocks" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="947470067" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.043908" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -481,7 +526,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1201" name="Build_UsesFixedCameraAndCreatesCharacterAnimator" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_UsesFixedCameraAndCreatesCharacterAnimator" methodname="Build_UsesFixedCameraAndCreatesCharacterAnimator" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1879242174" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.013711" asserts="0">
+              <test-case id="1213" name="Build_UsesFixedCameraAndCreatesCharacterAnimator" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_UsesFixedCameraAndCreatesCharacterAnimator" methodname="Build_UsesFixedCameraAndCreatesCharacterAnimator" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="140874487" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:47Z" duration="0.017720" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -502,7 +547,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1190" name="Build_UsesPhotoBackgroundAndInvisiblePhysics" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_UsesPhotoBackgroundAndInvisiblePhysics" methodname="Build_UsesPhotoBackgroundAndInvisiblePhysics" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1696880564" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.014239" asserts="0">
+              <test-case id="1202" name="Build_UsesPhotoBackgroundAndInvisiblePhysics" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_UsesPhotoBackgroundAndInvisiblePhysics" methodname="Build_UsesPhotoBackgroundAndInvisiblePhysics" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="333891901" result="Passed" start-time="2026-09-15 18:25:47Z" end-time="2026-09-15 18:25:48Z" duration="0.014225" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -523,7 +568,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1188" name="Build_ValidLevelCreatesPlayerGroundsAndSingleGoal" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_ValidLevelCreatesPlayerGroundsAndSingleGoal" methodname="Build_ValidLevelCreatesPlayerGroundsAndSingleGoal" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1471611931" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.013717" asserts="0">
+              <test-case id="1200" name="Build_ValidLevelCreatesPlayerGroundsAndSingleGoal" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_ValidLevelCreatesPlayerGroundsAndSingleGoal" methodname="Build_ValidLevelCreatesPlayerGroundsAndSingleGoal" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="567548171" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.014211" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -544,7 +589,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1185" name="Build_WallsFollowPixelEndpointsWithInvisibleSolidColliders" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_WallsFollowPixelEndpointsWithInvisibleSolidColliders" methodname="Build_WallsFollowPixelEndpointsWithInvisibleSolidColliders" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="999419306" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.014153" asserts="0">
+              <test-case id="1197" name="Build_WallsFollowPixelEndpointsWithInvisibleSolidColliders" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.Build_WallsFollowPixelEndpointsWithInvisibleSolidColliders" methodname="Build_WallsFollowPixelEndpointsWithInvisibleSolidColliders" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1206754261" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.015029" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -565,7 +610,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1193" name="BuildSelectedLevel_UsesPendingSessionLevel" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.BuildSelectedLevel_UsesPendingSessionLevel" methodname="BuildSelectedLevel_UsesPendingSessionLevel" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="780636386" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.014432" asserts="0">
+              <test-case id="1205" name="BuildSelectedLevel_UsesPendingSessionLevel" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.BuildSelectedLevel_UsesPendingSessionLevel" methodname="BuildSelectedLevel_UsesPendingSessionLevel" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="975785993" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.014363" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -586,7 +631,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1197" name="ReturnHome_ClearsGeneratedLevelAndRequestsHomeScene" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.ReturnHome_ClearsGeneratedLevelAndRequestsHomeScene" methodname="ReturnHome_ClearsGeneratedLevelAndRequestsHomeScene" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1315162888" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.015126" asserts="0">
+              <test-case id="1209" name="ReturnHome_ClearsGeneratedLevelAndRequestsHomeScene" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.ReturnHome_ClearsGeneratedLevelAndRequestsHomeScene" methodname="ReturnHome_ClearsGeneratedLevelAndRequestsHomeScene" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="926736691" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.014627" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -607,76 +652,76 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1195" name="TryGetSelectedCharacter_ReturnsSavedCustomRecord" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.TryGetSelectedCharacter_ReturnsSavedCustomRecord" methodname="TryGetSelectedCharacter_ReturnsSavedCustomRecord" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="25646771" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000426" asserts="0">
+              <test-case id="1207" name="TryGetSelectedCharacter_ReturnsSavedCustomRecord" fullname="PaperGame.C1.Tests.C1GameBootstrapTests.TryGetSelectedCharacter_ReturnsSavedCustomRecord" methodname="TryGetSelectedCharacter_ReturnsSavedCustomRecord" classname="PaperGame.C1.Tests.C1GameBootstrapTests" runstate="Runnable" seed="1319344255" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000403" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1205" name="C1GameSessionTests" fullname="PaperGame.C1.Tests.C1GameSessionTests" classname="PaperGame.C1.Tests.C1GameSessionTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.001420" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1217" name="C1GameSessionTests" fullname="PaperGame.C1.Tests.C1GameSessionTests" classname="PaperGame.C1.Tests.C1GameSessionTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.001900" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1206" name="ConsumePendingLevel_UsesSelectedPathThenClearsIt" fullname="PaperGame.C1.Tests.C1GameSessionTests.ConsumePendingLevel_UsesSelectedPathThenClearsIt" methodname="ConsumePendingLevel_UsesSelectedPathThenClearsIt" classname="PaperGame.C1.Tests.C1GameSessionTests" runstate="Runnable" seed="1423298174" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000167" asserts="0">
+              <test-case id="1218" name="ConsumePendingLevel_UsesSelectedPathThenClearsIt" fullname="PaperGame.C1.Tests.C1GameSessionTests.ConsumePendingLevel_UsesSelectedPathThenClearsIt" methodname="ConsumePendingLevel_UsesSelectedPathThenClearsIt" classname="PaperGame.C1.Tests.C1GameSessionTests" runstate="Runnable" seed="1554114583" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000236" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1207" name="SetPendingLevel_UsesDefaultForEmptyValue" fullname="PaperGame.C1.Tests.C1GameSessionTests.SetPendingLevel_UsesDefaultForEmptyValue" methodname="SetPendingLevel_UsesDefaultForEmptyValue" classname="PaperGame.C1.Tests.C1GameSessionTests" runstate="Runnable" seed="748757214" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000086" asserts="0">
+              <test-case id="1219" name="SetPendingLevel_UsesDefaultForEmptyValue" fullname="PaperGame.C1.Tests.C1GameSessionTests.SetPendingLevel_UsesDefaultForEmptyValue" methodname="SetPendingLevel_UsesDefaultForEmptyValue" classname="PaperGame.C1.Tests.C1GameSessionTests" runstate="Runnable" seed="1014301866" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000108" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1208" name="C1GoalFlagTests" fullname="PaperGame.C1.Tests.C1GoalFlagTests" classname="PaperGame.C1.Tests.C1GoalFlagTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000972" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1220" name="C1GoalFlagTests" fullname="PaperGame.C1.Tests.C1GoalFlagTests" classname="PaperGame.C1.Tests.C1GoalFlagTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.001112" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1209" name="TryReach_NotifiesExactlyOnceAndCompletesPlayer" fullname="PaperGame.C1.Tests.C1GoalFlagTests.TryReach_NotifiesExactlyOnceAndCompletesPlayer" methodname="TryReach_NotifiesExactlyOnceAndCompletesPlayer" classname="PaperGame.C1.Tests.C1GoalFlagTests" runstate="Runnable" seed="1517301468" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000405" asserts="0">
+              <test-case id="1221" name="TryReach_NotifiesExactlyOnceAndCompletesPlayer" fullname="PaperGame.C1.Tests.C1GoalFlagTests.TryReach_NotifiesExactlyOnceAndCompletesPlayer" methodname="TryReach_NotifiesExactlyOnceAndCompletesPlayer" classname="PaperGame.C1.Tests.C1GoalFlagTests" runstate="Runnable" seed="620423125" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000493" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1211" name="TryReach_RejectsFallenPlayer" fullname="PaperGame.C1.Tests.C1GoalFlagTests.TryReach_RejectsFallenPlayer" methodname="TryReach_RejectsFallenPlayer" classname="PaperGame.C1.Tests.C1GoalFlagTests" runstate="Runnable" seed="1419475072" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000130" asserts="0">
+              <test-case id="1223" name="TryReach_RejectsFallenPlayer" fullname="PaperGame.C1.Tests.C1GoalFlagTests.TryReach_RejectsFallenPlayer" methodname="TryReach_RejectsFallenPlayer" classname="PaperGame.C1.Tests.C1GoalFlagTests" runstate="Runnable" seed="1783197893" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000107" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1210" name="TryReach_RejectsMissingPlayer" fullname="PaperGame.C1.Tests.C1GoalFlagTests.TryReach_RejectsMissingPlayer" methodname="TryReach_RejectsMissingPlayer" classname="PaperGame.C1.Tests.C1GoalFlagTests" runstate="Runnable" seed="867900314" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000107" asserts="0">
+              <test-case id="1222" name="TryReach_RejectsMissingPlayer" fullname="PaperGame.C1.Tests.C1GoalFlagTests.TryReach_RejectsMissingPlayer" methodname="TryReach_RejectsMissingPlayer" classname="PaperGame.C1.Tests.C1GoalFlagTests" runstate="Runnable" seed="1206120393" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000099" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1212" name="C1JumpPhysicsTests" fullname="PaperGame.C1.Tests.C1JumpPhysicsTests" classname="PaperGame.C1.Tests.C1JumpPhysicsTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000365" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1224" name="C1JumpPhysicsTests" fullname="PaperGame.C1.Tests.C1JumpPhysicsTests" classname="PaperGame.C1.Tests.C1JumpPhysicsTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000396" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1214" name="SpeedForHeight_NegativeInputsReturnZero" fullname="PaperGame.C1.Tests.C1JumpPhysicsTests.SpeedForHeight_NegativeInputsReturnZero" methodname="SpeedForHeight_NegativeInputsReturnZero" classname="PaperGame.C1.Tests.C1JumpPhysicsTests" runstate="Runnable" seed="1279379162" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000061" asserts="0">
+              <test-case id="1226" name="SpeedForHeight_NegativeInputsReturnZero" fullname="PaperGame.C1.Tests.C1JumpPhysicsTests.SpeedForHeight_NegativeInputsReturnZero" methodname="SpeedForHeight_NegativeInputsReturnZero" classname="PaperGame.C1.Tests.C1JumpPhysicsTests" runstate="Runnable" seed="2142198327" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000070" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1213" name="SpeedForHeight_UsesGravityAndReturnsUpwardSpeed" fullname="PaperGame.C1.Tests.C1JumpPhysicsTests.SpeedForHeight_UsesGravityAndReturnsUpwardSpeed" methodname="SpeedForHeight_UsesGravityAndReturnsUpwardSpeed" classname="PaperGame.C1.Tests.C1JumpPhysicsTests" runstate="Runnable" seed="859734669" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000040" asserts="0">
+              <test-case id="1225" name="SpeedForHeight_UsesGravityAndReturnsUpwardSpeed" fullname="PaperGame.C1.Tests.C1JumpPhysicsTests.SpeedForHeight_UsesGravityAndReturnsUpwardSpeed" methodname="SpeedForHeight_UsesGravityAndReturnsUpwardSpeed" classname="PaperGame.C1.Tests.C1JumpPhysicsTests" runstate="Runnable" seed="1204719344" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000060" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1215" name="C1LevelDefinitionTests" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.002008" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1227" name="C1LevelDefinitionTests" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.002391" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1220" name="NewGeometry_DefaultsToEmpty" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.NewGeometry_DefaultsToEmpty" methodname="NewGeometry_DefaultsToEmpty" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="280342698" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000427" asserts="0">
+              <test-case id="1232" name="NewGeometry_DefaultsToEmpty" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.NewGeometry_DefaultsToEmpty" methodname="NewGeometry_DefaultsToEmpty" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="1528423895" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000548" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1216" name="TryValidate_AcceptsBlocksWithoutLinePlatforms" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_AcceptsBlocksWithoutLinePlatforms" methodname="TryValidate_AcceptsBlocksWithoutLinePlatforms" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="534216908" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000091" asserts="0">
+              <test-case id="1228" name="TryValidate_AcceptsBlocksWithoutLinePlatforms" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_AcceptsBlocksWithoutLinePlatforms" methodname="TryValidate_AcceptsBlocksWithoutLinePlatforms" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="1671498068" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000133" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1225" name="TryValidate_AcceptsLegacyVerticalPlatform" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_AcceptsLegacyVerticalPlatform" methodname="TryValidate_AcceptsLegacyVerticalPlatform" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="1043126820" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000055" asserts="0">
+              <test-case id="1237" name="TryValidate_AcceptsLegacyVerticalPlatform" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_AcceptsLegacyVerticalPlatform" methodname="TryValidate_AcceptsLegacyVerticalPlatform" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="1044630744" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000063" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1217" name="TryValidate_RejectsMissingPlatforms" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsMissingPlatforms" methodname="TryValidate_RejectsMissingPlatforms" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="1869926046" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000077" asserts="0">
+              <test-case id="1229" name="TryValidate_RejectsMissingPlatforms" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsMissingPlatforms" methodname="TryValidate_RejectsMissingPlatforms" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="559498400" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000085" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1219" name="TryValidate_RejectsNonFiniteCoordinates" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsNonFiniteCoordinates" methodname="TryValidate_RejectsNonFiniteCoordinates" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="2077849856" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000063" asserts="0">
+              <test-case id="1231" name="TryValidate_RejectsNonFiniteCoordinates" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsNonFiniteCoordinates" methodname="TryValidate_RejectsNonFiniteCoordinates" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="1692104726" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000076" asserts="0">
                 <properties />
               </test-case>
-              <test-suite type="ParameterizedMethod" id="1224" name="TryValidate_RejectsNonFiniteGeometry" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsNonFiniteGeometry" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000756" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <test-suite type="ParameterizedMethod" id="1236" name="TryValidate_RejectsNonFiniteGeometry" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsNonFiniteGeometry" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000828" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
                 <properties />
-                <test-case id="1221" name="TryValidate_RejectsNonFiniteGeometry(&quot;Walls&quot;,&quot;Start&quot;)" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsNonFiniteGeometry(&quot;Walls&quot;,&quot;Start&quot;)" methodname="TryValidate_RejectsNonFiniteGeometry" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="1812460787" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000429" asserts="0">
+                <test-case id="1233" name="TryValidate_RejectsNonFiniteGeometry(&quot;Walls&quot;,&quot;Start&quot;)" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsNonFiniteGeometry(&quot;Walls&quot;,&quot;Start&quot;)" methodname="TryValidate_RejectsNonFiniteGeometry" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="1660559370" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000338" asserts="0">
                   <properties />
                 </test-case>
-                <test-case id="1222" name="TryValidate_RejectsNonFiniteGeometry(&quot;Walls&quot;,&quot;End&quot;)" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsNonFiniteGeometry(&quot;Walls&quot;,&quot;End&quot;)" methodname="TryValidate_RejectsNonFiniteGeometry" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="611798545" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000048" asserts="0">
+                <test-case id="1234" name="TryValidate_RejectsNonFiniteGeometry(&quot;Walls&quot;,&quot;End&quot;)" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsNonFiniteGeometry(&quot;Walls&quot;,&quot;End&quot;)" methodname="TryValidate_RejectsNonFiniteGeometry" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="1567886427" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000050" asserts="0">
                   <properties />
                 </test-case>
-                <test-case id="1223" name="TryValidate_RejectsNonFiniteGeometry(&quot;Blocks&quot;,&quot;Region&quot;)" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsNonFiniteGeometry(&quot;Blocks&quot;,&quot;Region&quot;)" methodname="TryValidate_RejectsNonFiniteGeometry" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="975821119" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000086" asserts="0">
+                <test-case id="1235" name="TryValidate_RejectsNonFiniteGeometry(&quot;Blocks&quot;,&quot;Region&quot;)" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsNonFiniteGeometry(&quot;Blocks&quot;,&quot;Region&quot;)" methodname="TryValidate_RejectsNonFiniteGeometry" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="1722213013" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000086" asserts="0">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-case id="1218" name="TryValidate_RejectsZeroLengthPlatform" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsZeroLengthPlatform" methodname="TryValidate_RejectsZeroLengthPlatform" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="1576670711" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000066" asserts="0">
+              <test-case id="1230" name="TryValidate_RejectsZeroLengthPlatform" fullname="PaperGame.C1.Tests.C1LevelDefinitionTests.TryValidate_RejectsZeroLengthPlatform" methodname="TryValidate_RejectsZeroLengthPlatform" classname="PaperGame.C1.Tests.C1LevelDefinitionTests" runstate="Runnable" seed="131453717" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000072" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1226" name="C1LevelLoaderTests" fullname="PaperGame.C1.Tests.C1LevelLoaderTests" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.003938" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1238" name="C1LevelLoaderTests" fullname="PaperGame.C1.Tests.C1LevelLoaderTests" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.004902" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1245" name="Load_MockApiResponseUsesItsPairedLocalBackground" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Load_MockApiResponseUsesItsPairedLocalBackground" methodname="Load_MockApiResponseUsesItsPairedLocalBackground" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="481080235" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000810" asserts="0">
+              <test-case id="1257" name="Load_MockApiResponseUsesItsPairedLocalBackground" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Load_MockApiResponseUsesItsPairedLocalBackground" methodname="Load_MockApiResponseUsesItsPairedLocalBackground" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="708580664" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000749" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level-api-mock.json
 {
@@ -718,7 +763,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1244" name="LoadDefault_ReturnsPhotoBackgroundPixelLevel" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.LoadDefault_ReturnsPhotoBackgroundPixelLevel" methodname="LoadDefault_ReturnsPhotoBackgroundPixelLevel" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="606869428" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000473" asserts="0">
+              <test-case id="1256" name="LoadDefault_ReturnsPhotoBackgroundPixelLevel" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.LoadDefault_ReturnsPhotoBackgroundPixelLevel" methodname="LoadDefault_ReturnsPhotoBackgroundPixelLevel" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="1103755520" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000486" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -739,121 +784,121 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1241" name="Parse_ApiResponseBuildsLevelWithoutConsultingStatusOrAnalysis" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_ApiResponseBuildsLevelWithoutConsultingStatusOrAnalysis" methodname="Parse_ApiResponseBuildsLevelWithoutConsultingStatusOrAnalysis" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="1500226303" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000152" asserts="0">
+              <test-case id="1253" name="Parse_ApiResponseBuildsLevelWithoutConsultingStatusOrAnalysis" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_ApiResponseBuildsLevelWithoutConsultingStatusOrAnalysis" methodname="Parse_ApiResponseBuildsLevelWithoutConsultingStatusOrAnalysis" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="2048564954" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000156" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1242" name="Parse_EmptyOrBrokenJsonReturnsError" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_EmptyOrBrokenJsonReturnsError" methodname="Parse_EmptyOrBrokenJsonReturnsError" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="349646004" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000072" asserts="0">
+              <test-case id="1254" name="Parse_EmptyOrBrokenJsonReturnsError" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_EmptyOrBrokenJsonReturnsError" methodname="Parse_EmptyOrBrokenJsonReturnsError" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="1073611213" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000075" asserts="0">
                 <properties />
               </test-case>
-              <test-suite type="ParameterizedMethod" id="1229" name="Parse_LoadsBlocksOnlyLevel" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsBlocksOnlyLevel" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000277" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <test-suite type="ParameterizedMethod" id="1241" name="Parse_LoadsBlocksOnlyLevel" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsBlocksOnlyLevel" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000375" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
                 <properties />
-                <test-case id="1227" name="Parse_LoadsBlocksOnlyLevel(False)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsBlocksOnlyLevel(False)" methodname="Parse_LoadsBlocksOnlyLevel" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="423453759" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000102" asserts="0">
+                <test-case id="1239" name="Parse_LoadsBlocksOnlyLevel(False)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsBlocksOnlyLevel(False)" methodname="Parse_LoadsBlocksOnlyLevel" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="494349640" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000119" asserts="0">
                   <properties />
                 </test-case>
-                <test-case id="1228" name="Parse_LoadsBlocksOnlyLevel(True)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsBlocksOnlyLevel(True)" methodname="Parse_LoadsBlocksOnlyLevel" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="1701957376" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000048" asserts="0">
-                  <properties />
-                </test-case>
-              </test-suite>
-              <test-suite type="ParameterizedMethod" id="1233" name="Parse_LoadsWallsAndBlocks" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsWallsAndBlocks" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000594" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
-                <properties />
-                <test-case id="1231" name="Parse_LoadsWallsAndBlocks(False)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsWallsAndBlocks(False)" methodname="Parse_LoadsWallsAndBlocks" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="1614776506" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000405" asserts="0">
-                  <properties />
-                </test-case>
-                <test-case id="1232" name="Parse_LoadsWallsAndBlocks(True)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsWallsAndBlocks(True)" methodname="Parse_LoadsWallsAndBlocks" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="845090276" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000063" asserts="0">
+                <test-case id="1240" name="Parse_LoadsBlocksOnlyLevel(True)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsBlocksOnlyLevel(True)" methodname="Parse_LoadsBlocksOnlyLevel" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="126840845" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000058" asserts="0">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-case id="1230" name="Parse_OptionalGeometryDefaultsToEmpty" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_OptionalGeometryDefaultsToEmpty" methodname="Parse_OptionalGeometryDefaultsToEmpty" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="35391424" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000169" asserts="0">
+              <test-suite type="ParameterizedMethod" id="1245" name="Parse_LoadsWallsAndBlocks" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsWallsAndBlocks" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000757" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
                 <properties />
-              </test-case>
-              <test-case id="1243" name="Parse_OutOfCanvasPlatformReturnsError" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_OutOfCanvasPlatformReturnsError" methodname="Parse_OutOfCanvasPlatformReturnsError" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="551244273" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000055" asserts="0">
-                <properties />
-              </test-case>
-              <test-suite type="ParameterizedMethod" id="1239" name="Parse_RejectsInvalidGeometry" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000471" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
-                <properties />
-                <test-case id="1234" name="Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:200,\&quot;y\&quot;:30}}]&quot;,&quot;vertical&quot;)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:200,\&quot;y\&quot;:30}}]&quot;,&quot;vertical&quot;)" methodname="Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="344996939" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000061" asserts="0">
+                <test-case id="1243" name="Parse_LoadsWallsAndBlocks(False)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsWallsAndBlocks(False)" methodname="Parse_LoadsWallsAndBlocks" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="857291350" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000541" asserts="0">
                   <properties />
                 </test-case>
-                <test-case id="1235" name="Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20}}]&quot;,&quot;length&quot;)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20}}]&quot;,&quot;length&quot;)" methodname="Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="112591112" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000054" asserts="0">
-                  <properties />
-                </test-case>
-                <test-case id="1236" name="Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:301}}]&quot;,&quot;canvas&quot;)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:301}}]&quot;,&quot;canvas&quot;)" methodname="Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="1166747988" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000030" asserts="0">
-                  <properties />
-                </test-case>
-                <test-case id="1237" name="Parse_RejectsInvalidGeometry(&quot;\&quot;blocks\&quot;:[{\&quot;region\&quot;:{\&quot;x\&quot;:380,\&quot;y\&quot;:20,\&quot;width\&quot;:30,\&quot;height\&quot;:50}}]&quot;,&quot;canvas&quot;)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry(&quot;\&quot;blocks\&quot;:[{\&quot;region\&quot;:{\&quot;x\&quot;:380,\&quot;y\&quot;:20,\&quot;width\&quot;:30,\&quot;height\&quot;:50}}]&quot;,&quot;canvas&quot;)" methodname="Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="301193165" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000031" asserts="0">
-                  <properties />
-                </test-case>
-                <test-case id="1238" name="Parse_RejectsInvalidGeometry(&quot;\&quot;blocks\&quot;:[{\&quot;region\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20,\&quot;width\&quot;:0,\&quot;height\&quot;:50}}]&quot;,&quot;positive&quot;)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry(&quot;\&quot;blocks\&quot;:[{\&quot;region\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20,\&quot;width\&quot;:0,\&quot;height\&quot;:50}}]&quot;,&quot;positive&quot;)" methodname="Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="672949742" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000030" asserts="0">
+                <test-case id="1244" name="Parse_LoadsWallsAndBlocks(True)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_LoadsWallsAndBlocks(True)" methodname="Parse_LoadsWallsAndBlocks" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="760833931" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000067" asserts="0">
                   <properties />
                 </test-case>
               </test-suite>
-              <test-case id="1240" name="Parse_ValidJsonBuildsPhotoPixelLevel" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_ValidJsonBuildsPhotoPixelLevel" methodname="Parse_ValidJsonBuildsPhotoPixelLevel" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="438426714" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000204" asserts="0">
+              <test-case id="1242" name="Parse_OptionalGeometryDefaultsToEmpty" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_OptionalGeometryDefaultsToEmpty" methodname="Parse_OptionalGeometryDefaultsToEmpty" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="2085192638" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000205" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1255" name="Parse_OutOfCanvasPlatformReturnsError" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_OutOfCanvasPlatformReturnsError" methodname="Parse_OutOfCanvasPlatformReturnsError" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="1814369544" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000068" asserts="0">
+                <properties />
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1251" name="Parse_RejectsInvalidGeometry" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000554" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1246" name="Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:200,\&quot;y\&quot;:30}}]&quot;,&quot;vertical&quot;)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:200,\&quot;y\&quot;:30}}]&quot;,&quot;vertical&quot;)" methodname="Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="1646558109" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000079" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1247" name="Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20}}]&quot;,&quot;length&quot;)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20}}]&quot;,&quot;length&quot;)" methodname="Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="887488778" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000039" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1248" name="Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:301}}]&quot;,&quot;canvas&quot;)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry(&quot;\&quot;walls\&quot;:[{\&quot;start\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20},\&quot;end\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:301}}]&quot;,&quot;canvas&quot;)" methodname="Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="2013729058" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000032" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1249" name="Parse_RejectsInvalidGeometry(&quot;\&quot;blocks\&quot;:[{\&quot;region\&quot;:{\&quot;x\&quot;:380,\&quot;y\&quot;:20,\&quot;width\&quot;:30,\&quot;height\&quot;:50}}]&quot;,&quot;canvas&quot;)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry(&quot;\&quot;blocks\&quot;:[{\&quot;region\&quot;:{\&quot;x\&quot;:380,\&quot;y\&quot;:20,\&quot;width\&quot;:30,\&quot;height\&quot;:50}}]&quot;,&quot;canvas&quot;)" methodname="Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="1442212061" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000039" asserts="0">
+                  <properties />
+                </test-case>
+                <test-case id="1250" name="Parse_RejectsInvalidGeometry(&quot;\&quot;blocks\&quot;:[{\&quot;region\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20,\&quot;width\&quot;:0,\&quot;height\&quot;:50}}]&quot;,&quot;positive&quot;)" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_RejectsInvalidGeometry(&quot;\&quot;blocks\&quot;:[{\&quot;region\&quot;:{\&quot;x\&quot;:20,\&quot;y\&quot;:20,\&quot;width\&quot;:0,\&quot;height\&quot;:50}}]&quot;,&quot;positive&quot;)" methodname="Parse_RejectsInvalidGeometry" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="1811424074" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000034" asserts="0">
+                  <properties />
+                </test-case>
+              </test-suite>
+              <test-case id="1252" name="Parse_ValidJsonBuildsPhotoPixelLevel" fullname="PaperGame.C1.Tests.C1LevelLoaderTests.Parse_ValidJsonBuildsPhotoPixelLevel" methodname="Parse_ValidJsonBuildsPhotoPixelLevel" classname="PaperGame.C1.Tests.C1LevelLoaderTests" runstate="Runnable" seed="2014399012" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000201" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1246" name="C1MobileControlsTests" fullname="PaperGame.C1.Tests.C1MobileControlsTests" classname="PaperGame.C1.Tests.C1MobileControlsTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000709" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1258" name="C1MobileControlsTests" fullname="PaperGame.C1.Tests.C1MobileControlsTests" classname="PaperGame.C1.Tests.C1MobileControlsTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000731" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1247" name="DirectionButtons_CombineAndReleaseWithoutLeavingStuckInput" fullname="PaperGame.C1.Tests.C1MobileControlsTests.DirectionButtons_CombineAndReleaseWithoutLeavingStuckInput" methodname="DirectionButtons_CombineAndReleaseWithoutLeavingStuckInput" classname="PaperGame.C1.Tests.C1MobileControlsTests" runstate="Runnable" seed="1946386627" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000305" asserts="0">
+              <test-case id="1259" name="DirectionButtons_CombineAndReleaseWithoutLeavingStuckInput" fullname="PaperGame.C1.Tests.C1MobileControlsTests.DirectionButtons_CombineAndReleaseWithoutLeavingStuckInput" methodname="DirectionButtons_CombineAndReleaseWithoutLeavingStuckInput" classname="PaperGame.C1.Tests.C1MobileControlsTests" runstate="Runnable" seed="2055780317" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000327" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1248" name="DisablingControls_ClearsHeldDirection" fullname="PaperGame.C1.Tests.C1MobileControlsTests.DisablingControls_ClearsHeldDirection" methodname="DisablingControls_ClearsHeldDirection" classname="PaperGame.C1.Tests.C1MobileControlsTests" runstate="Runnable" seed="961232458" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000131" asserts="0">
+              <test-case id="1260" name="DisablingControls_ClearsHeldDirection" fullname="PaperGame.C1.Tests.C1MobileControlsTests.DisablingControls_ClearsHeldDirection" methodname="DisablingControls_ClearsHeldDirection" classname="PaperGame.C1.Tests.C1MobileControlsTests" runstate="Runnable" seed="2079778392" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000139" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1249" name="C1OutOfBoundsWatcherTests" fullname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests" classname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000552" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1261" name="C1OutOfBoundsWatcherTests" fullname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests" classname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000690" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1251" name="Evaluate_AboveKillLineDoesNothing" fullname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests.Evaluate_AboveKillLineDoesNothing" methodname="Evaluate_AboveKillLineDoesNothing" classname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests" runstate="Runnable" seed="1562618857" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000201" asserts="0">
+              <test-case id="1263" name="Evaluate_AboveKillLineDoesNothing" fullname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests.Evaluate_AboveKillLineDoesNothing" methodname="Evaluate_AboveKillLineDoesNothing" classname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests" runstate="Runnable" seed="466381935" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000254" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1250" name="Evaluate_BelowKillLineFallsPlayerAndNotifies" fullname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests.Evaluate_BelowKillLineFallsPlayerAndNotifies" methodname="Evaluate_BelowKillLineFallsPlayerAndNotifies" classname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests" runstate="Runnable" seed="1244973743" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000138" asserts="0">
+              <test-case id="1262" name="Evaluate_BelowKillLineFallsPlayerAndNotifies" fullname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests.Evaluate_BelowKillLineFallsPlayerAndNotifies" methodname="Evaluate_BelowKillLineFallsPlayerAndNotifies" classname="PaperGame.C1.Tests.C1OutOfBoundsWatcherTests" runstate="Runnable" seed="1181141085" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000156" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1252" name="C1PhotoCaptureTests" fullname="PaperGame.C1.Tests.C1PhotoCaptureTests" classname="PaperGame.C1.Tests.C1PhotoCaptureTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.007371" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1264" name="C1PhotoCaptureTests" fullname="PaperGame.C1.Tests.C1PhotoCaptureTests" classname="PaperGame.C1.Tests.C1PhotoCaptureTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.009349" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1255" name="ApplyPhoto_OverMaximumSize_IsRejectedBeforeDecode" fullname="PaperGame.C1.Tests.C1PhotoCaptureTests.ApplyPhoto_OverMaximumSize_IsRejectedBeforeDecode" methodname="ApplyPhoto_OverMaximumSize_IsRejectedBeforeDecode" classname="PaperGame.C1.Tests.C1PhotoCaptureTests" runstate="Runnable" seed="828821874" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.002162" asserts="0">
+              <test-case id="1267" name="ApplyPhoto_OverMaximumSize_IsRejectedBeforeDecode" fullname="PaperGame.C1.Tests.C1PhotoCaptureTests.ApplyPhoto_OverMaximumSize_IsRejectedBeforeDecode" methodname="ApplyPhoto_OverMaximumSize_IsRejectedBeforeDecode" classname="PaperGame.C1.Tests.C1PhotoCaptureTests" runstate="Runnable" seed="1769324546" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.003992" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1256" name="ReceivePhotoDataUrl_SecondValidPhoto_ReplacesAndDestroysOldTexture" fullname="PaperGame.C1.Tests.C1PhotoCaptureTests.ReceivePhotoDataUrl_SecondValidPhoto_ReplacesAndDestroysOldTexture" methodname="ReceivePhotoDataUrl_SecondValidPhoto_ReplacesAndDestroysOldTexture" classname="PaperGame.C1.Tests.C1PhotoCaptureTests" runstate="Runnable" seed="1658058944" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.002253" asserts="0">
+              <test-case id="1268" name="ReceivePhotoDataUrl_SecondValidPhoto_ReplacesAndDestroysOldTexture" fullname="PaperGame.C1.Tests.C1PhotoCaptureTests.ReceivePhotoDataUrl_SecondValidPhoto_ReplacesAndDestroysOldTexture" methodname="ReceivePhotoDataUrl_SecondValidPhoto_ReplacesAndDestroysOldTexture" classname="PaperGame.C1.Tests.C1PhotoCaptureTests" runstate="Runnable" seed="1506419563" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.003777" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1254" name="ReceivePhotoDataUrl_UnsupportedMime_DoesNotReplacePreviousPhoto" fullname="PaperGame.C1.Tests.C1PhotoCaptureTests.ReceivePhotoDataUrl_UnsupportedMime_DoesNotReplacePreviousPhoto" methodname="ReceivePhotoDataUrl_UnsupportedMime_DoesNotReplacePreviousPhoto" classname="PaperGame.C1.Tests.C1PhotoCaptureTests" runstate="Runnable" seed="1810970840" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000434" asserts="0">
+              <test-case id="1266" name="ReceivePhotoDataUrl_UnsupportedMime_DoesNotReplacePreviousPhoto" fullname="PaperGame.C1.Tests.C1PhotoCaptureTests.ReceivePhotoDataUrl_UnsupportedMime_DoesNotReplacePreviousPhoto" methodname="ReceivePhotoDataUrl_UnsupportedMime_DoesNotReplacePreviousPhoto" classname="PaperGame.C1.Tests.C1PhotoCaptureTests" runstate="Runnable" seed="1065774954" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000509" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1253" name="ReceivePhotoDataUrl_ValidPng_PreservesBytesAndCreatesPreview" fullname="PaperGame.C1.Tests.C1PhotoCaptureTests.ReceivePhotoDataUrl_ValidPng_PreservesBytesAndCreatesPreview" methodname="ReceivePhotoDataUrl_ValidPng_PreservesBytesAndCreatesPreview" classname="PaperGame.C1.Tests.C1PhotoCaptureTests" runstate="Runnable" seed="673190256" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000413" asserts="0">
+              <test-case id="1265" name="ReceivePhotoDataUrl_ValidPng_PreservesBytesAndCreatesPreview" fullname="PaperGame.C1.Tests.C1PhotoCaptureTests.ReceivePhotoDataUrl_ValidPng_PreservesBytesAndCreatesPreview" methodname="ReceivePhotoDataUrl_ValidPng_PreservesBytesAndCreatesPreview" classname="PaperGame.C1.Tests.C1PhotoCaptureTests" runstate="Runnable" seed="1074290383" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000496" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1257" name="C1PlayerControllerTests" fullname="PaperGame.C1.Tests.C1PlayerControllerTests" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.004068" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1269" name="C1PlayerControllerTests" fullname="PaperGame.C1.Tests.C1PlayerControllerTests" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.004400" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1258" name="ApplyHorizontalInput_SetsConfiguredHorizontalVelocity" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.ApplyHorizontalInput_SetsConfiguredHorizontalVelocity" methodname="ApplyHorizontalInput_SetsConfiguredHorizontalVelocity" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="700525155" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000423" asserts="0">
+              <test-case id="1270" name="ApplyHorizontalInput_SetsConfiguredHorizontalVelocity" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.ApplyHorizontalInput_SetsConfiguredHorizontalVelocity" methodname="ApplyHorizontalInput_SetsConfiguredHorizontalVelocity" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="1361131620" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000835" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1264" name="Complete_StopsBodyAndRejectsFurtherInput" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.Complete_StopsBodyAndRejectsFurtherInput" methodname="Complete_StopsBodyAndRejectsFurtherInput" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="1044164006" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000266" asserts="0">
+              <test-case id="1276" name="Complete_StopsBodyAndRejectsFurtherInput" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.Complete_StopsBodyAndRejectsFurtherInput" methodname="Complete_StopsBodyAndRejectsFurtherInput" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="1541146133" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000379" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1265" name="Fall_FreezesBodyAndRejectsInputAndJump" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.Fall_FreezesBodyAndRejectsInputAndJump" methodname="Fall_FreezesBodyAndRejectsInputAndJump" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="1708866060" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000194" asserts="0">
+              <test-case id="1277" name="Fall_FreezesBodyAndRejectsInputAndJump" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.Fall_FreezesBodyAndRejectsInputAndJump" methodname="Fall_FreezesBodyAndRejectsInputAndJump" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="1976393476" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000315" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1259" name="ResolveHorizontalInput_UsesKeyboardFirstThenTouchFallback" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.ResolveHorizontalInput_UsesKeyboardFirstThenTouchFallback" methodname="ResolveHorizontalInput_UsesKeyboardFirstThenTouchFallback" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="2143272306" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000124" asserts="0">
+              <test-case id="1271" name="ResolveHorizontalInput_UsesKeyboardFirstThenTouchFallback" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.ResolveHorizontalInput_UsesKeyboardFirstThenTouchFallback" methodname="ResolveHorizontalInput_UsesKeyboardFirstThenTouchFallback" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="1239730929" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000138" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1263" name="SetJumpHeight_ChangesOnlyRuntimeJumpSpeed" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.SetJumpHeight_ChangesOnlyRuntimeJumpSpeed" methodname="SetJumpHeight_ChangesOnlyRuntimeJumpSpeed" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="833598970" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000134" asserts="0">
+              <test-case id="1275" name="SetJumpHeight_ChangesOnlyRuntimeJumpSpeed" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.SetJumpHeight_ChangesOnlyRuntimeJumpSpeed" methodname="SetJumpHeight_ChangesOnlyRuntimeJumpSpeed" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="1828165704" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000126" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1262" name="TryJump_CalledTwiceBeforePhysicsStep_OnlyFirstJumpSucceeds" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.TryJump_CalledTwiceBeforePhysicsStep_OnlyFirstJumpSucceeds" methodname="TryJump_CalledTwiceBeforePhysicsStep_OnlyFirstJumpSucceeds" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="1944685079" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.001774" asserts="0">
+              <test-case id="1274" name="TryJump_CalledTwiceBeforePhysicsStep_OnlyFirstJumpSucceeds" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.TryJump_CalledTwiceBeforePhysicsStep_OnlyFirstJumpSucceeds" methodname="TryJump_CalledTwiceBeforePhysicsStep_OnlyFirstJumpSucceeds" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="1401825351" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.001386" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1261" name="TryJump_WhenAirborne_IsRejected" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.TryJump_WhenAirborne_IsRejected" methodname="TryJump_WhenAirborne_IsRejected" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="890298904" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000241" asserts="0">
+              <test-case id="1273" name="TryJump_WhenAirborne_IsRejected" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.TryJump_WhenAirborne_IsRejected" methodname="TryJump_WhenAirborne_IsRejected" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="1960957690" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000157" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1260" name="TryJump_WhenGrounded_SetsUpwardVelocity" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.TryJump_WhenGrounded_SetsUpwardVelocity" methodname="TryJump_WhenGrounded_SetsUpwardVelocity" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="673468537" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000118" asserts="0">
+              <test-case id="1272" name="TryJump_WhenGrounded_SetsUpwardVelocity" fullname="PaperGame.C1.Tests.C1PlayerControllerTests.TryJump_WhenGrounded_SetsUpwardVelocity" methodname="TryJump_WhenGrounded_SetsUpwardVelocity" classname="PaperGame.C1.Tests.C1PlayerControllerTests" runstate="Runnable" seed="64883716" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000119" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1266" name="C1ReachabilityTests" fullname="PaperGame.C1.Tests.C1ReachabilityTests" classname="PaperGame.C1.Tests.C1ReachabilityTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.001808" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1278" name="C1ReachabilityTests" fullname="PaperGame.C1.Tests.C1ReachabilityTests" classname="PaperGame.C1.Tests.C1ReachabilityTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.002980" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1268" name="Analyze_FaithfulSketchBecomesReachableAtFourPointOne" fullname="PaperGame.C1.Tests.C1ReachabilityTests.Analyze_FaithfulSketchBecomesReachableAtFourPointOne" methodname="Analyze_FaithfulSketchBecomesReachableAtFourPointOne" classname="PaperGame.C1.Tests.C1ReachabilityTests" runstate="Runnable" seed="565350026" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000969" asserts="0">
+              <test-case id="1280" name="Analyze_FaithfulSketchBecomesReachableAtFourPointOne" fullname="PaperGame.C1.Tests.C1ReachabilityTests.Analyze_FaithfulSketchBecomesReachableAtFourPointOne" methodname="Analyze_FaithfulSketchBecomesReachableAtFourPointOne" classname="PaperGame.C1.Tests.C1ReachabilityTests" runstate="Runnable" seed="60100052" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.001554" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -874,7 +919,7 @@
 
 ]]></output>
               </test-case>
-              <test-case id="1267" name="Analyze_FaithfulSketchNeedsHigherJumpHeight" fullname="PaperGame.C1.Tests.C1ReachabilityTests.Analyze_FaithfulSketchNeedsHigherJumpHeight" methodname="Analyze_FaithfulSketchNeedsHigherJumpHeight" classname="PaperGame.C1.Tests.C1ReachabilityTests" runstate="Runnable" seed="663339119" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000498" asserts="0">
+              <test-case id="1279" name="Analyze_FaithfulSketchNeedsHigherJumpHeight" fullname="PaperGame.C1.Tests.C1ReachabilityTests.Analyze_FaithfulSketchNeedsHigherJumpHeight" methodname="Analyze_FaithfulSketchNeedsHigherJumpHeight" classname="PaperGame.C1.Tests.C1ReachabilityTests" runstate="Runnable" seed="2039219761" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000684" asserts="0">
                 <properties />
                 <output><![CDATA[[C1Level] Loaded Resources/C1Levels/level1.json
 {
@@ -896,51 +941,71 @@
 ]]></output>
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1269" name="C1UiFontTests" fullname="PaperGame.C1.Tests.C1UiFontTests" classname="PaperGame.C1.Tests.C1UiFontTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000336" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1281" name="C1UiFontTests" fullname="PaperGame.C1.Tests.C1UiFontTests" classname="PaperGame.C1.Tests.C1UiFontTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000636" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1270" name="Load_ChineseUiFontContainsCharacterCreationGlyphs" fullname="PaperGame.C1.Tests.C1UiFontTests.Load_ChineseUiFontContainsCharacterCreationGlyphs" methodname="Load_ChineseUiFontContainsCharacterCreationGlyphs" classname="PaperGame.C1.Tests.C1UiFontTests" runstate="Runnable" seed="958805734" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000140" asserts="0">
+              <test-case id="1282" name="Load_ChineseUiFontContainsCharacterCreationGlyphs" fullname="PaperGame.C1.Tests.C1UiFontTests.Load_ChineseUiFontContainsCharacterCreationGlyphs" methodname="Load_ChineseUiFontContainsCharacterCreationGlyphs" classname="PaperGame.C1.Tests.C1UiFontTests" runstate="Runnable" seed="535202584" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000310" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1271" name="C1WebGLTemplateTests" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.002437" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1283" name="C1WebGLTemplateTests" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.003568" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1273" name="MobileTemplate_KeepsUnityCanvasVisibleAndUsesOnlyCssForPortraitLayout" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests.MobileTemplate_KeepsUnityCanvasVisibleAndUsesOnlyCssForPortraitLayout" methodname="MobileTemplate_KeepsUnityCanvasVisibleAndUsesOnlyCssForPortraitLayout" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" seed="1797493872" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.001004" asserts="0">
+              <test-case id="1285" name="MobileTemplate_KeepsUnityCanvasVisibleAndUsesOnlyCssForPortraitLayout" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests.MobileTemplate_KeepsUnityCanvasVisibleAndUsesOnlyCssForPortraitLayout" methodname="MobileTemplate_KeepsUnityCanvasVisibleAndUsesOnlyCssForPortraitLayout" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" seed="150988035" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.001508" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1272" name="MobileTemplate_UsesStaticViewportAndFullViewportCanvas" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests.MobileTemplate_UsesStaticViewportAndFullViewportCanvas" methodname="MobileTemplate_UsesStaticViewportAndFullViewportCanvas" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" seed="164969473" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000263" asserts="0">
+              <test-case id="1284" name="MobileTemplate_UsesStaticViewportAndFullViewportCanvas" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests.MobileTemplate_UsesStaticViewportAndFullViewportCanvas" methodname="MobileTemplate_UsesStaticViewportAndFullViewportCanvas" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" seed="159516973" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000365" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1274" name="WebGLBuilder_SelectsPaperGameMobileTemplate" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests.WebGLBuilder_SelectsPaperGameMobileTemplate" methodname="WebGLBuilder_SelectsPaperGameMobileTemplate" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" seed="2109436598" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000315" asserts="0">
+              <test-case id="1286" name="WebGLBuilder_SelectsPaperGameMobileTemplate" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests.WebGLBuilder_SelectsPaperGameMobileTemplate" methodname="WebGLBuilder_SelectsPaperGameMobileTemplate" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" seed="1455129168" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000354" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1276" name="WebGLBuilder_UsesConfiguredOutputAndLogsAbsolutePath" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests.WebGLBuilder_UsesConfiguredOutputAndLogsAbsolutePath" methodname="WebGLBuilder_UsesConfiguredOutputAndLogsAbsolutePath" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" seed="1706465227" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000295" asserts="0">
+              <test-case id="1288" name="WebGLBuilder_UsesConfiguredOutputAndLogsAbsolutePath" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests.WebGLBuilder_UsesConfiguredOutputAndLogsAbsolutePath" methodname="WebGLBuilder_UsesConfiguredOutputAndLogsAbsolutePath" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" seed="1440949484" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000280" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1275" name="WebGlSettingsProvider_RegistersProjectSettingsPage" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests.WebGlSettingsProvider_RegistersProjectSettingsPage" methodname="WebGlSettingsProvider_RegistersProjectSettingsPage" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" seed="626398521" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000180" asserts="0">
+              <test-case id="1287" name="WebGlSettingsProvider_RegistersProjectSettingsPage" fullname="PaperGame.C1.Tests.C1WebGLTemplateTests.WebGlSettingsProvider_RegistersProjectSettingsPage" methodname="WebGlSettingsProvider_RegistersProjectSettingsPage" classname="PaperGame.C1.Tests.C1WebGLTemplateTests" runstate="Runnable" seed="1878380790" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000233" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1277" name="HomeBootstrapTests" fullname="PaperGame.C1.Tests.HomeBootstrapTests" classname="PaperGame.C1.Tests.HomeBootstrapTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.018871" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1289" name="HomeBootstrapTests" fullname="PaperGame.C1.Tests.HomeBootstrapTests" classname="PaperGame.C1.Tests.HomeBootstrapTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.040838" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1278" name="BuildHome_CreatesHomeWithoutCharacterScreen" fullname="PaperGame.C1.Tests.HomeBootstrapTests.BuildHome_CreatesHomeWithoutCharacterScreen" methodname="BuildHome_CreatesHomeWithoutCharacterScreen" classname="PaperGame.C1.Tests.HomeBootstrapTests" runstate="Runnable" seed="2146706031" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.012082" asserts="0">
+              <test-case id="1290" name="BuildHome_CreatesHomeWithoutCharacterScreen" fullname="PaperGame.C1.Tests.HomeBootstrapTests.BuildHome_CreatesHomeWithoutCharacterScreen" methodname="BuildHome_CreatesHomeWithoutCharacterScreen" classname="PaperGame.C1.Tests.HomeBootstrapTests" runstate="Runnable" seed="1879339546" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.013063" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1279" name="BuildHome_Uses1920By1080AsTheReferenceResolution" fullname="PaperGame.C1.Tests.HomeBootstrapTests.BuildHome_Uses1920By1080AsTheReferenceResolution" methodname="BuildHome_Uses1920By1080AsTheReferenceResolution" classname="PaperGame.C1.Tests.HomeBootstrapTests" runstate="Runnable" seed="570350766" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000956" asserts="0">
+              <test-case id="1291" name="BuildHome_Uses1920By1080AsTheReferenceResolution" fullname="PaperGame.C1.Tests.HomeBootstrapTests.BuildHome_Uses1920By1080AsTheReferenceResolution" methodname="BuildHome_Uses1920By1080AsTheReferenceResolution" classname="PaperGame.C1.Tests.HomeBootstrapTests" runstate="Runnable" seed="2064313151" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.001598" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1281" name="ReturnHome_DestroysCharacterScreenAndRestoresHome" fullname="PaperGame.C1.Tests.HomeBootstrapTests.ReturnHome_DestroysCharacterScreenAndRestoresHome" methodname="ReturnHome_DestroysCharacterScreenAndRestoresHome" classname="PaperGame.C1.Tests.HomeBootstrapTests" runstate="Runnable" seed="57086796" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.002470" asserts="0">
+              <test-case id="1293" name="ReturnHome_DestroysCharacterScreenAndRestoresHome" fullname="PaperGame.C1.Tests.HomeBootstrapTests.ReturnHome_DestroysCharacterScreenAndRestoresHome" methodname="ReturnHome_DestroysCharacterScreenAndRestoresHome" classname="PaperGame.C1.Tests.HomeBootstrapTests" runstate="Runnable" seed="1227230536" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.013076" asserts="0">
                 <properties />
+                <output><![CDATA[[RefreshList] Starting, list=valid, browsingId=default, cache entries=0
+[RefreshList] priorityId=default, total characters=6
+[AddRow] id=default, title=独眼小绿, sprite=green-thumbnail, enabled=True
+[AddRow] id=default-chick, title=披风小鸡, sprite=chick-thumbnail, enabled=True
+[AddRow] id=char_f56a5b73ca34, title=我的涂鸦 1, sprite=NULL, enabled=False
+[AddRow] id=char_1ba1566db825, title=我的涂鸦 2, sprite=, enabled=True
+[AddRow] id=char_25df45ab9816, title=我的涂鸦 3, sprite=, enabled=True
+[AddRow] id=char_701230785901, title=我的涂鸦 4, sprite=, enabled=True
+[RefreshList] Done, created 6 rows
+]]></output>
               </test-case>
-              <test-case id="1280" name="ShowCharacterCreation_HidesHomeAndCreatesScreenOnDemand" fullname="PaperGame.C1.Tests.HomeBootstrapTests.ShowCharacterCreation_HidesHomeAndCreatesScreenOnDemand" methodname="ShowCharacterCreation_HidesHomeAndCreatesScreenOnDemand" classname="PaperGame.C1.Tests.HomeBootstrapTests" runstate="Runnable" seed="1609300336" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.002774" asserts="0">
+              <test-case id="1292" name="ShowCharacterCreation_HidesHomeAndCreatesScreenOnDemand" fullname="PaperGame.C1.Tests.HomeBootstrapTests.ShowCharacterCreation_HidesHomeAndCreatesScreenOnDemand" methodname="ShowCharacterCreation_HidesHomeAndCreatesScreenOnDemand" classname="PaperGame.C1.Tests.HomeBootstrapTests" runstate="Runnable" seed="1613262559" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.012007" asserts="0">
                 <properties />
+                <output><![CDATA[[RefreshList] Starting, list=valid, browsingId=default, cache entries=0
+[RefreshList] priorityId=default, total characters=6
+[AddRow] id=default, title=独眼小绿, sprite=green-thumbnail, enabled=True
+[AddRow] id=default-chick, title=披风小鸡, sprite=chick-thumbnail, enabled=True
+[AddRow] id=char_f56a5b73ca34, title=我的涂鸦 1, sprite=NULL, enabled=False
+[AddRow] id=char_1ba1566db825, title=我的涂鸦 2, sprite=, enabled=True
+[AddRow] id=char_25df45ab9816, title=我的涂鸦 3, sprite=, enabled=True
+[AddRow] id=char_701230785901, title=我的涂鸦 4, sprite=, enabled=True
+[RefreshList] Done, created 6 rows
+]]></output>
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1282" name="PaperGameHomePrefabTests" fullname="PaperGame.C1.Tests.PaperGameHomePrefabTests" classname="PaperGame.C1.Tests.PaperGameHomePrefabTests" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.002151" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1294" name="PaperGameHomePrefabTests" fullname="PaperGame.C1.Tests.PaperGameHomePrefabTests" classname="PaperGame.C1.Tests.PaperGameHomePrefabTests" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.001989" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
               <properties />
               <failure>
                 <message><![CDATA[One or more child tests had errors]]></message>
               </failure>
-              <test-case id="1283" name="GenerateHomePrefab_CreatesIndependentOverlayImages" fullname="PaperGame.C1.Tests.PaperGameHomePrefabTests.GenerateHomePrefab_CreatesIndependentOverlayImages" methodname="GenerateHomePrefab_CreatesIndependentOverlayImages" classname="PaperGame.C1.Tests.PaperGameHomePrefabTests" runstate="Runnable" seed="1504871036" result="Failed" label="Error" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.001454" asserts="0">
+              <test-case id="1295" name="GenerateHomePrefab_CreatesIndependentOverlayImages" fullname="PaperGame.C1.Tests.PaperGameHomePrefabTests.GenerateHomePrefab_CreatesIndependentOverlayImages" methodname="GenerateHomePrefab_CreatesIndependentOverlayImages" classname="PaperGame.C1.Tests.PaperGameHomePrefabTests" runstate="Runnable" seed="1495463626" result="Failed" label="Error" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.001329" asserts="0">
                 <properties />
                 <failure>
                   <message><![CDATA[System.NullReferenceException : Object reference not set to an instance of an object]]></message>
@@ -950,32 +1015,32 @@
                 </failure>
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1284" name="PaperGameUiFlowTests" fullname="PaperGame.C1.Tests.PaperGameUiFlowTests" classname="PaperGame.C1.Tests.PaperGameUiFlowTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.001152" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1296" name="PaperGameUiFlowTests" fullname="PaperGame.C1.Tests.PaperGameUiFlowTests" classname="PaperGame.C1.Tests.PaperGameUiFlowTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.001800" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1287" name="CompleteTutorial_RecordsPreferenceAndChangesToPlaying" fullname="PaperGame.C1.Tests.PaperGameUiFlowTests.CompleteTutorial_RecordsPreferenceAndChangesToPlaying" methodname="CompleteTutorial_RecordsPreferenceAndChangesToPlaying" classname="PaperGame.C1.Tests.PaperGameUiFlowTests" runstate="Runnable" seed="1197655797" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000339" asserts="0">
+              <test-case id="1299" name="CompleteTutorial_RecordsPreferenceAndChangesToPlaying" fullname="PaperGame.C1.Tests.PaperGameUiFlowTests.CompleteTutorial_RecordsPreferenceAndChangesToPlaying" methodname="CompleteTutorial_RecordsPreferenceAndChangesToPlaying" classname="PaperGame.C1.Tests.PaperGameUiFlowTests" runstate="Runnable" seed="803201636" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000690" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1288" name="ShowCompleted_ChangesToCompleted" fullname="PaperGame.C1.Tests.PaperGameUiFlowTests.ShowCompleted_ChangesToCompleted" methodname="ShowCompleted_ChangesToCompleted" classname="PaperGame.C1.Tests.PaperGameUiFlowTests" runstate="Runnable" seed="496622605" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000102" asserts="0">
+              <test-case id="1300" name="ShowCompleted_ChangesToCompleted" fullname="PaperGame.C1.Tests.PaperGameUiFlowTests.ShowCompleted_ChangesToCompleted" methodname="ShowCompleted_ChangesToCompleted" classname="PaperGame.C1.Tests.PaperGameUiFlowTests" runstate="Runnable" seed="645303441" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000178" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1285" name="StartPlay_WhenTutorialIsUnseen_ChangesToTutorial" fullname="PaperGame.C1.Tests.PaperGameUiFlowTests.StartPlay_WhenTutorialIsUnseen_ChangesToTutorial" methodname="StartPlay_WhenTutorialIsUnseen_ChangesToTutorial" classname="PaperGame.C1.Tests.PaperGameUiFlowTests" runstate="Runnable" seed="1210430536" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000105" asserts="0">
+              <test-case id="1297" name="StartPlay_WhenTutorialIsUnseen_ChangesToTutorial" fullname="PaperGame.C1.Tests.PaperGameUiFlowTests.StartPlay_WhenTutorialIsUnseen_ChangesToTutorial" methodname="StartPlay_WhenTutorialIsUnseen_ChangesToTutorial" classname="PaperGame.C1.Tests.PaperGameUiFlowTests" runstate="Runnable" seed="1407936918" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000165" asserts="0">
                 <properties />
               </test-case>
-              <test-case id="1286" name="StartPlay_WithSelectedLevel_RequestsGameSceneAndRemembersLevel" fullname="PaperGame.C1.Tests.PaperGameUiFlowTests.StartPlay_WithSelectedLevel_RequestsGameSceneAndRemembersLevel" methodname="StartPlay_WithSelectedLevel_RequestsGameSceneAndRemembersLevel" classname="PaperGame.C1.Tests.PaperGameUiFlowTests" runstate="Runnable" seed="1367379366" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000160" asserts="0">
+              <test-case id="1298" name="StartPlay_WithSelectedLevel_RequestsGameSceneAndRemembersLevel" fullname="PaperGame.C1.Tests.PaperGameUiFlowTests.StartPlay_WithSelectedLevel_RequestsGameSceneAndRemembersLevel" methodname="StartPlay_WithSelectedLevel_RequestsGameSceneAndRemembersLevel" classname="PaperGame.C1.Tests.PaperGameUiFlowTests" runstate="Runnable" seed="694387284" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000204" asserts="0">
                 <properties />
               </test-case>
             </test-suite>
-            <test-suite type="TestFixture" id="1289" name="SceneSetupTests" fullname="PaperGame.C1.Tests.SceneSetupTests" classname="PaperGame.C1.Tests.SceneSetupTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.022805" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <test-suite type="TestFixture" id="1301" name="SceneSetupTests" fullname="PaperGame.C1.Tests.SceneSetupTests" classname="PaperGame.C1.Tests.SceneSetupTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.020935" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
               <properties />
-              <test-case id="1290" name="BuildSettings_RegistersHomeThenGame" fullname="PaperGame.C1.Tests.SceneSetupTests.BuildSettings_RegistersHomeThenGame" methodname="BuildSettings_RegistersHomeThenGame" classname="PaperGame.C1.Tests.SceneSetupTests" runstate="Runnable" seed="2067336654" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.000440" asserts="0">
+              <test-case id="1302" name="BuildSettings_RegistersHomeThenGame" fullname="PaperGame.C1.Tests.SceneSetupTests.BuildSettings_RegistersHomeThenGame" methodname="BuildSettings_RegistersHomeThenGame" classname="PaperGame.C1.Tests.SceneSetupTests" runstate="Runnable" seed="1690958630" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.000421" asserts="0">
                 <properties />
               </test-case>
-              <test-suite type="ParameterizedMethod" id="1293" name="Scene_HasExpectedBootstrap" fullname="PaperGame.C1.Tests.SceneSetupTests.Scene_HasExpectedBootstrap" classname="PaperGame.C1.Tests.SceneSetupTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.022104" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <test-suite type="ParameterizedMethod" id="1305" name="Scene_HasExpectedBootstrap" fullname="PaperGame.C1.Tests.SceneSetupTests.Scene_HasExpectedBootstrap" classname="PaperGame.C1.Tests.SceneSetupTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.020155" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
                 <properties />
-                <test-case id="1291" name="Scene_HasExpectedBootstrap(&quot;Assets/Scenes/Home.unity&quot;,PaperGame.C1.HomeBootstrap)" fullname="PaperGame.C1.Tests.SceneSetupTests.Scene_HasExpectedBootstrap(&quot;Assets/Scenes/Home.unity&quot;,PaperGame.C1.HomeBootstrap)" methodname="Scene_HasExpectedBootstrap" classname="PaperGame.C1.Tests.SceneSetupTests" runstate="Runnable" seed="42914179" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.012027" asserts="0">
+                <test-case id="1303" name="Scene_HasExpectedBootstrap(&quot;Assets/Scenes/Home.unity&quot;,PaperGame.C1.HomeBootstrap)" fullname="PaperGame.C1.Tests.SceneSetupTests.Scene_HasExpectedBootstrap(&quot;Assets/Scenes/Home.unity&quot;,PaperGame.C1.HomeBootstrap)" methodname="Scene_HasExpectedBootstrap" classname="PaperGame.C1.Tests.SceneSetupTests" runstate="Runnable" seed="1225258964" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.011623" asserts="0">
                   <properties />
                 </test-case>
-                <test-case id="1292" name="Scene_HasExpectedBootstrap(&quot;Assets/Scenes/Game.unity&quot;,PaperGame.C1.C1GameBootstrap)" fullname="PaperGame.C1.Tests.SceneSetupTests.Scene_HasExpectedBootstrap(&quot;Assets/Scenes/Game.unity&quot;,PaperGame.C1.C1GameBootstrap)" methodname="Scene_HasExpectedBootstrap" classname="PaperGame.C1.Tests.SceneSetupTests" runstate="Runnable" seed="516469438" result="Passed" start-time="2026-09-15 15:04:12Z" end-time="2026-09-15 15:04:12Z" duration="0.009666" asserts="0">
+                <test-case id="1304" name="Scene_HasExpectedBootstrap(&quot;Assets/Scenes/Game.unity&quot;,PaperGame.C1.C1GameBootstrap)" fullname="PaperGame.C1.Tests.SceneSetupTests.Scene_HasExpectedBootstrap(&quot;Assets/Scenes/Game.unity&quot;,PaperGame.C1.C1GameBootstrap)" methodname="Scene_HasExpectedBootstrap" classname="PaperGame.C1.Tests.SceneSetupTests" runstate="Runnable" seed="10382176" result="Passed" start-time="2026-09-15 18:25:48Z" end-time="2026-09-15 18:25:48Z" duration="0.008166" asserts="0">
                   <properties />
                 </test-case>
               </test-suite>

@@ -12,6 +12,7 @@ namespace PaperGame.C1
         private static C1GameSession instance;
         private string pendingLevelResourcePath;
         private string pendingLocalLevelId;
+        public int CurrentPageNumber { get; private set; } = 1;
 
         public static C1GameSession Instance
         {
@@ -53,13 +54,16 @@ namespace PaperGame.C1
             pendingLevelResourcePath = string.IsNullOrWhiteSpace(resourcePath)
                 ? DefaultLevelResourcePath
                 : resourcePath;
+            var match = System.Text.RegularExpressions.Regex.Match(pendingLevelResourcePath, @"(\d+)$");
+            CurrentPageNumber = match.Success ? Mathf.Max(1, int.Parse(match.Groups[1].Value)) : 1;
         }
 
-        public void SetPendingLocalLevel(string id)
+        public void SetPendingLocalLevel(string id, int pageNumber = 1)
         {
             if (!System.Guid.TryParseExact(id, "N", out _)) throw new System.ArgumentException("本地关卡编号无效");
             pendingLocalLevelId = id;
             pendingLevelResourcePath = null;
+            CurrentPageNumber = Mathf.Max(1, pageNumber);
         }
 
         public string ConsumePendingLocalLevel()

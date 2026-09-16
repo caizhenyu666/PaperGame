@@ -160,12 +160,25 @@ namespace PaperGame.C1.Tests
 
             Assert.That(level, Is.Not.Null);
             Assert.That(level.BackgroundResourcePath, Is.EqualTo("C1Levels/level1-background"));
-            Assert.That(level.CanvasPixelSize, Is.EqualTo(new Vector2Int(1245, 810)));
-            Assert.That(level.Platforms, Has.Length.EqualTo(7));
-            Assert.That(level.PlayerStart, Is.EqualTo(new Vector2(110f, 681f)));
-            Assert.That(level.Platforms[0].Start, Is.EqualTo(new Vector2(83f, 707f)));
-            Assert.That(level.Platforms[6].End, Is.EqualTo(new Vector2(1240f, 260f)));
-            Assert.That(level.GoalRegion, Is.EqualTo(new Rect(1170f, 185f, 75f, 90f)));
+            Assert.That(level.CanvasPixelSize, Is.EqualTo(new Vector2Int(900, 560)));
+            Assert.That(level.PlayerStartIsFeet, Is.True);
+            Assert.That(level.PlayerStart, Is.EqualTo(new Vector2(150f, 184f)));
+            Assert.That(level.Platforms, Has.Length.Zero);
+            Assert.That(level.Walls, Has.Length.Zero);
+            Assert.That(level.Blocks, Has.Length.EqualTo(13));
+            Assert.That(level.Blocks[0].Region, Is.EqualTo(new Rect(18f, 315f, 229f, 30f)));
+            Assert.That(level.Blocks[12].Region, Is.EqualTo(new Rect(816f, 111f, 48f, 12f)));
+            Assert.That(level.GoalRegion, Is.EqualTo(new Rect(812f, 65f, 42f, 63f)));
+        }
+
+        [Test]
+        public void LoadDefault_UsesBundledBackgroundAtCanvasResolution()
+        {
+            var level = C1LevelLoader.LoadDefault();
+            var texture = Resources.Load<Texture2D>(level.BackgroundResourcePath);
+
+            Assert.That(texture, Is.Not.Null);
+            Assert.That(new Vector2Int(texture.width, texture.height), Is.EqualTo(level.CanvasPixelSize));
         }
 
         [Test]

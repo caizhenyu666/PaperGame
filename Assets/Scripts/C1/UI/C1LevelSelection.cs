@@ -19,8 +19,13 @@ namespace PaperGame.C1
         private Button create, play, resume, regenerate;
         private C1SavedLevel selected;
         private Texture2D selectedTexture;
+        private bool selectedTextureIsAsset;
         private bool busy;
+        private int selectedPage = 1;
+        private bool builtInSelected = true;
         public int LevelCount { get; private set; }
+        public bool IsBuiltInSelected => builtInSelected && selected == null;
+        public int SelectedPageNumber => builtInSelected && selected == null ? 1 : selectedPage;
         public string StatusText => status == null ? string.Empty : status.text;
 
         public void Configure(Action returnHome, bool createImmediately = false, C1LevelLibrary localLibrary = null)
@@ -59,8 +64,9 @@ namespace PaperGame.C1
             capture = gameObject.AddComponent<C1PhotoCapture>();
             capture.Configure(null, status); capture.PhotoCaptured += OnPhoto;
             if (!Try(RefreshList)) return;
+            BrowseBuiltIn();
             SetBusy(false);
-            if (LevelCount == 0)
+            if (LevelCount <= 1)
                 status.text = "请画好平台、一个起点圆圈和一个三角旗帜后拍照上传；标记可用黑笔空心绘制。";
             else status.text = "请选择本地关卡，或拍照上传创建新关卡。";
             if (library.Pending != null) status.text = "上次的照片和生成任务已保留，可点击“继续生成”。";
@@ -78,7 +84,7 @@ namespace PaperGame.C1
             if (busy) return;
             if (!Try(() => library.BeginUpload(bytes, mime, service.BaseUrl))) return;
             selected = null;
-            C1LevelLibrary.Release(selectedTexture); selectedTexture = null;
+            ReleaseSelectedTexture();
             ShowPreview(capture.PreviewTexture);
             StartWork(false);
         }
@@ -169,23 +175,46 @@ namespace PaperGame.C1
                 C1LevelLibrary.Release(child.gameObject);
             }
             var levels = library.Load();
-            LevelCount = levels.Count;
+            LevelCount = 1 + levels.Count;
+            var builtIn = ButtonAt(list, "第1页", 0, 0, 1, 1, BrowseBuiltIn);
+            builtIn.gameObject.AddComponent<LayoutElement>().preferredHeight = 66;
+            builtIn.interactable = !busy;
             foreach (var level in levels)
             {
                 var item = level;
-                var button = ButtonAt(list, level.title, 0, 0, 1, 1, () => Browse(item));
+                var page = levels.IndexOf(level) + 2;
+                var button = ButtonAt(list, level.title, 0, 0, 1, 1, () => Browse(item, page));
                 button.gameObject.AddComponent<LayoutElement>().preferredHeight = 66;
                 button.interactable = !busy;
             }
         }
 
-        private void Browse(C1SavedLevel record)
+        private void BrowseBuiltIn()
+        {
+            if (!Try(() =>
+            {
+                var level = C1LevelLoader.LoadDefault();
+                if (level == null) throw new InvalidOperationException("内置关卡数据缺失或损坏");
+                ReleaseSelectedTexture();
+                // The bundled asset must not be destroyed like runtime textures; just drop the reference.
+                selectedTexture = Resources.Load<Texture2D>("C1Levels/level1-background");
+                selectedTextureIsAsset = true;
+                selected = null; selectedPage = 1; builtInSelected = true;
+                ShowPreview(selectedTexture);
+                status.text = "第1页 · 内置关卡，可直接开始。";
+                play.GetComponentInChildren<Text>().text = "开始关卡";
+            })) { builtInSelected = false; }
+            play.interactable = !busy && (builtInSelected && selected == null || selected != null);
+        }
+
+        private void Browse(C1SavedLevel record, int pageNumber = 1)
         {
             if (!Try(() =>
             {
                 library.Read(record.id, out var texture);
-                C1LevelLibrary.Release(selectedTexture);
-                selectedTexture = texture; selected = record;
+                ReleaseSelectedTexture();
+                selectedTexture = texture; selectedTextureIsAsset = false;
+                selected = record; selectedPage = Mathf.Max(1, pageNumber); builtInSelected = false;
                 ShowPreview(texture);
                 status.text = record.title + " · 已保存在本地，可直接开始。";
                 play.GetComponentInChildren<Text>().text = "开始关卡";
@@ -195,13 +224,20 @@ namespace PaperGame.C1
 
         private void Play()
         {
-            if (busy || selected == null) return;
+            if (busy) return;
+            if (builtInSelected && selected == null)
+            {
+                C1GameSession.Instance.SetPendingLevel(C1GameSession.DefaultLevelResourcePath);
+                SceneManager.LoadScene(C1GameSession.GameSceneName);
+                return;
+            }
+            if (selected == null) return;
             // Decode before leaving the selection screen so corrupt files show a recoverable error here.
             if (!Try(() =>
             {
                 library.Read(selected.id, out var texture);
                 C1LevelLibrary.Release(texture);
-                C1GameSession.Instance.SetPendingLocalLevel(selected.id);
+                C1GameSession.Instance.SetPendingLocalLevel(selected.id, selectedPage);
                 SceneManager.LoadScene(C1GameSession.GameSceneName);
             })) return;
         }
@@ -234,7 +270,14 @@ namespace PaperGame.C1
         {
             StopAllCoroutines();
             if (capture != null) capture.PhotoCaptured -= OnPhoto;
+            ReleaseSelectedTexture();
+        }
+
+        private void ReleaseSelectedTexture()
+        {
+            if (selectedTextureIsAsset) { selectedTexture = null; return; }
             C1LevelLibrary.Release(selectedTexture);
+            selectedTexture = null;
         }
 
         internal static GameObject Panel(Transform parent, string title, float x, float y, float right, float top)
