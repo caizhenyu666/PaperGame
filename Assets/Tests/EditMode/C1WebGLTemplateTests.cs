@@ -65,7 +65,7 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
-        public void PhotoCaptureOverlay_UsesStableLandscapeControlsAndLocalCropCoordinates()
+        public void PhotoCaptureOverlay_KeepsHorizontalFrameInPhysicalPortrait()
         {
             var path = Path.Combine(Application.dataPath,
                 "Plugins/WebGL/PaperGamePhotoCapture.jslib");
@@ -79,16 +79,15 @@ namespace PaperGame.C1.Tests
             StringAssert.Contains("video.srcObject=null", source);
             StringAssert.Contains("close.addEventListener('click',cleanup)", source);
             StringAssert.Contains("frame.offsetLeft", source);
-            StringAssert.Contains("var viewWidth = stageWidth", source);
+            StringAssert.Contains("var viewWidth = video.clientWidth", source);
             StringAssert.DoesNotContain("frame.getBoundingClientRect()", source);
             StringAssert.Contains("--pg-frame-width", source);
-            StringAssert.Contains("(stageHeight - 32) * 8 / 5", source);
-            StringAssert.Contains("syncVideoOrientation", source);
-            StringAssert.Contains("video.addEventListener('resize',syncVideoOrientation)", source);
-            StringAssert.Contains("normalizedSource", source);
-            StringAssert.Contains("if (!portraitStreamRotation)", source);
-            StringAssert.Contains("portraitStreamRotation = 0", source);
-            StringAssert.DoesNotContain("streamRotation = cameraPortrait ? -90 : 90", source);
+            StringAssert.Contains("Math.min(initialViewport.width, initialViewport.height) - 48", source);
+            StringAssert.Contains("width:100vw;height:100vh;width:100dvw;height:100dvh", source);
+            StringAssert.Contains("@media (orientation:portrait){#pg-cam-btn", source);
+            StringAssert.Contains("bottom:max(24px,env(safe-area-inset-bottom))", source);
+            StringAssert.DoesNotContain("layoutCameraStage", source);
+            StringAssert.DoesNotContain("normalizedSource", source);
         }
 
         [Test]
