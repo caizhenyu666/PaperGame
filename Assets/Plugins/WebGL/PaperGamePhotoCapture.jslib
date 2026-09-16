@@ -46,7 +46,7 @@ mergeInto(LibraryManager.library, {
       '#pg-camera-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483647;background:#000;overflow:hidden}',
       '#pg-cam-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}',
       '#pg-cam-dim{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none}',
-      '#pg-cam-frame{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(100vw - 48px);max-width:600px;aspect-ratio:1.6/1;border:2.5px solid rgba(255,255,255,.88);border-radius:14px;box-shadow:0 0 0 9999px rgba(0,0,0,.42);pointer-events:none}',
+      '#pg-cam-frame{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:560px;height:350px;max-width:calc(100vw - 48px);max-height:calc(100vh - 48px);border:2.5px solid rgba(255,255,255,.88);border-radius:14px;box-shadow:0 0 0 9999px rgba(0,0,0,.42);pointer-events:none}',
       '#pg-cam-btn{position:absolute;top:50%;right:16px;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;border:3px solid #fff;background:rgba(255,255,255,.18);color:#fff;font:bold 13px/56px -apple-system,sans-serif;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;outline:none}'
     ].join('');
     document.head.appendChild(css);
