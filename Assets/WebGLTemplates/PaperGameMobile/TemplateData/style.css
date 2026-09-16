@@ -88,18 +88,6 @@ body {
   background: #c62828;
 }
 
-/* 竖屏时强制旋转 90° 横屏显示 */
-@media (orientation: portrait) {
-  #unity-container {
-    width: 100vh;
-    height: 100vw;
-    width: 100dvh;
-    height: 100dvw;
-    transform: translate3d(100vw, 0, 0) rotate(90deg);
-    transform: translate3d(100dvw, 0, 0) rotate(90deg);
-  }
-}
-
 /* 全屏按钮：右上角小按钮，点击后自动隐藏 */
 #fullscreen-btn {
   position: fixed;

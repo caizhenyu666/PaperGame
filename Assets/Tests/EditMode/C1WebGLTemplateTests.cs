@@ -31,9 +31,8 @@ namespace PaperGame.C1.Tests
             StringAssert.DoesNotContain("rotate-overlay", html);
             StringAssert.DoesNotContain("unityContainer.style.display", html);
             StringAssert.DoesNotContain("screen.orientation", html);
-            StringAssert.Contains("@media (orientation: portrait)", css);
-            StringAssert.Contains("rotate(90deg)", css);
-            StringAssert.Contains("translate3d(100dvw, 0, 0)", css);
+            StringAssert.Contains("layoutUnityStage", html);
+            StringAssert.DoesNotContain("@media (orientation: portrait)", css);
         }
 
         [Test]
@@ -47,7 +46,10 @@ namespace PaperGame.C1.Tests
             StringAssert.DoesNotContain("addEventListener(\"resize\", resizeUnityCanvas)", html);
             StringAssert.DoesNotContain("new ResizeObserver(resizeUnityCanvas)", html);
             StringAssert.Contains("matchWebGLToCanvasSize: false", html);
-            StringAssert.Contains("translate3d(100dvw, 0, 0) rotate(90deg)", css);
+            StringAssert.Contains("layoutUnityStage", html);
+            StringAssert.Contains("Math.min(viewportWidth / stageHeight", html);
+            StringAssert.Contains("container.style.transform = 'matrix('", html);
+            StringAssert.Contains("window.addEventListener(\"resize\", layoutUnityStage)", html);
             StringAssert.Contains("backface-visibility: hidden", css);
         }
 
@@ -74,12 +76,19 @@ namespace PaperGame.C1.Tests
             StringAssert.Contains("id=\"pg-cam-shutter-core\"", source);
             StringAssert.DoesNotContain(">拍 照<", source);
             StringAssert.Contains("aspect-ratio:8/5", source);
-            StringAssert.Contains("translate3d(100dvw,0,0) rotate(90deg)", source);
             StringAssert.Contains("video.srcObject=null", source);
             StringAssert.Contains("close.addEventListener('click',cleanup)", source);
             StringAssert.Contains("frame.offsetLeft", source);
-            StringAssert.Contains("video.clientWidth", source);
+            StringAssert.Contains("var viewWidth = stageWidth", source);
             StringAssert.DoesNotContain("frame.getBoundingClientRect()", source);
+            StringAssert.Contains("--pg-frame-width", source);
+            StringAssert.Contains("(stageHeight - 32) * 8 / 5", source);
+            StringAssert.Contains("syncVideoOrientation", source);
+            StringAssert.Contains("video.addEventListener('resize',syncVideoOrientation)", source);
+            StringAssert.Contains("normalizedSource", source);
+            StringAssert.Contains("if (!portraitStreamRotation)", source);
+            StringAssert.Contains("portraitStreamRotation = 0", source);
+            StringAssert.DoesNotContain("streamRotation = cameraPortrait ? -90 : 90", source);
         }
 
         [Test]
