@@ -32,8 +32,34 @@ namespace PaperGame.C1.Tests
             StringAssert.DoesNotContain("unityContainer.style.display", html);
             StringAssert.DoesNotContain("screen.orientation", html);
             StringAssert.Contains("@media (orientation: portrait)", css);
-            StringAssert.Contains("transform: rotate(90deg)", css);
-            StringAssert.Contains("left: 100vw", css);
+            StringAssert.Contains("rotate(90deg)", css);
+            StringAssert.Contains("translate3d(100dvw, 0, 0)", css);
+        }
+
+        [Test]
+        public void MobileTemplate_KeepsWebGlBackingBufferStableAcrossOrientationChanges()
+        {
+            var root = Path.Combine(Application.dataPath, "WebGLTemplates/PaperGameMobile");
+            var html = File.ReadAllText(Path.Combine(root, "index.html"));
+            var css = File.ReadAllText(Path.Combine(root, "TemplateData/style.css"));
+
+            StringAssert.Contains("initializeUnityCanvas", html);
+            StringAssert.DoesNotContain("addEventListener(\"resize\", resizeUnityCanvas)", html);
+            StringAssert.DoesNotContain("new ResizeObserver(resizeUnityCanvas)", html);
+            StringAssert.Contains("matchWebGLToCanvasSize: false", html);
+            StringAssert.Contains("translate3d(100dvw, 0, 0) rotate(90deg)", css);
+            StringAssert.Contains("backface-visibility: hidden", css);
+        }
+
+        [Test]
+        public void MobileManifest_PrefersStandaloneLandscape()
+        {
+            var path = Path.Combine(Application.dataPath,
+                "WebGLTemplates/PaperGameMobile/manifest.json");
+            var manifest = File.ReadAllText(path);
+
+            StringAssert.Contains("\"display\": \"standalone\"", manifest);
+            StringAssert.Contains("\"orientation\": \"landscape\"", manifest);
         }
 
         [Test]

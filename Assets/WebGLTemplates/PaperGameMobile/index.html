@@ -52,26 +52,13 @@
         fullscreenBtn.style.display = "none";
       }
 
-      // CSS 旋转后的包围盒是竖向的，渲染缓冲必须使用旋转前的横向布局尺寸。
-      var resizeScheduled = false;
-      function resizeUnityCanvas() {
-        if (resizeScheduled) { return; }
-        resizeScheduled = true;
-        requestAnimationFrame(function () {
-          resizeScheduled = false;
-          var dpr = window.devicePixelRatio || 1;
-          var width = Math.max(1, Math.round(canvas.clientWidth * dpr));
-          var height = Math.max(1, Math.round(canvas.clientHeight * dpr));
-          // 仅在尺寸实际变化时重设，避免旋转过程中反复清空 WebGL 缓冲导致闪烁
-          if (canvas.width !== width) { canvas.width = width; }
-          if (canvas.height !== height) { canvas.height = height; }
-        });
+      // 渲染缓冲只在 Unity 启动前建立一次。旋转只改变 CSS 舞台，避免清空 WebGL 帧缓冲。
+      function initializeUnityCanvas() {
+        var dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.max(1, Math.round(canvas.clientWidth * dpr));
+        canvas.height = Math.max(1, Math.round(canvas.clientHeight * dpr));
       }
-      resizeUnityCanvas();
-      window.addEventListener("resize", resizeUnityCanvas);
-      if (typeof ResizeObserver !== "undefined") {
-        new ResizeObserver(resizeUnityCanvas).observe(canvas);
-      }
+      initializeUnityCanvas();
 
       // Unity 按包围盒归一化输入；先逆旋转，再映射回同一个包围盒坐标系。
       function unityPointerPosition(point, rect) {
