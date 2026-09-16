@@ -63,6 +63,26 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
+        public void PhotoCaptureOverlay_UsesStableLandscapeControlsAndLocalCropCoordinates()
+        {
+            var path = Path.Combine(Application.dataPath,
+                "Plugins/WebGL/PaperGamePhotoCapture.jslib");
+            var source = File.ReadAllText(path);
+
+            StringAssert.Contains("id=\"pg-cam-close\"", source);
+            StringAssert.Contains("aria-label=\"关闭相机\"", source);
+            StringAssert.Contains("id=\"pg-cam-shutter-core\"", source);
+            StringAssert.DoesNotContain(">拍 照<", source);
+            StringAssert.Contains("aspect-ratio:8/5", source);
+            StringAssert.Contains("translate3d(100dvw,0,0) rotate(90deg)", source);
+            StringAssert.Contains("video.srcObject=null", source);
+            StringAssert.Contains("close.addEventListener('click',cleanup)", source);
+            StringAssert.Contains("frame.offsetLeft", source);
+            StringAssert.Contains("video.clientWidth", source);
+            StringAssert.DoesNotContain("frame.getBoundingClientRect()", source);
+        }
+
+        [Test]
         public void WebGLBuilder_SelectsPaperGameMobileTemplate()
         {
             var source = File.ReadAllText(Path.Combine(Application.dataPath, "Editor/C1WebGLBuilder.cs"));
