@@ -15,6 +15,8 @@ namespace PaperGame.C1.Tests
         [SetUp]
         public void SetUp()
         {
+            PlayerPrefs.DeleteKey(C1LevelDrawingTutorialController.SeenPreferenceKey);
+            PlayerPrefs.DeleteKey(C1LevelDrawingTutorialController.MutedPreferenceKey);
             tempRoot = Path.Combine(Path.GetTempPath(), "PaperGameC1LevelSelectionTests-" + Guid.NewGuid().ToString("N"));
             selectionObject = new GameObject("Level Selection Test");
             selection = selectionObject.AddComponent<C1LevelSelection>();
@@ -24,6 +26,8 @@ namespace PaperGame.C1.Tests
         public void TearDown()
         {
             UnityEngine.Object.DestroyImmediate(selectionObject);
+            PlayerPrefs.DeleteKey(C1LevelDrawingTutorialController.SeenPreferenceKey);
+            PlayerPrefs.DeleteKey(C1LevelDrawingTutorialController.MutedPreferenceKey);
             if (Directory.Exists(tempRoot)) Directory.Delete(tempRoot, true);
         }
 
@@ -50,6 +54,47 @@ namespace PaperGame.C1.Tests
             GameObject.Find(record.title).GetComponent<Button>().onClick.Invoke();
             Assert.That(selection.SelectedPageNumber, Is.EqualTo(2));
             Assert.That(selection.IsBuiltInSelected, Is.False);
+        }
+
+        [Test]
+        public void CreateButton_FirstUseShowsTutorialBeforeCamera()
+        {
+            var cameraCalls = 0;
+            selection.Configure(() => { }, false, new C1LevelLibrary(tempRoot), () => cameraCalls++);
+
+            GameObject.Find("拍照上传新关卡").GetComponent<Button>().onClick.Invoke();
+
+            Assert.That(selection.TutorialVisible, Is.True);
+            Assert.That(cameraCalls, Is.Zero);
+            selection.GetComponentInChildren<C1LevelDrawingTutorialController>(true).Skip();
+            Assert.That(cameraCalls, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void HelpButton_AlwaysShowsTutorialWithoutOpeningCamera()
+        {
+            PlayerPrefs.SetInt(C1LevelDrawingTutorialController.SeenPreferenceKey, 1);
+            var cameraCalls = 0;
+            selection.Configure(() => { }, false, new C1LevelLibrary(tempRoot), () => cameraCalls++);
+
+            GameObject.Find("怎么画？").GetComponent<Button>().onClick.Invoke();
+
+            Assert.That(selection.TutorialVisible, Is.True);
+            selection.GetComponentInChildren<C1LevelDrawingTutorialController>(true).Skip();
+            Assert.That(cameraCalls, Is.Zero);
+        }
+
+        [Test]
+        public void CreateButton_AfterTutorialOpensCameraDirectly()
+        {
+            PlayerPrefs.SetInt(C1LevelDrawingTutorialController.SeenPreferenceKey, 1);
+            var cameraCalls = 0;
+            selection.Configure(() => { }, false, new C1LevelLibrary(tempRoot), () => cameraCalls++);
+
+            GameObject.Find("拍照上传新关卡").GetComponent<Button>().onClick.Invoke();
+
+            Assert.That(selection.TutorialVisible, Is.False);
+            Assert.That(cameraCalls, Is.EqualTo(1));
         }
 
         private C1SavedLevel CreateUserLevel()

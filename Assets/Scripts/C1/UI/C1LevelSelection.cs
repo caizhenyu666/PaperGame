@@ -13,6 +13,8 @@ namespace PaperGame.C1
         private C1LevelService service;
         private C1PhotoCapture capture;
         private C1LocalStorage storage;
+        private C1LevelDrawingTutorialController tutorial;
+        private Action openCameraOverride;
         private Transform list;
         private RawImage preview;
         private Text status;
@@ -27,13 +29,17 @@ namespace PaperGame.C1
         public bool IsBuiltInSelected => builtInSelected && selected == null;
         public int SelectedPageNumber => builtInSelected && selected == null ? 1 : selectedPage;
         public string StatusText => status == null ? string.Empty : status.text;
+        public bool TutorialVisible => tutorial != null && tutorial.IsOpen;
 
-        public void Configure(Action returnHome, bool createImmediately = false, C1LevelLibrary localLibrary = null)
+        public void Configure(Action returnHome, bool createImmediately = false, C1LevelLibrary localLibrary = null,
+            Action cameraOpener = null)
         {
             library = localLibrary ?? new C1LevelLibrary();
+            openCameraOverride = cameraOpener;
             service = gameObject.AddComponent<C1LevelService>();
             storage = gameObject.AddComponent<C1LocalStorage>();
-            Label(transform, "我的纸上关卡", 38, .05f, .86f, .68f, .96f);
+            Label(transform, "我的纸上关卡", 38, .05f, .86f, .64f, .96f);
+            ButtonAt(transform, "怎么画？", .65f, .87f, .76f, .96f, () => ShowDrawingTutorial(false));
             ButtonAt(transform, "返回首页", .78f, .87f, .95f, .96f, () => returnHome());
             var scrollRoot = Panel(transform, "Saved Levels", .05f, .27f, .39f, .83f);
             scrollRoot.AddComponent<RectMask2D>();
@@ -57,7 +63,7 @@ namespace PaperGame.C1
             status = Label(transform, "", 20, .05f, .13f, .95f, .26f);
             status.horizontalOverflow = HorizontalWrapMode.Wrap;
             status.resizeTextForBestFit = true; status.resizeTextMinSize = 13; status.resizeTextMaxSize = 20;
-            create = ButtonAt(transform, "拍照上传新关卡", .05f, .035f, .28f, .115f, OpenCamera);
+            create = ButtonAt(transform, "拍照上传新关卡", .05f, .035f, .28f, .115f, RequestCreateLevel);
             resume = ButtonAt(transform, "继续生成", .30f, .035f, .48f, .115f, () => StartWork(false));
             regenerate = ButtonAt(transform, "重新上传", .50f, .035f, .68f, .115f, () => StartWork(true));
             play = ButtonAt(transform, "开始关卡", .71f, .035f, .95f, .115f, Play);
@@ -70,13 +76,46 @@ namespace PaperGame.C1
                 status.text = "请画好平台、一个起点圆圈和一个三角旗帜后拍照上传；标记可用黑笔空心绘制。";
             else status.text = "请选择本地关卡，或拍照上传创建新关卡。";
             if (library.Pending != null) status.text = "上次的照片和生成任务已保留，可点击“继续生成”。";
-            if (createImmediately) OpenCamera();
+            if (createImmediately) RequestCreateLevel();
+        }
+
+        private void RequestCreateLevel()
+        {
+            if (C1LevelDrawingTutorialController.HasSeen)
+            {
+                OpenCamera();
+                return;
+            }
+
+            ShowDrawingTutorial(true);
+        }
+
+        private void ShowDrawingTutorial(bool openCameraAfter)
+        {
+            if (tutorial == null)
+            {
+                var prefab = Resources.Load<GameObject>("C1UI/PaperGameLevelDrawingTutorial");
+                if (prefab == null)
+                {
+                    if (openCameraAfter) OpenCamera();
+                    else if (status != null) status.text = "绘画引导暂时不可用，请稍后再试。";
+                    return;
+                }
+
+                var tutorialObject = Instantiate(prefab, transform, false);
+                tutorialObject.name = "绘画新手引导";
+                tutorialObject.transform.SetAsLastSibling();
+                tutorial = tutorialObject.GetComponent<C1LevelDrawingTutorialController>();
+            }
+
+            tutorial.Open(openCameraAfter ? OpenCamera : (Action)null);
         }
 
         public void OpenCamera()
         {
             if (busy) return;
-            capture.OpenCamera();
+            if (openCameraOverride != null) openCameraOverride();
+            else capture.OpenCamera();
         }
 
         private void OnPhoto(byte[] bytes, string mime)
