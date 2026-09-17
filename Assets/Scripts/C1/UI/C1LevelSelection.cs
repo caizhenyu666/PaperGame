@@ -16,9 +16,12 @@ namespace PaperGame.C1
         private C1LevelDrawingTutorialController tutorial;
         private Action openCameraOverride;
         private Transform list;
+        private GameObject itemTemplate;
         private RawImage preview;
         private Text status;
-        private Button create, play, resume, regenerate;
+        private Button create, play, regenerate, help, back;
+        private readonly List<Texture2D> thumbnailTextures = new List<Texture2D>();
+        private GameObject selectedRow;
         private C1SavedLevel selected;
         private Texture2D selectedTexture;
         private bool selectedTextureIsAsset;
@@ -36,38 +39,18 @@ namespace PaperGame.C1
         {
             library = localLibrary ?? new C1LevelLibrary();
             openCameraOverride = cameraOpener;
-            service = gameObject.AddComponent<C1LevelService>();
-            storage = gameObject.AddComponent<C1LocalStorage>();
-            Label(transform, "我的纸上关卡", 38, .05f, .86f, .64f, .96f);
-            ButtonAt(transform, "怎么画？", .65f, .87f, .76f, .96f, () => ShowDrawingTutorial(false));
-            ButtonAt(transform, "返回首页", .78f, .87f, .95f, .96f, () => returnHome());
-            var scrollRoot = Panel(transform, "Saved Levels", .05f, .27f, .39f, .83f);
-            scrollRoot.AddComponent<RectMask2D>();
-            var scroll = scrollRoot.AddComponent<ScrollRect>();
-            var content = new GameObject("Content", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
-            content.transform.SetParent(scrollRoot.transform, false);
-            var rect = content.GetComponent<RectTransform>();
-            rect.anchorMin = new Vector2(0, 1); rect.anchorMax = Vector2.one;
-            rect.pivot = new Vector2(.5f, 1); rect.sizeDelta = Vector2.zero;
-            var layout = content.GetComponent<VerticalLayoutGroup>();
-            layout.padding = new RectOffset(10, 10, 10, 10); layout.spacing = 10;
-            layout.childControlHeight = true; layout.childForceExpandHeight = false;
-            content.GetComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            scroll.content = rect; scroll.viewport = scrollRoot.GetComponent<RectTransform>(); scroll.horizontal = false;
-            list = content.transform;
-            var picture = new GameObject("Level Preview", typeof(RectTransform), typeof(RawImage), typeof(AspectRatioFitter));
-            picture.transform.SetParent(Panel(transform, "Preview Frame", .42f, .27f, .95f, .83f).transform, false);
-            preview = picture.GetComponent<RawImage>(); preview.raycastTarget = false;
-            picture.GetComponent<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.FitInParent;
-            preview.color = Color.clear;
-            status = Label(transform, "", 20, .05f, .13f, .95f, .26f);
-            status.horizontalOverflow = HorizontalWrapMode.Wrap;
-            status.resizeTextForBestFit = true; status.resizeTextMinSize = 13; status.resizeTextMaxSize = 20;
-            create = ButtonAt(transform, "拍照上传新关卡", .05f, .035f, .28f, .115f, RequestCreateLevel);
-            resume = ButtonAt(transform, "继续生成", .30f, .035f, .48f, .115f, () => StartWork(false));
-            regenerate = ButtonAt(transform, "重新上传", .50f, .035f, .68f, .115f, () => StartWork(true));
-            play = ButtonAt(transform, "开始关卡", .71f, .035f, .95f, .115f, Play);
-            capture = gameObject.AddComponent<C1PhotoCapture>();
+            service = GetComponent<C1LevelService>() ?? gameObject.AddComponent<C1LevelService>();
+            storage = GetComponent<C1LocalStorage>() ?? gameObject.AddComponent<C1LocalStorage>();
+            list = Require("Level Book/Viewport/Content");
+            itemTemplate = Require("Level Book/Viewport/Content/Level Item Template").gameObject;
+            preview = Require("Preview Paper/Level Preview").GetComponent<RawImage>();
+            status = Require("Status").GetComponent<Text>();
+            create = Hook("Level Book/Create Level", RequestCreateLevel);
+            regenerate = Hook("Regenerate", () => StartWork(true));
+            play = Hook("Play", Play);
+            help = Hook("Drawing Help", () => ShowDrawingTutorial(false));
+            back = Hook("Back Home", () => { if (!busy) returnHome?.Invoke(); });
+            capture = GetComponent<C1PhotoCapture>() ?? gameObject.AddComponent<C1PhotoCapture>();
             capture.Configure(null, status); capture.PhotoCaptured += OnPhoto;
             if (!Try(RefreshList)) return;
             BrowseBuiltIn();
@@ -75,8 +58,25 @@ namespace PaperGame.C1
             if (LevelCount <= 1)
                 status.text = "请画好平台、一个起点圆圈和一个三角旗帜后拍照上传；标记可用黑笔空心绘制。";
             else status.text = "请选择本地关卡，或拍照上传创建新关卡。";
-            if (library.Pending != null) status.text = "上次的照片和生成任务已保留，可点击“继续生成”。";
+            if (library.Pending != null) status.text = "上次的照片已保留，可点击“重新生成”。";
+            UpdateRegenerateState();
             if (createImmediately) RequestCreateLevel();
+        }
+
+        private Transform Require(string path)
+        {
+            var node = transform.Find(path);
+            if (node == null) throw new MissingReferenceException("关卡选择预制体缺少节点：" + path);
+            return node;
+        }
+
+        private Button Hook(string path, UnityEngine.Events.UnityAction action)
+        {
+            var button = Require(path).GetComponent<Button>();
+            if (button == null) throw new MissingReferenceException("关卡选择预制体节点缺少 Button：" + path);
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(action);
+            return button;
         }
 
         private void RequestCreateLevel()
@@ -162,7 +162,7 @@ namespace PaperGame.C1
             if (response.status == "needs_review" || response.status == "failed")
             {
                 status.text = response.UserMessage + (response.status == "needs_review" || response.error?.retryable == false
-                    ? "\n请调整纸面后重新拍照上传。" : "\n可点击“重新上传”重试。");
+                    ? "\n请调整纸面后重新拍照上传。" : "\n可点击“重新生成”重试。");
                 yield break;
             }
             status.text = "正在下载并保存关卡…";
@@ -208,23 +208,65 @@ namespace PaperGame.C1
 
         private void RefreshList()
         {
-            foreach (Transform child in list)
+            for (var i = list.childCount - 1; i >= 0; i--)
             {
-                child.gameObject.SetActive(false);
-                C1LevelLibrary.Release(child.gameObject);
+                var child = list.GetChild(i);
+                if (child.gameObject != itemTemplate) C1LevelLibrary.Release(child.gameObject);
             }
+            ReleaseThumbnailTextures();
             var levels = library.Load();
             LevelCount = 1 + levels.Count;
-            var builtIn = ButtonAt(list, "第1页", 0, 0, 1, 1, BrowseBuiltIn);
-            builtIn.gameObject.AddComponent<LayoutElement>().preferredHeight = 66;
-            builtIn.interactable = !busy;
-            foreach (var level in levels)
+            var builtInTexture = Resources.Load<Texture2D>("C1Levels/level1-background");
+            var builtInRow = CreateItem("第1页", "第 1 页", "内置关卡", builtInTexture);
+            builtInRow.GetComponent<Button>().onClick.AddListener(() =>
             {
-                var item = level;
-                var page = levels.IndexOf(level) + 2;
-                var button = ButtonAt(list, level.title, 0, 0, 1, 1, () => Browse(item, page));
-                button.gameObject.AddComponent<LayoutElement>().preferredHeight = 66;
-                button.interactable = !busy;
+                BrowseBuiltIn();
+                SelectRow(builtInRow);
+            });
+            for (var i = 0; i < levels.Count; i++)
+            {
+                var item = levels[i];
+                var page = i + 2;
+                Texture2D thumbnail = null;
+                Try(() =>
+                {
+                    library.Read(item.id, out thumbnail);
+                    thumbnailTextures.Add(thumbnail);
+                });
+                var row = CreateItem(item.title, item.title, "我的关卡", thumbnail);
+                row.GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    Browse(item, page);
+                    SelectRow(row);
+                });
+            }
+            SelectRow(builtInRow);
+        }
+
+        private GameObject CreateItem(string objectName, string title, string source, Texture texture)
+        {
+            var row = Instantiate(itemTemplate, list, false);
+            row.name = objectName;
+            row.transform.Find("Label").GetComponent<Text>().text = title;
+            row.transform.Find("Source").GetComponent<Text>().text = source;
+            var thumbnail = row.transform.Find("Thumbnail").GetComponent<RawImage>();
+            thumbnail.texture = texture;
+            thumbnail.color = texture == null ? Color.clear : Color.white;
+            row.SetActive(true);
+            row.GetComponent<Button>().interactable = !busy;
+            return row;
+        }
+
+        private void SelectRow(GameObject row)
+        {
+            selectedRow = row;
+            foreach (Transform child in list)
+            {
+                if (child.gameObject == itemTemplate) continue;
+                var selectedState = child.gameObject == selectedRow;
+                child.Find("Selection").gameObject.SetActive(selectedState);
+                child.Find("Star").GetComponent<Image>().sprite =
+                    Resources.Load<Sprite>("C1CharacterUI/" + (selectedState ? "star-on" : "star-off"));
             }
         }
 
@@ -240,7 +282,7 @@ namespace PaperGame.C1
                 selectedTextureIsAsset = true;
                 selected = null; selectedPage = 1; builtInSelected = true;
                 ShowPreview(selectedTexture);
-                status.text = "第1页 · 内置关卡，可直接开始。";
+                status.text = "第 1 页 · 内置关卡，可以直接开始。";
                 play.GetComponentInChildren<Text>().text = "开始关卡";
             })) { builtInSelected = false; }
             play.interactable = !busy && (builtInSelected && selected == null || selected != null);
@@ -292,11 +334,19 @@ namespace PaperGame.C1
             busy = value;
             if (create == null) return;
             create.interactable = !value;
-            play.interactable = !value && selected != null;
-            var hasPending = false;
-            Try(() => hasPending = library.Pending != null);
-            resume.interactable = regenerate.interactable = !value && hasPending;
+            help.interactable = !value;
+            back.interactable = !value;
+            play.interactable = !value && (builtInSelected && selected == null || selected != null);
+            UpdateRegenerateState();
             foreach (var button in list.GetComponentsInChildren<Button>()) button.interactable = !value;
+        }
+
+        private void UpdateRegenerateState()
+        {
+            var hasPending = false;
+            Try(() => hasPending = library != null && library.Pending != null);
+            regenerate.gameObject.SetActive(hasPending);
+            regenerate.interactable = !busy && hasPending;
         }
 
         private void ShowPreview(Texture2D texture)
@@ -310,6 +360,7 @@ namespace PaperGame.C1
             StopAllCoroutines();
             if (capture != null) capture.PhotoCaptured -= OnPhoto;
             ReleaseSelectedTexture();
+            ReleaseThumbnailTextures();
         }
 
         private void ReleaseSelectedTexture()
@@ -317,6 +368,12 @@ namespace PaperGame.C1
             if (selectedTextureIsAsset) { selectedTexture = null; return; }
             C1LevelLibrary.Release(selectedTexture);
             selectedTexture = null;
+        }
+
+        private void ReleaseThumbnailTextures()
+        {
+            foreach (var texture in thumbnailTextures) C1LevelLibrary.Release(texture);
+            thumbnailTextures.Clear();
         }
 
         internal static GameObject Panel(Transform parent, string title, float x, float y, float right, float top)
@@ -328,25 +385,5 @@ namespace PaperGame.C1
             return go;
         }
 
-        private static Text Label(Transform parent, string title, int size, float x, float y, float right, float top)
-        {
-            var go = new GameObject(title, typeof(RectTransform), typeof(Text)); go.transform.SetParent(parent, false);
-            var rect = go.GetComponent<RectTransform>(); rect.anchorMin = new Vector2(x, y); rect.anchorMax = new Vector2(right, top);
-            rect.offsetMin = rect.offsetMax = Vector2.zero;
-            var text = go.GetComponent<Text>(); text.text = title; text.font = C1UiFont.Load(); text.fontSize = size;
-            text.color = new Color(.2f, .24f, .2f); text.alignment = TextAnchor.MiddleLeft; text.raycastTarget = false;
-            return text;
-        }
-
-        private static Button ButtonAt(Transform parent, string title, float x, float y, float right, float top, UnityEngine.Events.UnityAction action)
-        {
-            var go = Panel(parent, title, x, y, right, top);
-            go.GetComponent<Image>().color = new Color(.81f, .89f, .76f);
-            var button = go.AddComponent<Button>(); button.onClick.AddListener(action);
-            var label = Label(go.transform, title, 22, .02f, 0, .98f, 1);
-            label.alignment = TextAnchor.MiddleCenter;
-            label.resizeTextForBestFit = true; label.resizeTextMinSize = 14; label.resizeTextMaxSize = 22;
-            return button;
-        }
     }
 }

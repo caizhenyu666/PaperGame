@@ -18,8 +18,9 @@ namespace PaperGame.C1.Tests
             PlayerPrefs.DeleteKey(C1LevelDrawingTutorialController.SeenPreferenceKey);
             PlayerPrefs.DeleteKey(C1LevelDrawingTutorialController.MutedPreferenceKey);
             tempRoot = Path.Combine(Path.GetTempPath(), "PaperGameC1LevelSelectionTests-" + Guid.NewGuid().ToString("N"));
-            selectionObject = new GameObject("Level Selection Test");
-            selection = selectionObject.AddComponent<C1LevelSelection>();
+            selectionObject = UnityEngine.Object.Instantiate(Resources.Load<GameObject>("C1UI/PaperGameLevelSelection"));
+            selectionObject.name = "Level Selection Test";
+            selection = selectionObject.GetComponent<C1LevelSelection>();
         }
 
         [TearDown]
@@ -39,7 +40,7 @@ namespace PaperGame.C1.Tests
             Assert.That(selection.LevelCount, Is.EqualTo(1));
             Assert.That(selection.IsBuiltInSelected, Is.True);
             Assert.That(selection.SelectedPageNumber, Is.EqualTo(1));
-            Assert.That(GameObject.Find("第1页"), Is.Not.Null);
+            Assert.That(selection.transform.Find("Level Book/Viewport/Content/第1页"), Is.Not.Null);
         }
 
         [Test]
@@ -51,7 +52,7 @@ namespace PaperGame.C1.Tests
 
             Assert.That(selection.LevelCount, Is.EqualTo(2));
             Assert.That(selection.IsBuiltInSelected, Is.True);
-            GameObject.Find(record.title).GetComponent<Button>().onClick.Invoke();
+            selection.transform.Find("Level Book/Viewport/Content/" + record.title).GetComponent<Button>().onClick.Invoke();
             Assert.That(selection.SelectedPageNumber, Is.EqualTo(2));
             Assert.That(selection.IsBuiltInSelected, Is.False);
         }
@@ -62,7 +63,7 @@ namespace PaperGame.C1.Tests
             var cameraCalls = 0;
             selection.Configure(() => { }, false, new C1LevelLibrary(tempRoot), () => cameraCalls++);
 
-            GameObject.Find("拍照上传新关卡").GetComponent<Button>().onClick.Invoke();
+            selection.transform.Find("Level Book/Create Level").GetComponent<Button>().onClick.Invoke();
 
             Assert.That(selection.TutorialVisible, Is.True);
             Assert.That(cameraCalls, Is.Zero);
@@ -77,7 +78,7 @@ namespace PaperGame.C1.Tests
             var cameraCalls = 0;
             selection.Configure(() => { }, false, new C1LevelLibrary(tempRoot), () => cameraCalls++);
 
-            GameObject.Find("怎么画？").GetComponent<Button>().onClick.Invoke();
+            selection.transform.Find("Drawing Help").GetComponent<Button>().onClick.Invoke();
 
             Assert.That(selection.TutorialVisible, Is.True);
             selection.GetComponentInChildren<C1LevelDrawingTutorialController>(true).Skip();
@@ -91,7 +92,7 @@ namespace PaperGame.C1.Tests
             var cameraCalls = 0;
             selection.Configure(() => { }, false, new C1LevelLibrary(tempRoot), () => cameraCalls++);
 
-            GameObject.Find("拍照上传新关卡").GetComponent<Button>().onClick.Invoke();
+            selection.transform.Find("Level Book/Create Level").GetComponent<Button>().onClick.Invoke();
 
             Assert.That(selection.TutorialVisible, Is.False);
             Assert.That(cameraCalls, Is.EqualTo(1));
@@ -106,6 +107,29 @@ namespace PaperGame.C1.Tests
 
             Assert.That(selection.TutorialVisible, Is.True);
             Assert.That(cameraCalls, Is.Zero);
+        }
+
+        [Test]
+        public void Configure_NormalStateHidesRegenerateAndHasNoContinueControl()
+        {
+            selection.Configure(() => { }, false, new C1LevelLibrary(tempRoot));
+
+            Assert.That(selection.transform.Find("Regenerate").gameObject.activeSelf, Is.False);
+            Assert.That(selection.transform.Find("继续生成"), Is.Null);
+        }
+
+        [Test]
+        public void Configure_PendingPhotoShowsRegenerate()
+        {
+            var library = new C1LevelLibrary(tempRoot);
+            library.BeginUpload(new byte[] { 1, 2, 3 }, "image/png", "https://example.test");
+
+            selection.Configure(() => { }, false, library);
+
+            var regenerate = selection.transform.Find("Regenerate");
+            Assert.That(regenerate.gameObject.activeSelf, Is.True);
+            Assert.That(regenerate.GetComponent<Button>().interactable, Is.True);
+            Assert.That(selection.StatusText, Does.Contain("重新生成"));
         }
 
         private C1SavedLevel CreateUserLevel()
