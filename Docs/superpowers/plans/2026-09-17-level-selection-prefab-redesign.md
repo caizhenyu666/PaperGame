@@ -32,7 +32,7 @@
 - 创建：`Assets/Tests/EditMode/PaperGameLevelSelectionPrefabTests.cs`
 - 修改：`Assets/Tests/EditMode/C1LevelSelectionTests.cs`
 
-- [ ] **步骤 1：编写 Prefab 结构失败测试**
+- [x] **步骤 1：编写 Prefab 结构失败测试**
 
 新增测试并要求正式 Prefab 包含所有业务绑定节点：
 
@@ -54,7 +54,7 @@ public void LevelSelectionPrefab_HasRequiredPaperLayoutAndControls()
 }
 ```
 
-- [ ] **步骤 2：让业务测试从正式 Prefab 创建控制器**
+- [x] **步骤 2：让业务测试从正式 Prefab 创建控制器**
 
 将测试初始化改为：
 
@@ -66,7 +66,7 @@ selection = selectionObject.GetComponent<C1LevelSelection>();
 
 新增断言：正常状态隐藏 `Regenerate`，设置 `library.Pending` 后重新配置时显示 `Regenerate`，且界面不存在「继续生成」按钮。
 
-- [ ] **步骤 3：运行目标测试并确认红灯**
+- [x] **步骤 3：运行目标测试并确认红灯**
 
 运行：
 
@@ -81,7 +81,7 @@ selection = selectionObject.GetComponent<C1LevelSelection>();
 
 预期：FAIL，提示 `PaperGameLevelSelection.prefab` 或所需节点不存在。
 
-- [ ] **步骤 4：提交测试**
+- [x] **步骤 4：提交测试**
 
 ```bash
 git add Assets/Tests/EditMode/PaperGameLevelSelectionPrefabTests.cs Assets/Tests/EditMode/C1LevelSelectionTests.cs
@@ -97,7 +97,7 @@ git commit -m "test(关卡选择): 添加正式预制体红灯测试"
 - 创建：`Assets/Editor/PaperGameLevelSelectionPrefabGenerator.cs`
 - 生成：`Assets/Resources/C1UI/PaperGameLevelSelection.prefab`
 
-- [ ] **步骤 1：写入受约束 Schema**
+- [x] **步骤 1：写入受约束 Schema**
 
 Schema 使用唯一节点名、正数尺寸和现有组件名：
 
@@ -120,7 +120,7 @@ Schema 使用唯一节点名、正数尺寸和现有组件名：
 }
 ```
 
-- [ ] **步骤 2：实现布局构建器**
+- [x] **步骤 2：实现布局构建器**
 
 `C1LevelSelectionLayout.Build` 创建完整静态层级，复用 `C1CharacterUI/background`、`notebook`、`preview-paper`、`paper`、`star-on`、`star-off`、`cloud`、`sun`、`tree-left`、`tree-right`、`bottom-grass`、`back`、`add` 和 `C1GameUI/paper-label`。条目模板包含：
 
@@ -135,7 +135,7 @@ Level Item Template
 
 模板根节点带 `Button` 和 `LayoutElement`，默认隐藏；`Thumbnail` 使用 `RawImage`，预览使用 `RawImage + AspectRatioFitter`。
 
-- [ ] **步骤 3：实现分辨率适配**
+- [x] **步骤 3：实现分辨率适配**
 
 `C1LevelSelectionScreenFit.RefreshLayout()` 使用：
 
@@ -147,7 +147,7 @@ rect.localScale = new Vector3(scale, scale, 1);
 
 背景扩展覆盖额外区域，顶部导航、底部操作和四角装饰按额外边距外移，中心书本与预览保持固定设计坐标。
 
-- [ ] **步骤 4：实现 Editor 生成器**
+- [x] **步骤 4：实现 Editor 生成器**
 
 生成器调用布局构建器后执行：
 
@@ -160,7 +160,7 @@ AssetDatabase.SaveAssets();
 
 同时提供 `GenerateAndRender`，用于渲染 `1920×1080` 预览。
 
-- [ ] **步骤 5：通过 Unity 生成 Prefab**
+- [x] **步骤 5：通过 Unity 生成 Prefab**
 
 运行：
 
@@ -173,11 +173,11 @@ AssetDatabase.SaveAssets();
 
 预期：日志包含 `Level selection prefab generated`，Prefab 无丢失脚本。
 
-- [ ] **步骤 6：运行结构测试确认通过**
+- [x] **步骤 6：运行结构测试确认通过**
 
 重复任务 1 的目标测试命令。预期：Prefab 结构测试通过；业务测试仍因旧绑定方式失败。
 
-- [ ] **步骤 7：提交静态 UI**
+- [x] **步骤 7：提交静态 UI**
 
 ```bash
 git add Assets/Editor/AIUI/Schemas/C1LevelSelection.ui.json Assets/Scripts/C1/UI/C1LevelSelectionLayout.cs Assets/Scripts/C1/UI/C1LevelSelectionScreenFit.cs Assets/Editor/PaperGameLevelSelectionPrefabGenerator.cs Assets/Resources/C1UI/PaperGameLevelSelection.prefab Assets/Tests/EditMode/PaperGameLevelSelectionPrefabTests.cs
@@ -190,7 +190,7 @@ git commit -m "feat(关卡选择): 添加手账双栏预制体"
 - 修改：`Assets/Scripts/C1/UI/C1LevelSelection.cs`
 - 修改：`Assets/Tests/EditMode/C1LevelSelectionTests.cs`
 
-- [ ] **步骤 1：补充重新生成行为红灯测试**
+- [x] **步骤 1：补充重新生成行为红灯测试**
 
 新增测试，预置暂存照片与旧任务编号，点击 `Regenerate` 后断言新流程采用强制上传语义；通过注入或公开只读状态验证不再存在继续旧任务入口。至少包含以下 UI 断言：
 
@@ -200,7 +200,7 @@ Assert.That(GameObject.Find("继续生成"), Is.Null);
 Assert.That(selection.transform.Find("Regenerate").GetComponent<Button>().interactable, Is.True);
 ```
 
-- [ ] **步骤 2：绑定 Prefab 静态节点**
+- [x] **步骤 2：绑定 Prefab 静态节点**
 
 `Configure` 在开始时取得：
 
@@ -216,7 +216,7 @@ Hook("Drawing Help", () => ShowDrawingTutorial(false));
 Hook("Back Home", () => returnHome());
 ```
 
-- [ ] **步骤 3：用模板刷新列表**
+- [x] **步骤 3：用模板刷新列表**
 
 对每个关卡复制模板并配置：
 
@@ -231,19 +231,19 @@ row.GetComponent<Button>().onClick.AddListener(onClick);
 
 选中时切换 `Selection`、`star-on` 与 `star-off`，并更新缩略图与大预览；刷新前只销毁模板之外的运行时条目。
 
-- [ ] **步骤 4：收敛恢复流程**
+- [x] **步骤 4：收敛恢复流程**
 
 删除 `resume` 字段和 `StartWork(false)` 的公开按钮入口。`Regenerate` 仅在 `library.Pending != null` 时显示，点击固定执行 `StartWork(true)`。生成失败保留暂存照片；生成成功清除 Pending 并隐藏按钮。
 
-- [ ] **步骤 5：修正繁忙与异常状态**
+- [x] **步骤 5：修正繁忙与异常状态**
 
 `SetBusy` 同时锁定列表、创建、帮助、返回、重新生成和开始按钮；`finally` 中始终恢复交互。内置关卡和本地关卡都能正确启用 `Play`，避免原实现只按 `selected != null` 判断导致内置关卡在繁忙状态后不可用。
 
-- [ ] **步骤 6：运行目标测试确认通过**
+- [x] **步骤 6：运行目标测试确认通过**
 
 运行任务 1 的目标测试命令。预期：全部通过。
 
-- [ ] **步骤 7：提交业务接入**
+- [x] **步骤 7：提交业务接入**
 
 ```bash
 git add Assets/Scripts/C1/UI/C1LevelSelection.cs Assets/Tests/EditMode/C1LevelSelectionTests.cs
@@ -259,7 +259,7 @@ git commit -m "refactor(关卡选择): 接入正式预制体与重新生成状�
 - 修改：`Assets/Tests/EditMode/PaperGameHomePrefabTests.cs`
 - 修改：`Assets/Tests/EditMode/HomeBootstrapTests.cs`
 
-- [ ] **步骤 1：编写首页单入口红灯测试**
+- [x] **步骤 1：编写首页单入口红灯测试**
 
 Prefab 测试改为：
 
@@ -270,7 +270,7 @@ Assert.That(prefab.transform.Find("Capture Level"), Is.Null);
 
 Bootstrap 测试调用 `ShowLevels(false)` 后断言实例名称为 `PaperGameLevelSelection`，根节点带 `C1LevelSelection`，首页隐藏；返回后首页恢复。
 
-- [ ] **步骤 2：运行首页测试确认失败**
+- [x] **步骤 2：运行首页测试确认失败**
 
 运行：
 
@@ -285,11 +285,11 @@ Bootstrap 测试调用 `ShowLevels(false)` 后断言实例名称为 `PaperGameLe
 
 预期：FAIL，首页仍存在 `Capture Level`，关卡页仍由代码创建。
 
-- [ ] **步骤 3：移除首页重复入口**
+- [x] **步骤 3：移除首页重复入口**
 
 删除首页生成器中的 `Capture Level` 节点，把 `Start Play` 调整到页面主操作中心；`HomeBootstrap.BuildHome` 不再查找或绑定 `Capture Level`。
 
-- [ ] **步骤 4：从 Resources 实例化关卡页面**
+- [x] **步骤 4：从 Resources 实例化关卡页面**
 
 `ShowLevels` 使用：
 
@@ -302,11 +302,11 @@ LevelScreen.GetComponent<C1LevelSelection>().Configure(ReturnHome, createImmedia
 
 若 Prefab 缺失，记录错误并恢复首页，不创建测试样式兜底页面。
 
-- [ ] **步骤 5：重新生成首页并运行测试**
+- [x] **步骤 5：重新生成首页并运行测试**
 
 运行首页生成器，再运行步骤 2 的测试命令。预期：全部通过。
 
-- [ ] **步骤 6：提交首页改动**
+- [x] **步骤 6：提交首页改动**
 
 ```bash
 git add Assets/Editor/PaperGameHomePrefabGenerator.cs Assets/Resources/C1UI/PaperGameHome.prefab Assets/Scripts/C1/HomeBootstrap.cs Assets/Tests/EditMode/PaperGameHomePrefabTests.cs Assets/Tests/EditMode/HomeBootstrapTests.cs
@@ -320,7 +320,7 @@ git commit -m "feat(首页): 统一关卡选择入口"
 - 修改：`Assets/Editor/PaperGameLevelSelectionPrefabGenerator.cs`（仅在渲染发现布局问题时）
 - 修改：`Assets/Scripts/C1/UI/C1LevelSelectionLayout.cs`（仅在渲染发现布局问题时）
 
-- [ ] **步骤 1：生成正式预览**
+- [x] **步骤 1：生成正式预览**
 
 运行：
 
@@ -333,11 +333,11 @@ git commit -m "feat(首页): 统一关卡选择入口"
 
 检查 `Docs/ui/level-selection-preview.png`：标题、列表、预览、状态和主按钮无遮挡，正式界面不出现默认测试样式。
 
-- [ ] **步骤 2：验证三种宽高比**
+- [x] **步骤 2：验证三种宽高比**
 
 运行 Prefab 测试中的 `1920×1080`、`1094×1016` 和 `2560×1080` 参数用例。预期：设计坐标保持 `1920×1080`，统一缩放，背景铺满，关键按钮位于安全区。
 
-- [ ] **步骤 3：运行完整 EditMode 测试**
+- [x] **步骤 3：运行完整 EditMode 测试**
 
 ```bash
 /Applications/Unity/Unity.app/Contents/MacOS/Unity -batchmode -quit \
@@ -349,11 +349,11 @@ git commit -m "feat(首页): 统一关卡选择入口"
 
 预期：新增与修改测试全部通过；若存在历史失败，记录测试名并确认与本次变更无关。
 
-- [ ] **步骤 4：执行静态检查**
+- [x] **步骤 4：执行静态检查**
 
 运行 `git diff --check`，检查所有新增 `.meta`、Schema JSON、Prefab 无丢失脚本，确认未修改服务端协议、相机逻辑或共享 Sprite。
 
-- [ ] **步骤 5：提交验证产物**
+- [x] **步骤 5：提交验证产物**
 
 ```bash
 git add Docs/ui/level-selection-preview.png Assets/Editor/PaperGameLevelSelectionPrefabGenerator.cs Assets/Scripts/C1/UI/C1LevelSelectionLayout.cs
