@@ -20,23 +20,27 @@ namespace PaperGame.C1.Tests
             foreach (var path in new[]
             {
                 "Background",
-                "Title",
-                "Drawing Help",
-                "Back Home",
-                "Level Book/Viewport/Content/Level Item Template",
-                "Level Book/Create Level",
+                "Header/Title/Label",
+                "Header/Drawing Help/Icon",
+                "Header/Drawing Help/Label",
+                "Header/Back Home/Icon",
+                "Header/Back Home/Label",
+                "Level Book/Viewport/Content/Level Item Template/Star",
+                "Level Book/Create Level/Icon",
                 "Preview Paper/Level Preview",
-                "Status",
-                "Regenerate",
-                "Play"
+                "Preview Paper/Frame",
+                "Action Bar/Status Paper/Status",
+                "Action Bar/Regenerate/Label",
+                "Action Bar/Play/Label"
             })
             {
                 Assert.That(prefab.transform.Find(path), Is.Not.Null, path);
             }
 
-            Assert.That(prefab.transform.Find("Regenerate").gameObject.activeSelf, Is.False);
+            Assert.That(prefab.transform.Find("Action Bar/Regenerate").gameObject.activeSelf, Is.False);
             Assert.That(prefab.transform.Find("Level Book/Viewport/Content/Level Item Template").gameObject.activeSelf,
                 Is.False);
+            Assert.That(prefab.transform.Find("Level Book/Viewport/Content/Create Level"), Is.Null);
         }
 
         [Test]
@@ -46,9 +50,13 @@ namespace PaperGame.C1.Tests
 
             Assert.That(prefab, Is.Not.Null);
             Assert.That(prefab.transform.Find("Background").GetComponent<Image>().sprite, Is.Not.Null);
-            Assert.That(prefab.transform.Find("Title").GetComponent<Image>().sprite, Is.Not.Null);
+            Assert.That(prefab.transform.Find("Header/Title").GetComponent<Image>().sprite, Is.Not.Null);
             Assert.That(prefab.transform.Find("Level Book").GetComponent<Image>().sprite, Is.Not.Null);
             Assert.That(prefab.transform.Find("Preview Paper").GetComponent<Image>().sprite, Is.Not.Null);
+            Assert.That(prefab.transform.Find("Header/Drawing Help/Icon").GetComponent<Image>().sprite, Is.Not.Null);
+            Assert.That(prefab.transform.Find("Header/Back Home/Icon").GetComponent<Image>().sprite, Is.Not.Null);
+            Assert.That(prefab.transform.Find("Level Book/Create Level/Icon").GetComponent<Image>().sprite, Is.Not.Null);
+            Assert.That(prefab.transform.Find("Preview Paper/Frame").GetComponent<Image>().sprite, Is.Not.Null);
             var preview = prefab.transform.Find("Preview Paper/Level Preview");
             Assert.That(preview.GetComponent<RawImage>(), Is.Not.Null);
             Assert.That(preview.GetComponent<AspectRatioFitter>().aspectMode,

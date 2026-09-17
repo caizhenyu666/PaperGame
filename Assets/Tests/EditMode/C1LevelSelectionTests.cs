@@ -78,7 +78,7 @@ namespace PaperGame.C1.Tests
             var cameraCalls = 0;
             selection.Configure(() => { }, false, new C1LevelLibrary(tempRoot), () => cameraCalls++);
 
-            selection.transform.Find("Drawing Help").GetComponent<Button>().onClick.Invoke();
+            selection.transform.Find("Header/Drawing Help").GetComponent<Button>().onClick.Invoke();
 
             Assert.That(selection.TutorialVisible, Is.True);
             selection.GetComponentInChildren<C1LevelDrawingTutorialController>(true).Skip();
@@ -114,7 +114,7 @@ namespace PaperGame.C1.Tests
         {
             selection.Configure(() => { }, false, new C1LevelLibrary(tempRoot));
 
-            Assert.That(selection.transform.Find("Regenerate").gameObject.activeSelf, Is.False);
+            Assert.That(selection.transform.Find("Action Bar/Regenerate").gameObject.activeSelf, Is.False);
             Assert.That(selection.transform.Find("继续生成"), Is.Null);
         }
 
@@ -126,7 +126,7 @@ namespace PaperGame.C1.Tests
 
             selection.Configure(() => { }, false, library);
 
-            var regenerate = selection.transform.Find("Regenerate");
+            var regenerate = selection.transform.Find("Action Bar/Regenerate");
             Assert.That(regenerate.gameObject.activeSelf, Is.True);
             Assert.That(regenerate.GetComponent<Button>().interactable, Is.True);
             Assert.That(selection.StatusText, Does.Contain("重新生成"));
