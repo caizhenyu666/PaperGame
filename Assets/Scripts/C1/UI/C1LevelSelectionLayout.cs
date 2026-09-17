@@ -98,11 +98,11 @@ namespace PaperGame.C1
 
             var previewPaper = ImageAt(t, "Preview Paper", CharacterArt("preview-paper"),
                 660, 184, 1114, 692, false, false);
+            ImageAt(previewPaper.transform, "Frame", levelArt("preview-frame"), 0, 0, 1114, 692,
+                false, false, 1114, 692);
             var levelPreview = RawImageAt(previewPaper.transform, "Level Preview", 74, 58, 966, 568,
                 1114, 692, true);
             levelPreview.color = new Color(1f, .98f, .91f, 1f);
-            ImageAt(previewPaper.transform, "Frame", levelArt("preview-frame"), 0, 0, 1114, 692,
-                false, false, 1114, 692);
 
             var actionBar = Box(t, "Action Bar", 650, 882, 1215, 150);
             var statusPaper = ImageAt(actionBar, "Status Paper", levelArt("nav-paper"),

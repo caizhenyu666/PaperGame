@@ -63,6 +63,17 @@ namespace PaperGame.C1.Tests
                 Is.EqualTo(AspectRatioFitter.AspectMode.FitInParent));
         }
 
+        [Test]
+        public void LevelSelectionPrefab_PreviewFrameRendersBehindPhoto()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
+            var frame = prefab.transform.Find("Preview Paper/Frame");
+            var preview = prefab.transform.Find("Preview Paper/Level Preview");
+
+            Assert.That(frame.GetSiblingIndex(), Is.LessThan(preview.GetSiblingIndex()),
+                "相框必须位于照片下方，不能用厚内沿遮挡照片内容。");
+        }
+
         [TestCase(1920, 1080)]
         [TestCase(1094, 1016)]
         [TestCase(2560, 1080)]
