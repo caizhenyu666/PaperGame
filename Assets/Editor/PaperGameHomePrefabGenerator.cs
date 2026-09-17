@@ -22,8 +22,8 @@ namespace PaperGame.C1.Editor
             var background = AddImage(root.transform, "Background", "home-background", new Vector2(.5f, .5f), new Vector2(.5f, .5f), Vector2.zero, Vector2.zero);
             background.gameObject.AddComponent<C1CoverBackground>();
             AddImage(root.transform, "Title", "title-change-hero", new Vector2(.22f, .68f), new Vector2(.78f, .92f), Vector2.zero, Vector2.zero);
-            AddImage(root.transform, "Start Play", "button-primary", new Vector2(.35f, .38f), new Vector2(.65f, .56f), Vector2.zero, Vector2.zero, true);
-            AddImage(root.transform, "Capture Level", "button-secondary", new Vector2(.38f, .22f), new Vector2(.62f, .35f), Vector2.zero, Vector2.zero, true);
+            AddImage(root.transform, "Start Play", "button-primary", new Vector2(.35f, .30f), new Vector2(.65f, .50f), Vector2.zero, Vector2.zero, true);
+            AddImage(root.transform, "Create Role", "button-create-hero", new Vector2(.04f, .06f), new Vector2(.30f, .24f), Vector2.zero, Vector2.zero, true);
             AddImage(root.transform, "Tutorial Card", "tutorial-card", new Vector2(.69f, .12f), new Vector2(.96f, .46f), Vector2.zero, Vector2.zero);
 
             PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
@@ -38,7 +38,7 @@ namespace PaperGame.C1.Editor
                 "home-background",
                 "title-change-hero",
                 "button-primary",
-                "button-secondary",
+                "button-create-hero",
                 "tutorial-card"
             };
 

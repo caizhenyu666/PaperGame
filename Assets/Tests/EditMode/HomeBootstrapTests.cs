@@ -65,5 +65,31 @@ namespace PaperGame.C1.Tests
             Assert.That(bootstrap.CharacterScreen, Is.Null);
             Assert.That(bootstrap.HomeScreen.activeSelf, Is.True);
         }
+
+        [Test]
+        public void ShowLevels_InstantiatesFormalLevelSelectionPrefab()
+        {
+            bootstrap.BuildHome();
+
+            bootstrap.ShowLevels();
+
+            Assert.That(bootstrap.HomeScreen.activeSelf, Is.False);
+            Assert.That(bootstrap.LevelScreen, Is.Not.Null);
+            Assert.That(bootstrap.LevelScreen.name, Is.EqualTo("PaperGameLevelSelection"));
+            Assert.That(bootstrap.LevelScreen.GetComponent<C1LevelSelection>(), Is.Not.Null);
+            Assert.That(bootstrap.LevelScreen.transform.Find("Level Book/Viewport/Content/第1页"), Is.Not.Null);
+        }
+
+        [Test]
+        public void ReturnHome_DestroysLevelSelectionAndRestoresHome()
+        {
+            bootstrap.BuildHome();
+            bootstrap.ShowLevels();
+
+            bootstrap.ReturnHome();
+
+            Assert.That(bootstrap.LevelScreen, Is.Null);
+            Assert.That(bootstrap.HomeScreen.activeSelf, Is.True);
+        }
     }
 }

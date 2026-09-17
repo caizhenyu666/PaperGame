@@ -50,7 +50,6 @@ namespace PaperGame.C1
             characterSelection = GetComponent<C1CharacterSelection>() ?? gameObject.AddComponent<C1CharacterSelection>();
             FindButton("Start Play").onClick.AddListener(StartGame);
             FindButton("Create Role").onClick.AddListener(ShowCharacterCreation);
-            FindButton("Capture Level").onClick.AddListener(() => ShowLevels(true));
 
             if (FindObjectOfType<EventSystem>() == null)
             {
@@ -93,8 +92,18 @@ namespace PaperGame.C1
         {
             if (LevelScreen != null) return;
             HomeScreen.SetActive(false);
-            LevelScreen = C1LevelSelection.Panel(canvas.transform, "Level Selection " + GetInstanceID(), 0, 0, 1, 1);
-            LevelScreen.AddComponent<C1LevelSelection>().Configure(ReturnHome, createImmediately);
+            var prefab = Resources.Load<GameObject>("C1UI/PaperGameLevelSelection");
+            if (prefab == null)
+            {
+                Debug.LogError("Level selection prefab is missing.", this);
+                HomeScreen.SetActive(true);
+                return;
+            }
+
+            LevelScreen = Instantiate(prefab, canvas.transform, false);
+            LevelScreen.name = "PaperGameLevelSelection";
+            LevelScreen.GetComponent<C1LevelSelection>().Configure(ReturnHome, createImmediately);
+            LevelScreen.GetComponent<C1LevelSelectionScreenFit>()?.RefreshLayout();
         }
 
         private Button FindButton(string name)
