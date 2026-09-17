@@ -14,6 +14,7 @@ namespace PaperGame.C1
         private Button nextButton;
         private Button skipButton;
         private Button soundButton;
+        private Button replayButton;
         private Text nextLabel;
         private Text skipLabel;
         private Text soundLabel;
@@ -30,7 +31,6 @@ namespace PaperGame.C1
         private void Awake()
         {
             EnsureInitialized();
-            gameObject.SetActive(false);
         }
 
         public void Open(Action onDismiss)
@@ -51,6 +51,7 @@ namespace PaperGame.C1
             nextButton = FindButton("Next");
             skipButton = FindButton("Skip");
             soundButton = FindButton("Sound");
+            replayButton = FindButton("Replay");
             nextLabel = FindLabel(nextButton);
             skipLabel = FindLabel(skipButton);
             soundLabel = FindLabel(soundButton);
@@ -59,6 +60,7 @@ namespace PaperGame.C1
             nextButton.onClick.AddListener(Next);
             skipButton.onClick.AddListener(Skip);
             soundButton.onClick.AddListener(ToggleMute);
+            replayButton.onClick.AddListener(ReplayVoice);
             UpdateSoundLabel();
         }
 

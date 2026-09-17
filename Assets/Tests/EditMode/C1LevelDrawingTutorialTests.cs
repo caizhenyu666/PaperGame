@@ -115,6 +115,17 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
+        public void ReplayVoice_UsesTheCurrentPageClip()
+        {
+            controller.Open(null);
+            controller.Next();
+
+            controller.ReplayVoice();
+
+            Assert.That(root.GetComponent<AudioSource>().clip.name, Is.EqualTo("page-02"));
+        }
+
+        [Test]
         public void PageAnimator_BobMovesAndResetRestoresPose()
         {
             var animated = new GameObject("Animated Art", typeof(RectTransform));
@@ -145,6 +156,7 @@ namespace PaperGame.C1.Tests
             Button(tutorial.transform, "Next", "下一步");
             Button(tutorial.transform, "Skip", "先跳过");
             Button(tutorial.transform, "Sound", "声音");
+            Button(tutorial.transform, "Replay", "重听");
             return tutorial;
         }
 

@@ -20,6 +20,7 @@ namespace PaperGame.C1.Tests
             Assert.That(prefab.transform.Find("Next").GetComponent<Button>(), Is.Not.Null);
             Assert.That(prefab.transform.Find("Skip").GetComponent<Button>(), Is.Not.Null);
             Assert.That(prefab.transform.Find("Sound").GetComponent<Button>(), Is.Not.Null);
+            Assert.That(prefab.transform.Find("Replay").GetComponent<Button>(), Is.Not.Null);
             Assert.That(prefab.transform.Find("Page Dots").childCount, Is.EqualTo(6));
         }
 
@@ -41,7 +42,7 @@ namespace PaperGame.C1.Tests
         public void TutorialPrefab_UsesSafeAreaForInteractiveControls()
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
-            var names = new[] { "Next", "Skip", "Sound" };
+            var names = new[] { "Next", "Skip", "Sound", "Replay" };
 
             foreach (var name in names)
             {
@@ -51,6 +52,18 @@ namespace PaperGame.C1.Tests
                 Assert.That(rect.anchorMax.x, Is.LessThanOrEqualTo(.95f), name);
                 Assert.That(rect.anchorMax.y, Is.LessThanOrEqualTo(.95f), name);
             }
+        }
+
+        [Test]
+        public void TutorialPrefab_CoversOnlyBackgroundAndKeepsContentRootStretched()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
+            var root = prefab.GetComponent<RectTransform>();
+
+            Assert.That(root.anchorMin, Is.EqualTo(Vector2.zero));
+            Assert.That(root.anchorMax, Is.EqualTo(Vector2.one));
+            Assert.That(prefab.GetComponent<C1CoverBackground>(), Is.Null);
+            Assert.That(prefab.transform.Find("Background").GetComponent<C1CoverBackground>(), Is.Not.Null);
         }
     }
 }

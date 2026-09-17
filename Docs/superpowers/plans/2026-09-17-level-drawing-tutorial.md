@@ -91,7 +91,7 @@ PlayerPrefs.DeleteKey(C1LevelDrawingTutorialController.MutedPreferenceKey);
   -projectPath "$(pwd)" -runTests -testPlatform EditMode \
   -testFilter PaperGame.C1.Tests.C1LevelDrawingTutorialTests \
   -testResults /private/tmp/papergame-level-tutorial-state.xml \
-  -logFile /private/tmp/papergame-level-tutorial-state.log -quit
+  -logFile /private/tmp/papergame-level-tutorial-state.log
 ```
 
 预期：FAIL，提示 `C1LevelDrawingTutorialController` 不存在。
@@ -434,7 +434,7 @@ public void HelpButton_AlwaysOpensTutorialWithoutStartingCamera()
   -projectPath "$(pwd)" -runTests -testPlatform EditMode \
   -testFilter PaperGame.C1.Tests.C1LevelSelectionTests \
   -testResults /private/tmp/papergame-level-selection-tutorial.xml \
-  -logFile /private/tmp/papergame-level-selection-tutorial.log -quit
+  -logFile /private/tmp/papergame-level-selection-tutorial.log
 ```
 
 预期：FAIL，缺少 `TutorialVisible` 和「怎么画？」按钮。
@@ -482,7 +482,7 @@ private void ShowTutorial(bool openCameraAfter)
   -projectPath "$(pwd)" -runTests -testPlatform EditMode \
   -testFilter PaperGame.C1.Tests.HomeBootstrapTests \
   -testResults /private/tmp/papergame-home-tutorial.xml \
-  -logFile /private/tmp/papergame-home-tutorial.log -quit
+  -logFile /private/tmp/papergame-home-tutorial.log
 ```
 
 预期：全部 PASS。
@@ -515,7 +515,7 @@ git status --short
 /Applications/Unity/Unity.app/Contents/MacOS/Unity -batchmode -nographics \
   -projectPath "$(pwd)" -runTests -testPlatform EditMode \
   -testResults /private/tmp/papergame-level-tutorial-all.xml \
-  -logFile /private/tmp/papergame-level-tutorial-all.log -quit
+  -logFile /private/tmp/papergame-level-tutorial-all.log
 ```
 
 预期：所有 EditMode 测试通过，XML 中 `failed="0"`。

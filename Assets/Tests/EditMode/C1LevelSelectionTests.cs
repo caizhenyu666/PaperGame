@@ -97,6 +97,17 @@ namespace PaperGame.C1.Tests
             Assert.That(cameraCalls, Is.EqualTo(1));
         }
 
+        [Test]
+        public void Configure_CreateImmediatelyUsesTheSameFirstTimeTutorialFlow()
+        {
+            var cameraCalls = 0;
+
+            selection.Configure(() => { }, true, new C1LevelLibrary(tempRoot), () => cameraCalls++);
+
+            Assert.That(selection.TutorialVisible, Is.True);
+            Assert.That(cameraCalls, Is.Zero);
+        }
+
         private C1SavedLevel CreateUserLevel()
         {
             var id = Guid.NewGuid().ToString("N");

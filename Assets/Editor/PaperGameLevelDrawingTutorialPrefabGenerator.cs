@@ -58,12 +58,15 @@ namespace PaperGame.C1.Editor
             Directory.CreateDirectory("Assets/Resources/C1UI");
             ConfigureSprites();
 
-            var root = new GameObject("PaperGameLevelDrawingTutorial", typeof(RectTransform), typeof(Image), typeof(AudioSource));
-            root.GetComponent<RectTransform>().sizeDelta = new Vector2(1920f, 1080f);
-            var background = root.GetComponent<Image>();
-            background.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(HomeBackgroundPath);
+            var root = new GameObject("PaperGameLevelDrawingTutorial", typeof(RectTransform), typeof(AudioSource));
+            var rootRect = root.GetComponent<RectTransform>();
+            rootRect.anchorMin = Vector2.zero;
+            rootRect.anchorMax = Vector2.one;
+            rootRect.offsetMin = Vector2.zero;
+            rootRect.offsetMax = Vector2.zero;
+            var background = AddImage(root.transform, "Background", HomeBackgroundPath, Vector2.zero, Vector2.one);
             background.preserveAspect = false;
-            root.AddComponent<C1CoverBackground>();
+            background.gameObject.AddComponent<C1CoverBackground>();
 
             AddPanel(root.transform, "Warm Wash", Vector2.zero, Vector2.one, new Color(1f, .97f, .83f, .56f), false);
             var pages = AddRect(root.transform, "Pages", new Vector2(.05f, .14f), new Vector2(.95f, .87f));
@@ -86,6 +89,7 @@ namespace PaperGame.C1.Editor
 
             AddButton(root.transform, "Skip", "先跳过", new Vector2(.82f, .87f), new Vector2(.95f, .95f), new Color(1f, .96f, .78f));
             AddButton(root.transform, "Sound", "声音", new Vector2(.70f, .87f), new Vector2(.81f, .95f), new Color(.77f, .90f, 1f));
+            AddButton(root.transform, "Replay", "重听", new Vector2(.59f, .87f), new Vector2(.69f, .95f), new Color(.90f, .84f, 1f));
             AddButton(root.transform, "Next", "下一步", new Vector2(.72f, .05f), new Vector2(.94f, .145f), new Color(1f, .77f, .18f));
             root.AddComponent<C1LevelDrawingTutorialController>();
 
@@ -99,6 +103,85 @@ namespace PaperGame.C1.Editor
         {
             GenerateTutorialPrefab();
             EditorApplication.Exit(0);
+        }
+
+        [MenuItem("PaperGame/UI/Generate And Render Level Drawing Tutorial")]
+        public static void GenerateAndRender()
+        {
+            GenerateTutorialPrefab();
+            for (var i = 0; i < 6; i++) RenderPreview(i);
+        }
+
+        public static void GenerateAndRenderFromCommandLine()
+        {
+            GenerateAndRender();
+            EditorApplication.Exit(0);
+        }
+
+        private static void RenderPreview(int pageIndex)
+        {
+            const int width = 1920;
+            const int height = 1080;
+            var root = new GameObject("Tutorial UI Render", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler));
+            var cameraObject = new GameObject("Tutorial UI Camera", typeof(Camera));
+            var target = new RenderTexture(width, height, 24);
+            var texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            var previous = RenderTexture.active;
+            try
+            {
+                var camera = cameraObject.GetComponent<Camera>();
+                camera.targetTexture = target;
+                camera.orthographic = true;
+                camera.orthographicSize = height * .5f;
+                camera.clearFlags = CameraClearFlags.SolidColor;
+                camera.backgroundColor = Color.black;
+
+                var canvas = root.GetComponent<Canvas>();
+                canvas.renderMode = RenderMode.ScreenSpaceCamera;
+                canvas.worldCamera = camera;
+                canvas.planeDistance = 10f;
+                var scaler = root.GetComponent<CanvasScaler>();
+                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                scaler.referenceResolution = new Vector2(width, height);
+
+                var screen = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath), root.transform, false);
+                var screenRect = screen.GetComponent<RectTransform>();
+                screenRect.anchorMin = Vector2.zero;
+                screenRect.anchorMax = Vector2.one;
+                screenRect.offsetMin = Vector2.zero;
+                screenRect.offsetMax = Vector2.zero;
+                screen.SetActive(true);
+                var pages = screen.transform.Find("Pages");
+                for (var i = 0; i < pages.childCount; i++) pages.GetChild(i).gameObject.SetActive(i == pageIndex);
+                var dots = screen.transform.Find("Page Dots");
+                for (var i = 0; i < dots.childCount; i++)
+                {
+                    var color = dots.GetChild(i).GetComponent<Image>().color;
+                    color.a = i == pageIndex ? 1f : .35f;
+                    dots.GetChild(i).GetComponent<Image>().color = color;
+                }
+                screen.transform.Find("Sound/Label").GetComponent<Text>().text = "关闭声音";
+                screen.transform.Find("Next/Label").GetComponent<Text>().text = pageIndex == 5 ? "我画好啦" : "下一步";
+
+                Canvas.ForceUpdateCanvases();
+                camera.Render();
+                RenderTexture.active = target;
+                texture.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+                texture.Apply();
+                Directory.CreateDirectory("Docs/ui");
+                var path = $"Docs/ui/level-drawing-tutorial-page-{pageIndex + 1:00}.png";
+                File.WriteAllBytes(path, texture.EncodeToPNG());
+                Debug.Log("Rendered " + path);
+            }
+            finally
+            {
+                RenderTexture.active = previous;
+                Object.DestroyImmediate(root);
+                Object.DestroyImmediate(cameraObject);
+                Object.DestroyImmediate(texture);
+                target.Release();
+                Object.DestroyImmediate(target);
+            }
         }
 
         private static void CreatePage(Transform parent, int index)
