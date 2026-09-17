@@ -90,6 +90,31 @@ namespace PaperGame.C1.Tests
         }
 
         [Test]
+        public void ToggleMute_PersistsPreferenceAndUpdatesLabel()
+        {
+            controller.Open(null);
+
+            controller.ToggleMute();
+
+            Assert.That(controller.IsMuted, Is.True);
+            Assert.That(PlayerPrefs.GetInt(C1LevelDrawingTutorialController.MutedPreferenceKey), Is.EqualTo(1));
+            Assert.That(root.transform.Find("Sound/Label").GetComponent<Text>().text, Is.EqualTo("开启声音"));
+        }
+
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(6)]
+        public void VoiceClip_ExistsForEveryPage(int page)
+        {
+            var clip = Resources.Load<AudioClip>($"C1TutorialAudio/page-{page:00}");
+
+            Assert.That(clip, Is.Not.Null, $"Missing voice clip for page {page}");
+        }
+
+        [Test]
         public void PageAnimator_BobMovesAndResetRestoresPose()
         {
             var animated = new GameObject("Animated Art", typeof(RectTransform));

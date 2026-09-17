@@ -13,8 +13,10 @@ namespace PaperGame.C1
         private Image[] pageDots = Array.Empty<Image>();
         private Button nextButton;
         private Button skipButton;
+        private Button soundButton;
         private Text nextLabel;
         private Text skipLabel;
+        private Text soundLabel;
         private AudioSource audioSource;
         private Action afterDismiss;
         private bool completed;
@@ -23,6 +25,7 @@ namespace PaperGame.C1
         public int PageCount => pages.Length;
         public int CurrentPageIndex { get; private set; }
         public bool IsOpen => gameObject.activeSelf;
+        public bool IsMuted => PlayerPrefs.GetInt(MutedPreferenceKey, 0) == 1;
 
         private void Awake()
         {
@@ -47,12 +50,16 @@ namespace PaperGame.C1
             pageDots = ComponentsInChildren<Image>(transform.Find("Page Dots"));
             nextButton = FindButton("Next");
             skipButton = FindButton("Skip");
+            soundButton = FindButton("Sound");
             nextLabel = FindLabel(nextButton);
             skipLabel = FindLabel(skipButton);
+            soundLabel = FindLabel(soundButton);
             audioSource = GetComponent<AudioSource>();
 
             nextButton.onClick.AddListener(Next);
             skipButton.onClick.AddListener(Skip);
+            soundButton.onClick.AddListener(ToggleMute);
+            UpdateSoundLabel();
         }
 
         public void Next()
@@ -71,6 +78,33 @@ namespace PaperGame.C1
         public void Skip()
         {
             Complete();
+        }
+
+        public void ToggleMute()
+        {
+            var muted = !IsMuted;
+            PlayerPrefs.SetInt(MutedPreferenceKey, muted ? 1 : 0);
+            PlayerPrefs.Save();
+            UpdateSoundLabel();
+
+            if (muted)
+            {
+                if (audioSource != null) audioSource.Stop();
+            }
+            else
+            {
+                ReplayVoice();
+            }
+        }
+
+        public void ReplayVoice()
+        {
+            if (audioSource == null || IsMuted) return;
+            var clip = Resources.Load<AudioClip>($"C1TutorialAudio/page-{CurrentPageIndex + 1:00}");
+            if (clip == null) return;
+            audioSource.Stop();
+            audioSource.clip = clip;
+            audioSource.Play();
         }
 
         private void Complete()
@@ -98,6 +132,13 @@ namespace PaperGame.C1
 
             if (nextLabel != null) nextLabel.text = CurrentPageIndex == pages.Length - 1 ? "我画好啦" : "下一步";
             if (skipLabel != null) skipLabel.text = afterDismiss == null ? "关闭" : "先跳过";
+            UpdateSoundLabel();
+            ReplayVoice();
+        }
+
+        private void UpdateSoundLabel()
+        {
+            if (soundLabel != null) soundLabel.text = IsMuted ? "开启声音" : "关闭声音";
         }
 
         private Button FindButton(string childName)
