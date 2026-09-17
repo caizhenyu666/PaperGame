@@ -29,6 +29,8 @@ namespace PaperGame.C1.Tests
 
             Assert.That(bootstrap.HomeScreen, Is.Not.Null);
             Assert.That(bootstrap.CharacterScreen, Is.Null);
+            var legacyCaptureButton = bootstrap.HomeScreen.transform.Find("Capture Level");
+            Assert.That(legacyCaptureButton == null || !legacyCaptureButton.gameObject.activeSelf, Is.True);
         }
 
         [Test]

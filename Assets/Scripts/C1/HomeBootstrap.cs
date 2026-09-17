@@ -50,6 +50,11 @@ namespace PaperGame.C1
             characterSelection = GetComponent<C1CharacterSelection>() ?? gameObject.AddComponent<C1CharacterSelection>();
             FindButton("Start Play").onClick.AddListener(StartGame);
             FindButton("Create Role").onClick.AddListener(ShowCharacterCreation);
+            var legacyCaptureButton = HomeScreen.transform.Find("Capture Level");
+            if (legacyCaptureButton != null)
+            {
+                legacyCaptureButton.gameObject.SetActive(false);
+            }
 
             if (FindObjectOfType<EventSystem>() == null)
             {
