@@ -4,30 +4,47 @@
   "canvasHeight": 1080,
   "nodes": [
     { "name": "Background", "component": "PaperImage", "width": 1920, "height": 1080 },
-    { "name": "Title", "component": "PaperLabel", "width": 620, "height": 150 },
-    { "name": "Drawing Help", "component": "PaperTextButton", "width": 250, "height": 100 },
-    { "name": "Back Home", "component": "PaperImageButton", "width": 370, "height": 114 },
+    {
+      "name": "Header",
+      "component": "PaperPanel",
+      "width": 1920,
+      "height": 170,
+      "children": [
+        { "name": "Title", "component": "PaperLabel", "width": 660, "height": 138 },
+        { "name": "Drawing Help", "component": "PaperIconButton", "width": 246, "height": 96 },
+        { "name": "Back Home", "component": "PaperIconButton", "width": 300, "height": 96 }
+      ]
+    },
     {
       "name": "Level Book",
       "component": "PaperPanel",
-      "width": 560,
-      "height": 690,
+      "width": 568,
+      "height": 700,
       "children": [
-        { "name": "Viewport", "component": "PaperPanel", "width": 420, "height": 430 },
-        { "name": "Create Level", "component": "PaperTextButton", "width": 420, "height": 130 }
+        { "name": "Viewport", "component": "PaperPanel", "width": 430, "height": 455 },
+        { "name": "Create Level", "component": "PaperIconButton", "width": 430, "height": 118 }
       ]
     },
     {
       "name": "Preview Paper",
       "component": "PaperPanel",
-      "width": 1110,
-      "height": 650,
+      "width": 1114,
+      "height": 692,
       "children": [
-        { "name": "Level Preview", "component": "PaperImage", "width": 930, "height": 520 }
+        { "name": "Level Preview", "component": "PaperImage", "width": 966, "height": 568 },
+        { "name": "Frame", "component": "PaperImage", "width": 1114, "height": 692 }
       ]
     },
-    { "name": "Status", "component": "PaperText", "width": 600, "height": 90 },
-    { "name": "Regenerate", "component": "PaperTextButton", "width": 300, "height": 110 },
-    { "name": "Play", "component": "PaperTextButton", "width": 420, "height": 130 }
+    {
+      "name": "Action Bar",
+      "component": "PaperPanel",
+      "width": 1215,
+      "height": 150,
+      "children": [
+        { "name": "Status Paper", "component": "PaperLabel", "width": 590, "height": 105 },
+        { "name": "Regenerate", "component": "PaperTextButton", "width": 260, "height": 105 },
+        { "name": "Play", "component": "PaperTextButton", "width": 347, "height": 140 }
+      ]
+    }
   ]
 }

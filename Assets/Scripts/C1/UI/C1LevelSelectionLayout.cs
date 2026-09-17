@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,45 +8,58 @@ namespace PaperGame.C1
     public static class C1LevelSelectionLayout
     {
         private static Sprite CharacterArt(string name) => Resources.Load<Sprite>("C1CharacterUI/" + name);
-        private static Sprite GameArt(string name) => Resources.Load<Sprite>("C1GameUI/" + name);
 
-        public static GameObject Build(Transform parent)
+        public static GameObject Build(Transform parent, Func<string, Sprite> levelArt = null)
         {
+            levelArt = levelArt ?? (_ => null);
             var root = new GameObject("PaperGameLevelSelection", typeof(RectTransform));
             if (parent != null) root.transform.SetParent(parent, false);
             root.GetComponent<RectTransform>().sizeDelta = new Vector2(1920, 1080);
             var t = root.transform;
 
             ImageAt(t, "Background", CharacterArt("background"), 0, 0, 1920, 1080, false, false);
-            ImageAt(t, "Cloud Left", CharacterArt("cloud"), 80, 25, 190, 115);
-            ImageAt(t, "Sun", CharacterArt("sun"), 390, 20, 190, 160);
-            ImageAt(t, "Cloud Right", CharacterArt("cloud"), 1260, 25, 185, 115);
-            ImageAt(t, "Tree Left", CharacterArt("tree-left"), 0, 720, 200, 360);
-            ImageAt(t, "Tree Right", CharacterArt("tree-right"), 1760, 720, 160, 360);
-            ImageAt(t, "Bottom Grass", CharacterArt("bottom-grass"), 0, 1020, 1920, 60, false, false);
+            var decorations = Box(t, "Decorations", 0, 0, 1920, 1080);
+            ImageAt(decorations, "Cloud Left", CharacterArt("cloud"), 58, 26, 205, 118);
+            ImageAt(decorations, "Sun", CharacterArt("sun"), 390, 18, 185, 158);
+            ImageAt(decorations, "Cloud Right", CharacterArt("cloud"), 1220, 24, 200, 118);
+            ImageAt(decorations, "Tree Left", CharacterArt("tree-left"), 0, 716, 200, 364);
+            ImageAt(decorations, "Tree Right", CharacterArt("tree-right"), 1752, 716, 168, 364);
+            ImageAt(decorations, "Bottom Grass", CharacterArt("bottom-grass"), 0, 1018, 1920, 62, false, false);
 
-            var title = ImageAt(t, "Title", GameArt("paper-label"), 650, 20, 620, 150);
-            TextAt(title.transform, "Label", "我的纸上关卡", 54, 35, 15, 550, 115, TextAnchor.MiddleCenter, 620, 150);
+            var header = Box(t, "Header", 0, 0, 1920, 170);
+            var title = ImageAt(header, "Title", levelArt("title-paper"), 630, 18, 660, 138,
+                false, false, 1920, 170);
+            TextAt(title.transform, "Label", "我的纸上关卡", 52, 55, 13, 550, 110,
+                TextAnchor.MiddleCenter, 660, 138);
 
-            var help = ImageAt(t, "Drawing Help", GameArt("paper-label"), 1325, 42, 230, 92, true);
+            var help = ImageAt(header, "Drawing Help", levelArt("nav-paper"), 1300, 39, 246, 96,
+                true, false, 1920, 170);
             help.gameObject.AddComponent<Button>().targetGraphic = help;
-            TextAt(help.transform, "Label", "怎么画？", 32, 18, 8, 194, 72, TextAnchor.MiddleCenter, 230, 92);
+            ImageAt(help.transform, "Icon", levelArt("icon-help"), 20, 18, 58, 58,
+                false, true, 246, 96);
+            TextAt(help.transform, "Label", "怎么画？", 29, 78, 10, 148, 74,
+                TextAnchor.MiddleCenter, 246, 96);
 
-            var back = ImageAt(t, "Back Home", CharacterArt("back"), 1550, 28, 330, 102, true);
+            var back = ImageAt(header, "Back Home", levelArt("nav-paper"), 1560, 39, 300, 96,
+                true, false, 1920, 170);
             back.gameObject.AddComponent<Button>().targetGraphic = back;
+            ImageAt(back.transform, "Icon", levelArt("icon-back"), 22, 18, 58, 58,
+                false, true, 300, 96);
+            TextAt(back.transform, "Label", "回到首页", 31, 78, 10, 196, 74,
+                TextAnchor.MiddleCenter, 300, 96);
 
-            var book = ImageAt(t, "Level Book", CharacterArt("notebook"), 70, 180, 560, 690, false, false);
-            var viewport = Box(book.transform, "Viewport", 82, 70, 420, 430, 560, 690);
+            var book = ImageAt(t, "Level Book", CharacterArt("notebook"), 64, 180, 568, 700, false, false);
+            var viewport = Box(book.transform, "Viewport", 83, 68, 430, 455, 568, 700);
             viewport.gameObject.AddComponent<RectMask2D>();
             var scroll = viewport.gameObject.AddComponent<ScrollRect>();
-            var content = Box(viewport, "Content", 0, 0, 420, 430, 420, 430);
+            var content = Box(viewport, "Content", 0, 0, 430, 455, 430, 455);
             content.anchorMin = new Vector2(0, 1);
             content.anchorMax = Vector2.one;
             content.pivot = new Vector2(.5f, 1);
             content.sizeDelta = Vector2.zero;
             var layout = content.gameObject.AddComponent<VerticalLayoutGroup>();
             layout.padding = new RectOffset(7, 7, 7, 7);
-            layout.spacing = 12;
+            layout.spacing = 13;
             layout.childControlHeight = true;
             layout.childForceExpandHeight = false;
             layout.childControlWidth = true;
@@ -55,48 +69,69 @@ namespace PaperGame.C1
             scroll.viewport = viewport;
             scroll.horizontal = false;
 
-            var template = ImageAt(content, "Level Item Template", CharacterArt("paper"), 0, 0, 406, 132, true, false, 420, 132);
+            var template = ImageAt(content, "Level Item Template", CharacterArt("paper"), 0, 0, 416, 136,
+                true, false, 430, 136);
             template.gameObject.AddComponent<Button>().targetGraphic = template;
-            template.gameObject.AddComponent<LayoutElement>().preferredHeight = 132;
-            ImageAt(template.transform, "Selection", CharacterArt("selected"), 0, 0, 406, 132, false, false, 406, 132);
-            RawImageAt(template.transform, "Thumbnail", 24, 18, 120, 96, 406, 132);
-            TextAt(template.transform, "Label", "第 1 页", 26, 155, 23, 180, 48, TextAnchor.MiddleLeft, 406, 132);
-            TextAt(template.transform, "Source", "内置关卡", 18, 155, 70, 170, 34, TextAnchor.MiddleLeft, 406, 132);
-            ImageAt(template.transform, "Star", CharacterArt("star-on"), 335, 30, 54, 61, false, true, 406, 132);
+            template.gameObject.AddComponent<LayoutElement>().preferredHeight = 136;
+            ImageAt(template.transform, "Selection", CharacterArt("selected"), 0, 0, 416, 136,
+                false, false, 416, 136);
+            var thumbnail = RawImageAt(template.transform, "Thumbnail", 22, 17, 124, 102, 416, 136);
+            thumbnail.color = new Color(1f, .98f, .90f, 1f);
+            TextAt(template.transform, "Label", "第 1 页", 27, 157, 20, 176, 48,
+                TextAnchor.MiddleLeft, 416, 136);
+            TextAt(template.transform, "Source", "内置关卡", 19, 157, 72, 170, 34,
+                TextAnchor.MiddleLeft, 416, 136);
+            var star = Box(template.transform, "Star", 344, 35, 50, 50, 416, 136);
+            ImageAt(star, "On", levelArt("star-on"), 0, 0, 50, 50, false, true, 50, 50);
+            var starOff = ImageAt(star, "Off", levelArt("star-off"), 0, 0, 50, 50,
+                false, true, 50, 50);
+            starOff.gameObject.SetActive(false);
             template.gameObject.SetActive(false);
 
-            var create = ImageAt(book.transform, "Create Level", CharacterArt("paper"), 82, 530, 420, 125, true, false, 560, 690);
+            var create = ImageAt(book.transform, "Create Level", levelArt("nav-paper"), 83, 548, 430, 118,
+                true, false, 568, 700);
             create.gameObject.AddComponent<Button>().targetGraphic = create;
-            ImageAt(create.transform, "Icon", CharacterArt("add"), 35, 20, 92, 85, false, true, 420, 125);
-            TextAt(create.transform, "Label", "拍照创建新关卡", 28, 126, 18, 265, 88, TextAnchor.MiddleCenter, 420, 125);
+            ImageAt(create.transform, "Icon", levelArt("icon-camera"), 28, 19, 78, 78,
+                false, true, 430, 118);
+            TextAt(create.transform, "Label", "拍照创建新关卡", 29, 103, 14, 294, 88,
+                TextAnchor.MiddleCenter, 430, 118);
 
-            var previewPaper = ImageAt(t, "Preview Paper", CharacterArt("preview-paper"), 660, 185, 1110, 675, false, false);
-            RawImageAt(previewPaper.transform, "Level Preview", 85, 65, 940, 545, 1110, 675, true);
+            var previewPaper = ImageAt(t, "Preview Paper", CharacterArt("preview-paper"),
+                660, 184, 1114, 692, false, false);
+            var levelPreview = RawImageAt(previewPaper.transform, "Level Preview", 74, 58, 966, 568,
+                1114, 692, true);
+            levelPreview.color = new Color(1f, .98f, .91f, 1f);
+            ImageAt(previewPaper.transform, "Frame", levelArt("preview-frame"), 0, 0, 1114, 692,
+                false, false, 1114, 692);
 
-            var statusPaper = ImageAt(t, "Status Paper", GameArt("paper-label"), 650, 895, 650, 105, false, false);
-            var status = TextAt(t, "Status", "请选择一个关卡", 24, 690, 912, 570, 72, TextAnchor.MiddleCenter);
+            var actionBar = Box(t, "Action Bar", 650, 882, 1215, 150);
+            var statusPaper = ImageAt(actionBar, "Status Paper", levelArt("nav-paper"),
+                0, 21, 590, 105, false, false, 1215, 150);
+            var status = TextAt(statusPaper.transform, "Status", "请选择一个关卡", 24,
+                40, 13, 510, 76, TextAnchor.MiddleCenter, 590, 105);
             status.horizontalOverflow = HorizontalWrapMode.Wrap;
             status.resizeTextForBestFit = true;
             status.resizeTextMinSize = 16;
             status.resizeTextMaxSize = 24;
-            statusPaper.raycastTarget = false;
 
-            var regenerate = TextButton(t, "Regenerate", "重新生成", new Color(.55f, .79f, .42f), 1280, 895, 260, 105, 31);
+            var regenerate = TextButton(actionBar, "Regenerate", "重新生成", levelArt("button-secondary"),
+                598, 21, 260, 105, 31, 1215, 150);
             regenerate.SetActive(false);
-            TextButton(t, "Play", "开始关卡  →", new Color(1f, .78f, .18f), 1495, 875, 365, 135, 38);
+            TextButton(actionBar, "Play", "开始关卡  →", levelArt("button-primary"),
+                868, 0, 347, 140, 38, 1215, 150);
 
             root.AddComponent<C1LevelSelection>();
             root.AddComponent<C1LevelSelectionScreenFit>();
             return root;
         }
 
-        private static GameObject TextButton(Transform parent, string name, string label, Color color,
-            float x, float y, float w, float h, int size)
+        private static GameObject TextButton(Transform parent, string name, string label, Sprite sprite,
+            float x, float y, float w, float h, int size, float parentWidth, float parentHeight)
         {
-            var image = ImageAt(parent, name, GameArt("paper-label"), x, y, w, h, true);
-            image.color = color;
+            var image = ImageAt(parent, name, sprite, x, y, w, h, true, false, parentWidth, parentHeight);
             image.gameObject.AddComponent<Button>().targetGraphic = image;
-            TextAt(image.transform, "Label", label, size, 20, 10, w - 40, h - 20, TextAnchor.MiddleCenter, w, h);
+            TextAt(image.transform, "Label", label, size, 20, 10, w - 40, h - 20,
+                TextAnchor.MiddleCenter, w, h);
             return image.gameObject;
         }
 

@@ -10,16 +10,38 @@ namespace PaperGame.C1.Editor
     public static class PaperGameLevelSelectionPrefabGenerator
     {
         public const string PrefabPath = "Assets/Resources/C1UI/PaperGameLevelSelection.prefab";
+        private const string ArtPath = "Assets/Art/UI/LevelSelection/";
 
         [MenuItem("PaperGame/UI/Generate Level Selection")]
         public static void Generate()
         {
+            ConfigureSprites();
             Directory.CreateDirectory("Assets/Resources/C1UI");
-            var root = C1LevelSelectionLayout.Build(null);
+            var root = C1LevelSelectionLayout.Build(null,
+                name => AssetDatabase.LoadAssetAtPath<Sprite>(ArtPath + name + ".png"));
             PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
             Object.DestroyImmediate(root);
             AssetDatabase.SaveAssets();
             Debug.Log("Level selection prefab generated: " + PrefabPath);
+        }
+
+        private static void ConfigureSprites()
+        {
+            foreach (var guid in AssetDatabase.FindAssets("t:Texture2D", new[] { ArtPath.TrimEnd('/') }))
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                if (!(AssetImporter.GetAtPath(path) is TextureImporter importer)) continue;
+
+                importer.textureType = TextureImporterType.Sprite;
+                importer.spriteImportMode = SpriteImportMode.Single;
+                importer.alphaIsTransparency = true;
+                importer.mipmapEnabled = false;
+                importer.wrapMode = TextureWrapMode.Clamp;
+                importer.filterMode = FilterMode.Bilinear;
+                importer.maxTextureSize = 2048;
+                importer.textureCompression = TextureImporterCompression.Uncompressed;
+                importer.SaveAndReimport();
+            }
         }
 
         [MenuItem("PaperGame/UI/Generate And Render Level Selection")]

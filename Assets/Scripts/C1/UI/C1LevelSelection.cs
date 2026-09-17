@@ -44,12 +44,12 @@ namespace PaperGame.C1
             list = Require("Level Book/Viewport/Content");
             itemTemplate = Require("Level Book/Viewport/Content/Level Item Template").gameObject;
             preview = Require("Preview Paper/Level Preview").GetComponent<RawImage>();
-            status = Require("Status").GetComponent<Text>();
+            status = Require("Action Bar/Status Paper/Status").GetComponent<Text>();
             create = Hook("Level Book/Create Level", RequestCreateLevel);
-            regenerate = Hook("Regenerate", () => StartWork(true));
-            play = Hook("Play", Play);
-            help = Hook("Drawing Help", () => ShowDrawingTutorial(false));
-            back = Hook("Back Home", () => { if (!busy) returnHome?.Invoke(); });
+            regenerate = Hook("Action Bar/Regenerate", () => StartWork(true));
+            play = Hook("Action Bar/Play", Play);
+            help = Hook("Header/Drawing Help", () => ShowDrawingTutorial(false));
+            back = Hook("Header/Back Home", () => { if (!busy) returnHome?.Invoke(); });
             capture = GetComponent<C1PhotoCapture>() ?? gameObject.AddComponent<C1PhotoCapture>();
             capture.Configure(null, status); capture.PhotoCaptured += OnPhoto;
             if (!Try(RefreshList)) return;
@@ -251,7 +251,7 @@ namespace PaperGame.C1
             row.transform.Find("Source").GetComponent<Text>().text = source;
             var thumbnail = row.transform.Find("Thumbnail").GetComponent<RawImage>();
             thumbnail.texture = texture;
-            thumbnail.color = texture == null ? Color.clear : Color.white;
+            thumbnail.color = texture == null ? new Color(1f, .98f, .90f, 1f) : Color.white;
             row.SetActive(true);
             row.GetComponent<Button>().interactable = !busy;
             return row;
@@ -265,8 +265,9 @@ namespace PaperGame.C1
                 if (child.gameObject == itemTemplate) continue;
                 var selectedState = child.gameObject == selectedRow;
                 child.Find("Selection").gameObject.SetActive(selectedState);
-                child.Find("Star").GetComponent<Image>().sprite =
-                    Resources.Load<Sprite>("C1CharacterUI/" + (selectedState ? "star-on" : "star-off"));
+                var star = child.Find("Star");
+                star.Find("On").gameObject.SetActive(selectedState);
+                star.Find("Off").gameObject.SetActive(!selectedState);
             }
         }
 
