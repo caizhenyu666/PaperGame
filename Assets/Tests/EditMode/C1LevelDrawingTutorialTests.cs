@@ -89,6 +89,22 @@ namespace PaperGame.C1.Tests
             Assert.That(root.transform.Find("Page Dots/Dot 1").GetComponent<Image>().color.a, Is.LessThan(1f));
         }
 
+        [Test]
+        public void PageAnimator_BobMovesAndResetRestoresPose()
+        {
+            var animated = new GameObject("Animated Art", typeof(RectTransform));
+            animated.transform.localPosition = new Vector3(12f, 34f, 0f);
+            var animator = animated.AddComponent<C1LevelDrawingTutorialPageAnimator>();
+            animator.Configure(C1TutorialAnimationKind.Bob);
+
+            animator.Tick(.5f);
+            Assert.That(animated.transform.localPosition, Is.Not.EqualTo(new Vector3(12f, 34f, 0f)));
+
+            animator.ResetPose();
+            Assert.That(animated.transform.localPosition, Is.EqualTo(new Vector3(12f, 34f, 0f)));
+            Object.DestroyImmediate(animated);
+        }
+
         private static GameObject BuildTutorialHierarchy()
         {
             var tutorial = new GameObject("Level Drawing Tutorial", typeof(RectTransform), typeof(AudioSource));
