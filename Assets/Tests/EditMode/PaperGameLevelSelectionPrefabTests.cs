@@ -54,5 +54,36 @@ namespace PaperGame.C1.Tests
             Assert.That(preview.GetComponent<AspectRatioFitter>().aspectMode,
                 Is.EqualTo(AspectRatioFitter.AspectMode.FitInParent));
         }
+
+        [TestCase(1920, 1080)]
+        [TestCase(1094, 1016)]
+        [TestCase(2560, 1080)]
+        public void LevelSelectionPrefab_DifferentAspectRatiosKeepOneDesignScale(int width, int height)
+        {
+            var canvasObject = new GameObject("Responsive Level Selection Canvas", typeof(RectTransform), typeof(Canvas));
+            try
+            {
+                var canvasRect = canvasObject.GetComponent<RectTransform>();
+                canvasRect.sizeDelta = new Vector2(width, height);
+                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
+                var screen = Object.Instantiate(prefab, canvasObject.transform, false);
+
+                screen.GetComponent<C1LevelSelectionScreenFit>().RefreshLayout();
+                Canvas.ForceUpdateCanvases();
+
+                var rect = screen.GetComponent<RectTransform>();
+                var expectedScale = Mathf.Min(width / 1920f, height / 1080f);
+                Assert.That(rect.rect.size, Is.EqualTo(new Vector2(1920, 1080)));
+                Assert.That(rect.localScale.x, Is.EqualTo(expectedScale).Within(.001f));
+                Assert.That(rect.localScale.y, Is.EqualTo(expectedScale).Within(.001f));
+                var background = screen.transform.Find("Background").GetComponent<RectTransform>();
+                Assert.That(background.rect.width * expectedScale, Is.EqualTo(width).Within(.01f));
+                Assert.That(background.rect.height * expectedScale, Is.EqualTo(height).Within(.01f));
+            }
+            finally
+            {
+                Object.DestroyImmediate(canvasObject);
+            }
+        }
     }
 }

@@ -25,11 +25,11 @@ namespace PaperGame.C1
             ImageAt(t, "Bottom Grass", CharacterArt("bottom-grass"), 0, 1020, 1920, 60, false, false);
 
             var title = ImageAt(t, "Title", GameArt("paper-label"), 650, 20, 620, 150);
-            TextAt(title.transform, "Label", "我的纸上关卡", 54, 35, 15, 550, 115, TextAnchor.MiddleCenter);
+            TextAt(title.transform, "Label", "我的纸上关卡", 54, 35, 15, 550, 115, TextAnchor.MiddleCenter, 620, 150);
 
             var help = ImageAt(t, "Drawing Help", GameArt("paper-label"), 1325, 42, 230, 92, true);
             help.gameObject.AddComponent<Button>().targetGraphic = help;
-            TextAt(help.transform, "Label", "怎么画？", 32, 18, 8, 194, 72, TextAnchor.MiddleCenter);
+            TextAt(help.transform, "Label", "怎么画？", 32, 18, 8, 194, 72, TextAnchor.MiddleCenter, 230, 92);
 
             var back = ImageAt(t, "Back Home", CharacterArt("back"), 1550, 28, 330, 102, true);
             back.gameObject.AddComponent<Button>().targetGraphic = back;
