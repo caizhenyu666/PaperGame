@@ -23,6 +23,23 @@ namespace PaperGame.C1
         private byte[] photoBytes;
         private bool busy, previewJump, forceRetry, retryDownload;
         private float previewTime;
+        private GameObject generationLoading;
+        private RectTransform loadingArt;
+        private Text loadingStatus, loadingTip;
+        private Button cancelGeneration;
+        private Coroutine activeGeneration;
+        private Vector2 loadingArtOrigin;
+        private float loadingTime, nextTipAt;
+        private int loadingTipIndex = -1;
+
+        private static readonly string[] LoadingTips =
+        {
+            "正在给小主角穿上跑鞋…",
+            "给它画一个勇敢的表情…",
+            "正在练习跳得更高…",
+            "彩色蜡笔正在努力工作…",
+            "马上就能见到新朋友啦…"
+        };
 
         private Action returnHomeAction;
         private Image runPreview, jumpPreview;
@@ -50,6 +67,11 @@ namespace PaperGame.C1
             status = screen.transform.Find("Status").GetComponent<Text>();
             nameLabel = screen.transform.Find("Name").GetComponent<Text>();
             selectedLabel = screen.transform.Find("Selected").GetComponent<Text>();
+            generationLoading = screen.transform.Find("Generation Loading").gameObject;
+            loadingArt = generationLoading.transform.Find("Loading Art").GetComponent<RectTransform>();
+            loadingArtOrigin = loadingArt.anchoredPosition;
+            loadingStatus = generationLoading.transform.Find("Loading Status").GetComponent<Text>();
+            loadingTip = generationLoading.transform.Find("Loading Tip").GetComponent<Text>();
             Hook("Back", () => { if (!busy) returnHomeAction?.Invoke(); });
             Hook("Run", () => { previewRunning = true; previewJump = false; previewTime = 0; });
             Hook("Jump", () => { previewRunning = false; previewJump = true; previewTime = 0; });
@@ -57,6 +79,8 @@ namespace PaperGame.C1
             Hook("Add Photo", () => { if (!busy) capture.OpenCamera(); });
             use = Hook("Use", Select);
             retry = Hook("Retry", Retry);
+            cancelGeneration = Hook("Generation Loading/Cancel Generation", CancelGeneration);
+            generationLoading.SetActive(false);
             var receiver = new GameObject("Character Photo Receiver " + GetInstanceID());
             receiver.transform.SetParent(screen.transform, false);
             capture = receiver.AddComponent<C1PhotoCapture>();
@@ -242,23 +266,37 @@ namespace PaperGame.C1
             if (busy) return;
             retryDownload = false;
             photoBytes = bytes; photoMime = mime; forceRetry = false;
-            status.text = "\u7167\u7247\u5df2\u63a5\u6536\uff0c\u6b63\u5728\u4e0a\u4f20\u2026";
-            StartCoroutine(Generate(false));
+            BeginGeneration(Generate(false), "照片已接收，正在上传…");
         }
         private void Retry()
         {
             if (busy) return;
             if (retryDownload) { status.text = "\u6b63\u5728\u91cd\u65b0\u4e0b\u8f7d\u89d2\u8272\u52a8\u753b\u2026"; StartCoroutine(Browse(requestedId, requestedId == library.selectedId)); }
-            else if (forceRetry && photoBytes != null) { status.text = "\u6b63\u5728\u91cd\u65b0\u4e0a\u4f20\u4f60\u7684\u6d82\u9e26\u2026"; StartCoroutine(Generate(true)); }
-            else if (!string.IsNullOrEmpty(library.pendingJobId)) { status.text = "\u6b63\u5728\u67e5\u8be2\u751f\u6210\u8fdb\u5ea6\u2026"; StartCoroutine(ContinueJob()); }
-            else if (photoBytes != null) { status.text = "\u6b63\u5728\u91cd\u65b0\u4e0a\u4f20\u4f60\u7684\u6d82\u9e26\u2026"; StartCoroutine(Generate(false)); }
+            else if (forceRetry && photoBytes != null) BeginGeneration(Generate(true), "正在重新上传你的涂鸦…");
+            else if (!string.IsNullOrEmpty(library.pendingJobId)) BeginGeneration(ContinueJob(), "正在查询生成进度…");
+            else if (photoBytes != null) BeginGeneration(Generate(false), "正在重新上传你的涂鸦…");
             else { status.text = "\u6b63\u5728\u52a0\u8f7d\u89d2\u8272\u2026"; StartCoroutine(Browse(requestedId, requestedId == library.selectedId)); }
+        }
+        private void BeginGeneration(IEnumerator routine, string message)
+        {
+            if (activeGeneration != null) StopCoroutine(activeGeneration);
+            SetProgress(message);
+            ShowGenerationLoading();
+            activeGeneration = StartCoroutine(RunGeneration(routine));
+        }
+        private IEnumerator RunGeneration(IEnumerator routine)
+        {
+            SetBusy(true);
+            yield return routine;
+            activeGeneration = null;
+            SetBusy(false);
+            HideGenerationLoading();
         }
         private IEnumerator Generate(bool force)
         {
             SetBusy(true);
             string id = null;
-            yield return service.Upload(photoBytes, photoMime, force, accepted => id = accepted, message => status.text = message);
+            yield return service.Upload(photoBytes, photoMime, force, accepted => id = accepted, SetProgress);
             if (id == null) { SetBusy(false); yield break; }
             library.pendingJobId = id; library.Save();
             yield return ContinueJob();
@@ -267,8 +305,8 @@ namespace PaperGame.C1
         {
             SetBusy(true);
             C1CharacterRecord result = null;
-            yield return service.Poll(library.pendingJobId, message => status.text = message, ready => result = ready,
-                message => { status.text = message; forceRetry = message.StartsWith("\u751f\u6210\u5931\u8d25"); });
+            yield return service.Poll(library.pendingJobId, SetProgress, ready => result = ready,
+                message => { SetProgress(message); forceRetry = message.StartsWith("\u751f\u6210\u5931\u8d25"); });
             if (result != null)
             {
                 if (string.IsNullOrEmpty(result.characterId)) { status.text = "\u670d\u52a1\u5668\u7f3a\u5c11\u89d2\u8272\u7f16\u53f7\uff0c\u8bf7\u70b9\u51fb\u201c\u91cd\u8bd5\u751f\u6210\u201d"; SetBusy(false); yield break; }
@@ -286,6 +324,62 @@ namespace PaperGame.C1
             }
             SetBusy(false);
         }
+        private void SetProgress(string message)
+        {
+            if (status != null) status.text = message;
+            if (loadingStatus != null) loadingStatus.text = message;
+        }
+        private void ShowGenerationLoading()
+        {
+            generationLoading.SetActive(true);
+            generationLoading.transform.SetAsLastSibling();
+            cancelGeneration.interactable = true;
+            loadingTime = 0;
+            nextTipAt = 0;
+            ResetLoadingArt();
+            RotateLoadingTip();
+        }
+        private void HideGenerationLoading()
+        {
+            if (generationLoading != null) generationLoading.SetActive(false);
+            ResetLoadingArt();
+        }
+        private void ResetLoadingArt()
+        {
+            if (loadingArt == null) return;
+            loadingArt.anchoredPosition = loadingArtOrigin;
+            loadingArt.localScale = Vector3.one;
+            loadingArt.localEulerAngles = Vector3.zero;
+        }
+        private void RotateLoadingTip()
+        {
+            if (loadingTip == null || LoadingTips.Length == 0) return;
+            var next = UnityEngine.Random.Range(0, LoadingTips.Length);
+            if (LoadingTips.Length > 1 && next == loadingTipIndex) next = (next + 1) % LoadingTips.Length;
+            loadingTipIndex = next;
+            loadingTip.text = LoadingTips[next];
+            nextTipAt = loadingTime + 2.5f;
+        }
+        private void CancelGeneration()
+        {
+            cancelGeneration.interactable = false;
+            service.CancelActiveRequests();
+            if (activeGeneration != null)
+            {
+                StopCoroutine(activeGeneration);
+                activeGeneration = null;
+            }
+            library.pendingJobId = null;
+            library.Save();
+            photoBytes = null;
+            photoMime = null;
+            forceRetry = false;
+            retryDownload = false;
+            SetBusy(false);
+            HideGenerationLoading();
+            SetProgress("已取消生成，请重新拍照创建角色");
+            UpdatePreview();
+        }
         private void Select()
         {
             if (busy) return;
@@ -302,8 +396,21 @@ namespace PaperGame.C1
         private void Update()
         {
             if (screen == null || !screen.activeSelf) return;
-            previewTime += Time.unscaledDeltaTime;
+            var delta = Time.unscaledDeltaTime;
+            previewTime += delta;
+            UpdateGenerationLoading(delta);
             UpdatePreview();
+        }
+        private void UpdateGenerationLoading(float delta)
+        {
+            if (generationLoading == null || !generationLoading.activeSelf || loadingArt == null) return;
+            loadingTime += delta;
+            var floatPhase = loadingTime * 2.2f;
+            var breathePhase = loadingTime * 2.8f;
+            loadingArt.anchoredPosition = loadingArtOrigin + Vector2.up * (Mathf.Sin(floatPhase) * 12f);
+            loadingArt.localScale = Vector3.one * (1f + Mathf.Sin(breathePhase) * .03f);
+            loadingArt.localEulerAngles = new Vector3(0, 0, Mathf.Sin(loadingTime * 1.8f) * 2f);
+            if (loadingTime >= nextTipAt) RotateLoadingTip();
         }
         private void UpdatePreview()
         {
@@ -341,7 +448,12 @@ namespace PaperGame.C1
             preview.rectTransform.localEulerAngles = new Vector3(0, 0, previewRunning ? Mathf.Sin(previewTime * 14) * 4 : 0);
             if (previewJump && previewTime > .8f) previewJump = false;
         }
-        private void OnDestroy() { foreach (var frames in cache.Values) frames.Dispose(); }
+        private void OnDestroy()
+        {
+            service?.CancelActiveRequests();
+            if (activeGeneration != null) StopCoroutine(activeGeneration);
+            foreach (var frames in cache.Values) frames.Dispose();
+        }
         private static Sprite[] Load(string action)
         {
             var frames = Resources.LoadAll<Sprite>("C1Character/" + action);

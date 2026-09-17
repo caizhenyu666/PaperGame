@@ -24,6 +24,23 @@ namespace PaperGame.C1.Tests
             UnityEngine.Object.DestroyImmediate(root);
         }
 
+        [Test]
+        public void CancelActiveRequests_IsSafeWithoutAnActiveRequest()
+        {
+            var root = new GameObject("Character Service Cancel Test");
+            var service = root.AddComponent<C1CharacterService>();
+            try
+            {
+                var cancel = typeof(C1CharacterService).GetMethod("CancelActiveRequests");
+                var hasActive = typeof(C1CharacterService).GetProperty("HasActiveRequest");
+                Assert.That(cancel, Is.Not.Null);
+                Assert.That(hasActive, Is.Not.Null);
+                Assert.DoesNotThrow(() => cancel.Invoke(service, null));
+                Assert.That(hasActive.GetValue(service), Is.False);
+            }
+            finally { UnityEngine.Object.DestroyImmediate(root); }
+        }
+
         [UnityTest]
         public IEnumerator HttpWorkflow_UploadsFilePollsAndDownloadsBothSheets()
         {

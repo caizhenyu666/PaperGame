@@ -56,6 +56,18 @@ namespace PaperGame.C1
             TextAt(t, "Selected", "", 20, 120, 780, 470, 40);
             var retry = TextAt(t, "Retry", "重试 / 查询进度", 22, 1450, 800, 350, 40);
             retry.gameObject.AddComponent<Button>();
+            var loading = Box(t, "Generation Loading", 0, 0, 1920, 1080);
+            var blocker = Box(loading, "Blocker", 0, 0, 1920, 1080).gameObject.AddComponent<Image>();
+            blocker.color = new Color(.96f, .91f, .78f, .9f);
+            blocker.raycastTarget = true;
+            ImageAt(loading, "Loading Art", "loading-character", 610, 92, 700, 520, true);
+            var loadingStatus = TextAt(loading, "Loading Status", "正在准备你的小主角…", 34, 460, 625, 1000, 64);
+            loadingStatus.fontStyle = FontStyle.Bold;
+            loadingStatus.color = new Color(.18f, .2f, .16f);
+            var loadingTip = TextAt(loading, "Loading Tip", "彩色蜡笔正在努力工作…", 27, 460, 690, 1000, 54);
+            loadingTip.color = new Color(.38f, .31f, .22f);
+            ImageAt(loading, "Cancel Generation", "cancel-generation", 735, 785, 450, 150, true).gameObject.AddComponent<Button>();
+            loading.gameObject.SetActive(false);
             root.AddComponent<C1CharacterScreenFit>();
             return root;
         }

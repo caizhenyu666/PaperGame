@@ -1,3 +1,4 @@
+using System.Reflection;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -73,6 +74,23 @@ namespace PaperGame.C1.Tests
             Assert.That(prefab.transform.Find("Preview/Animated Character").GetComponent<Image>().preserveAspect, Is.True);
         }
 
+        [Test]
+        public void CharacterScreen_HasHiddenGenerationLoadingWithCancelControl()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/C1UI/PaperGameCharacterSelection.prefab");
+            var loading = prefab.transform.Find("Generation Loading");
+
+            Assert.That(loading, Is.Not.Null);
+            Assert.That(loading.gameObject.activeSelf, Is.False);
+            Assert.That(loading.Find("Blocker").GetComponent<Image>().raycastTarget, Is.True);
+            Assert.That(loading.Find("Loading Art").GetComponent<Image>().sprite, Is.Not.Null);
+            Assert.That(loading.Find("Loading Status").GetComponent<Text>(), Is.Not.Null);
+            Assert.That(loading.Find("Loading Tip").GetComponent<Text>(), Is.Not.Null);
+            var cancel = loading.Find("Cancel Generation");
+            Assert.That(cancel.GetComponent<Image>().sprite, Is.Not.Null);
+            Assert.That(cancel.GetComponent<Button>(), Is.Not.Null);
+        }
+
         [TestCase("default")]
         [TestCase("default-chick")]
         public void Library_PreservesBothBuiltInCharacters(string id)
@@ -118,6 +136,65 @@ namespace PaperGame.C1.Tests
                 if (previous == "") PlayerPrefs.DeleteKey(C1CharacterLibrary.StorageKey);
                 else PlayerPrefs.SetString(C1CharacterLibrary.StorageKey, previous);
             }
+        }
+
+        [Test]
+        public void CancelGeneration_DiscardsPendingJobPhotoAndLoadingOverlay()
+        {
+            var previous = PlayerPrefs.GetString(C1CharacterLibrary.StorageKey, "");
+            var root = new GameObject("Character Cancel Test", typeof(RectTransform), typeof(Canvas));
+            try
+            {
+                new C1CharacterLibrary { pendingJobId = "char_pending" }.Save();
+                var controller = root.AddComponent<C1CharacterSelection>();
+                var screen = controller.CreateScreen(root.GetComponent<Canvas>(), () => { });
+                var loading = screen.transform.Find("Generation Loading");
+                loading.gameObject.SetActive(true);
+                typeof(C1CharacterSelection).GetField("photoBytes", BindingFlags.NonPublic | BindingFlags.Instance)
+                    .SetValue(controller, new byte[] { 1, 2, 3 });
+
+                loading.Find("Cancel Generation").GetComponent<Button>().onClick.Invoke();
+
+                Assert.That(C1CharacterLibrary.Load().pendingJobId, Is.Null.Or.Empty);
+                Assert.That(typeof(C1CharacterSelection).GetField("photoBytes", BindingFlags.NonPublic | BindingFlags.Instance)
+                    .GetValue(controller), Is.Null);
+                Assert.That(loading.gameObject.activeSelf, Is.False);
+                Assert.That(screen.transform.Find("Status").GetComponent<Text>().text,
+                    Is.EqualTo("已取消生成，请重新拍照创建角色"));
+            }
+            finally
+            {
+                Object.DestroyImmediate(root);
+                if (previous == "") PlayerPrefs.DeleteKey(C1CharacterLibrary.StorageKey);
+                else PlayerPrefs.SetString(C1CharacterLibrary.StorageKey, previous);
+            }
+        }
+
+        [Test]
+        public void GenerationLoading_AnimatesArtworkAndRotatesTipWithoutRepeating()
+        {
+            var root = new GameObject("Character Loading Animation Test", typeof(RectTransform), typeof(Canvas));
+            try
+            {
+                var controller = root.AddComponent<C1CharacterSelection>();
+                var screen = controller.CreateScreen(root.GetComponent<Canvas>(), () => { });
+                var loading = screen.transform.Find("Generation Loading");
+                var art = loading.Find("Loading Art").GetComponent<RectTransform>();
+                var tip = loading.Find("Loading Tip").GetComponent<Text>();
+                var show = typeof(C1CharacterSelection).GetMethod("ShowGenerationLoading", BindingFlags.NonPublic | BindingFlags.Instance);
+                var update = typeof(C1CharacterSelection).GetMethod("UpdateGenerationLoading", BindingFlags.NonPublic | BindingFlags.Instance);
+
+                show.Invoke(controller, null);
+                var origin = art.anchoredPosition;
+                var firstTip = tip.text;
+                update.Invoke(controller, new object[] { .75f });
+
+                Assert.That(art.anchoredPosition, Is.Not.EqualTo(origin));
+                Assert.That(art.localScale.x, Is.Not.EqualTo(1f).Within(.001f));
+                update.Invoke(controller, new object[] { 3f });
+                Assert.That(tip.text, Is.Not.EqualTo(firstTip));
+            }
+            finally { Object.DestroyImmediate(root); }
         }
     }
 }

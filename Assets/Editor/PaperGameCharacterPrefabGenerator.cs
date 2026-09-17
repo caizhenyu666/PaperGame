@@ -35,15 +35,17 @@ namespace PaperGame.C1.Editor
             Debug.Log("Character selection prefab generated: " + PrefabPath);
         }
 
+        [MenuItem("PaperGame/UI/Generate And Render Character Selection")]
         public static void GenerateAndRender()
         {
             Generate();
             RenderPreview(1920, 1080, "character-selection-preview.png");
             RenderPreview(1094, 1016, "character-selection-preview-square.png");
             RenderPreview(2560, 1080, "character-selection-preview-ultrawide.png");
+            RenderPreview(1920, 1080, "character-generation-loading-preview.png", true);
         }
 
-        private static void RenderPreview(int width, int height, string filename)
+        private static void RenderPreview(int width, int height, string filename, bool showGenerationLoading = false)
         {
             var root = new GameObject("Character UI Render", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler));
             var cameraObject = new GameObject("Character UI Camera", typeof(Camera));
@@ -64,6 +66,13 @@ namespace PaperGame.C1.Editor
                 var rect = screen.GetComponent<RectTransform>();
                 rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one; rect.offsetMin = rect.offsetMax = Vector2.zero;
                 screen.transform.Find("Retry").gameObject.SetActive(false);
+                if (showGenerationLoading)
+                {
+                    var loading = screen.transform.Find("Generation Loading");
+                    loading.gameObject.SetActive(true);
+                    loading.Find("Loading Status").GetComponent<Text>().text = "正在让你的涂鸦动起来…";
+                    loading.Find("Loading Tip").GetComponent<Text>().text = "彩色蜡笔正在努力工作…";
+                }
                 Canvas.ForceUpdateCanvases();
                 screen.GetComponent<C1CharacterScreenFit>().RefreshLayout();
                 Canvas.ForceUpdateCanvases();

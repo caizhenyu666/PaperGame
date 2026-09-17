@@ -9,6 +9,17 @@ namespace PaperGame.C1
     public sealed class C1CharacterService : MonoBehaviour
     {
         [SerializeField] private string baseUrl;
+        private UnityWebRequest activeRequest;
+
+        public bool HasActiveRequest => activeRequest != null;
+
+        public void CancelActiveRequests()
+        {
+            if (activeRequest == null) return;
+            activeRequest.Abort();
+            activeRequest = null;
+        }
+
         public string BaseUrl
         {
             get => string.IsNullOrWhiteSpace(baseUrl)
@@ -27,15 +38,20 @@ namespace PaperGame.C1
             using (var request = UnityWebRequest.Post(url, form))
             {
                 request.timeout = 45;
-                yield return request.SendWebRequest();
-                Debug.Log("[C1Service] Upload ← HTTP " + request.responseCode + " result=" + request.result);
-                if (request.result != UnityWebRequest.Result.Success) { var err = RequestError(request); Debug.LogWarning("[C1Service] Upload failed: " + err); failed(err); yield break; }
-                var body = request.downloadHandler.text;
-                Debug.Log("[C1Service] Upload response: " + body);
-                var record = Parse(body);
-                if (request.responseCode != 202 || string.IsNullOrEmpty(record?.jobId)) { var err = "服务器未返回有效任务编号"; Debug.LogWarning("[C1Service] Upload invalid: code=" + request.responseCode + " jobId=" + (record?.jobId ?? "null")); failed(err); yield break; }
-                Debug.Log("[C1Service] Upload accepted: jobId=" + record.jobId);
-                accepted(record.jobId);
+                activeRequest = request;
+                try
+                {
+                    yield return request.SendWebRequest();
+                    Debug.Log("[C1Service] Upload ← HTTP " + request.responseCode + " result=" + request.result);
+                    if (request.result != UnityWebRequest.Result.Success) { var err = RequestError(request); Debug.LogWarning("[C1Service] Upload failed: " + err); failed(err); yield break; }
+                    var body = request.downloadHandler.text;
+                    Debug.Log("[C1Service] Upload response: " + body);
+                    var record = Parse(body);
+                    if (request.responseCode != 202 || string.IsNullOrEmpty(record?.jobId)) { var err = "服务器未返回有效任务编号"; Debug.LogWarning("[C1Service] Upload invalid: code=" + request.responseCode + " jobId=" + (record?.jobId ?? "null")); failed(err); yield break; }
+                    Debug.Log("[C1Service] Upload accepted: jobId=" + record.jobId);
+                    accepted(record.jobId);
+                }
+                finally { if (activeRequest == request) activeRequest = null; }
             }
         }
         public IEnumerator Poll(string id, Action<string> progress, Action<C1CharacterRecord> ready, Action<string> failed)
@@ -51,26 +67,31 @@ namespace PaperGame.C1
                 using (var request = UnityWebRequest.Get(url))
                 {
                     request.timeout = 20;
-                    yield return request.SendWebRequest();
-                    if (request.result != UnityWebRequest.Result.Success)
+                    activeRequest = request;
+                    try
                     {
-                        errors++;
-                        Debug.LogWarning("[C1Service] Poll #" + polls + " failed: HTTP " + request.responseCode + " errors=" + errors + "/3");
-                        if (errors >= 3 || request.responseCode == 404) { var err = RequestError(request); Debug.LogWarning("[C1Service] Poll aborted: " + err); failed(err); yield break; }
-                        progress("网络暂时不稳定，正在重新连接…");
+                        yield return request.SendWebRequest();
+                        if (request.result != UnityWebRequest.Result.Success)
+                        {
+                            errors++;
+                            Debug.LogWarning("[C1Service] Poll #" + polls + " failed: HTTP " + request.responseCode + " errors=" + errors + "/3");
+                            if (errors >= 3 || request.responseCode == 404) { var err = RequestError(request); Debug.LogWarning("[C1Service] Poll aborted: " + err); failed(err); yield break; }
+                            progress("网络暂时不稳定，正在重新连接…");
+                        }
+                        else
+                        {
+                            errors = 0;
+                            var body = request.downloadHandler.text;
+                            var record = Parse(body);
+                            Debug.Log("[C1Service] Poll #" + polls + " ← HTTP " + request.responseCode + " status=" + (record?.status ?? "null") + " body=" + body);
+                            if (record?.status == "ready") { Debug.Log("[C1Service] Poll ready: jobId=" + id); ready(record); yield break; }
+                            if (record?.status == "needs_correction") { var err = "请画一个完整、清晰的小人后重新拍照（" + record.reason + "）"; Debug.LogWarning("[C1Service] Poll needs_correction: " + err); failed(err); yield break; }
+                            if (record?.status == "failed") { var err = "生成失败，可点击重新生成（" + record.code + "）"; Debug.LogWarning("[C1Service] Poll failed: " + err); failed(err); yield break; }
+                            if (record?.status != "queued" && record?.status != "processing") { var err = "服务器返回了无法识别的任务状态"; Debug.LogWarning("[C1Service] Poll unknown status: " + (record?.status ?? "null")); failed(err); yield break; }
+                            progress(record.status == "queued" ? "小主角正在排队，请稍等…" : "正在让你的涂鸦动起来…");
+                        }
                     }
-                    else
-                    {
-                        errors = 0;
-                        var body = request.downloadHandler.text;
-                        var record = Parse(body);
-                        Debug.Log("[C1Service] Poll #" + polls + " ← HTTP " + request.responseCode + " status=" + (record?.status ?? "null") + " body=" + body);
-                        if (record?.status == "ready") { Debug.Log("[C1Service] Poll ready: jobId=" + id); ready(record); yield break; }
-                        if (record?.status == "needs_correction") { var err = "请画一个完整、清晰的小人后重新拍照（" + record.reason + "）"; Debug.LogWarning("[C1Service] Poll needs_correction: " + err); failed(err); yield break; }
-                        if (record?.status == "failed") { var err = "生成失败，可点击重新生成（" + record.code + "）"; Debug.LogWarning("[C1Service] Poll failed: " + err); failed(err); yield break; }
-                        if (record?.status != "queued" && record?.status != "processing") { var err = "服务器返回了无法识别的任务状态"; Debug.LogWarning("[C1Service] Poll unknown status: " + (record?.status ?? "null")); failed(err); yield break; }
-                        progress(record.status == "queued" ? "小主角正在排队，请稍等…" : "正在让你的涂鸦动起来…");
-                    }
+                    finally { if (activeRequest == request) activeRequest = null; }
                 }
                 yield return new WaitForSecondsRealtime(1);
             }
@@ -110,19 +131,24 @@ namespace PaperGame.C1
                     using (var request = UnityWebRequestTexture.GetTexture(url))
                     {
                         request.timeout = 45;
-                        yield return request.SendWebRequest();
-                        Debug.Log("[C1Service] Download " + (i == 0 ? "run" : "jump") + " ← HTTP " + request.responseCode + " result=" + request.result);
-                        if (request.result != UnityWebRequest.Result.Success) { var err = RequestError(request); Debug.LogWarning("[C1Service] Download failed: " + err); failed(err); yield break; }
-                        var texture = DownloadHandlerTexture.GetContent(request);
-                        if (i == 0) frames.runTexture = texture; else frames.jumpTexture = texture;
-                        Sprite[] sliced = null;
-                        string error = null;
-                        try { sliced = C1CharacterFrames.Slice(texture, animation); }
-                        catch (ArgumentException e) { error = e.Message; }
-                        if (error != null) { Debug.LogWarning("[C1Service] Slice failed: " + error); failed(error); yield break; }
-                        if (i == 0) { frames.run = sliced; frames.runFps = animation.fps; }
-                        else { frames.jump = sliced; frames.jumpFps = animation.fps; }
-                        Debug.Log("[C1Service] Download " + (i == 0 ? "run" : "jump") + " ok: " + sliced.Length + " frames, " + texture.width + "x" + texture.height);
+                        activeRequest = request;
+                        try
+                        {
+                            yield return request.SendWebRequest();
+                            Debug.Log("[C1Service] Download " + (i == 0 ? "run" : "jump") + " ← HTTP " + request.responseCode + " result=" + request.result);
+                            if (request.result != UnityWebRequest.Result.Success) { var err = RequestError(request); Debug.LogWarning("[C1Service] Download failed: " + err); failed(err); yield break; }
+                            var texture = DownloadHandlerTexture.GetContent(request);
+                            if (i == 0) frames.runTexture = texture; else frames.jumpTexture = texture;
+                            Sprite[] sliced = null;
+                            string error = null;
+                            try { sliced = C1CharacterFrames.Slice(texture, animation); }
+                            catch (ArgumentException e) { error = e.Message; }
+                            if (error != null) { Debug.LogWarning("[C1Service] Slice failed: " + error); failed(error); yield break; }
+                            if (i == 0) { frames.run = sliced; frames.runFps = animation.fps; }
+                            else { frames.jump = sliced; frames.jumpFps = animation.fps; }
+                            Debug.Log("[C1Service] Download " + (i == 0 ? "run" : "jump") + " ok: " + sliced.Length + " frames, " + texture.width + "x" + texture.height);
+                        }
+                        finally { if (activeRequest == request) activeRequest = null; }
                     }
                 }
                 complete = true;

@@ -1,0 +1,20 @@
+{
+  "name": "C1CharacterGenerationLoading",
+  "canvasWidth": 1920,
+  "canvasHeight": 1080,
+  "nodes": [
+    {
+      "name": "Generation Loading",
+      "component": "ModalOverlay",
+      "width": 1920,
+      "height": 1080,
+      "children": [
+        { "name": "Blocker", "component": "PaperDimmer", "width": 1920, "height": 1080 },
+        { "name": "Loading Art", "component": "PaperImage", "width": 700, "height": 520 },
+        { "name": "Loading Status", "component": "PaperText", "width": 1000, "height": 64 },
+        { "name": "Loading Tip", "component": "PaperText", "width": 1000, "height": 54 },
+        { "name": "Cancel Generation", "component": "PaperImageButton", "width": 450, "height": 150 }
+      ]
+    }
+  ]
+}
